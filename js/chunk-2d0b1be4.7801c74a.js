@@ -1,0 +1,2 @@
+(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["chunk-2d0b1be4"],{"20c3":function(t,n,e){"use strict";e.r(n);var o=function(){var t=this,n=t.$createElement,e=t._self._c||n;return e("div",{staticClass:"v-homeland-tutorial"},[t._v(" 1.家园升级表 2.拉取菜单组homeland_rec ")])},c=[],a={name:"Tutorial",props:[],components:{},data:function(){return{}},computed:{},watch:{},methods:{},filters:{},created:function(){},mounted:function(){}},u=a,r=e("2877"),l=Object(r["a"])(u,o,c,!1,null,null,null);n["default"]=l.exports}}]);
+//# sourceMappingURL=chunk-2d0b1be4.7801c74a.js.map
