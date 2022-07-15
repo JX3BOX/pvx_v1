@@ -1,0 +1,17 @@
+<!-- 物价首页物品列表：pve物品、pvx物品、pvp物品、pv广陵邑物品
+-->
+<template>
+    <div>
+
+    </div>
+</template>
+
+<script>
+export default {
+    name: "item_price_index_list",
+};
+</script>
+
+<style scoped>
+
+</style>

@@ -48,6 +48,12 @@ module.exports = {
             template: "public/index.html",
             filename: "pvg/index.html",
         },
+        itemPrice : {
+            title: "物价大全 - JX3BOX",
+            entry: "src/pages/item_price.js",
+            template: "public/index.html",
+            filename: "item_price/index.html"
+        }
     },
 
     //❤️ Proxy ~
