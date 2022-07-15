@@ -8,7 +8,7 @@
 
 <script>
 export default {
-    name: "item_price_index",
+    name: "ItemPriceIndex",
 };
 </script>
 

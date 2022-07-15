@@ -50,9 +50,9 @@ module.exports = {
         },
         itemPrice : {
             title: "物价大全 - JX3BOX",
-            entry: "src/pages/item_price.js",
+            entry: "src/pages/ItemPrice.js",
             template: "public/index.html",
-            filename: "item_price/index.html"
+            filename: "ItemPrice/index.html"
         }
     },
 

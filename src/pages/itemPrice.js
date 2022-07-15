@@ -12,10 +12,10 @@ import "@jx3box/jx3box-common/css/normalize.css";
 Vue.use(JX3BOX_UI);
 
 // 数据与路由
-import router from "../router/item_price";
+import router from "../router/itemPrice";
 import store from "../store";
 
-import App from "@/views/item-price/item_price_index.vue";
+import App from "@/views/itemPrice/ItemPriceIndex.vue";
 new Vue({
     router,
     store,
