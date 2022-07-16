@@ -2,7 +2,11 @@ import { $next } from "@jx3box/jx3box-common/js/https";
 
 /**
  * 获取物品价格详细信息
- * @param {Object:itemIds:list & server:string} query 可以是单个物品id，也可以是用,分割的id列表
+ * @param {
+ *          Object:
+ *              itemIds:number &
+ *              server:string
+ *        } query 可以是单个物品id，也可以是用,分割的id列表
  * @returns {list | single | none}
  * @example
  * query:{
