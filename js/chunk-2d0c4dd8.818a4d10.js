@@ -1,2 +1,0 @@
-(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["chunk-2d0c4dd8"],{"3d3d":function(t,s,a){"use strict";a.r(s);var n=function(){var t=this,s=t._self._c;return s("div",{staticClass:"m-body-parse",class:{on:t.done}},[s("h1",{staticClass:"m-body-parse-title"},[t._v("体型数据解析器")])])},e=[],d={name:"BodyDataParse",data:function(){return{}},computed:{},methods:{}},o=d,c=a("2877"),u=Object(c["a"])(o,n,e,!1,null,null,null);s["default"]=u.exports}}]);
-//# sourceMappingURL=chunk-2d0c4dd8.818a4d10.js.map
