@@ -2,14 +2,14 @@
     <div class="m-luckey-item">
         <a class="u-pet" :href="getPetLink(item)" target="_blank">
             <i class="u-img">
-                <img class="u-pic" :src="resolveImagePath(item.img)" loading="lazy" />
+                <img class="u-pic" :src="imgPath" loading="lazy" @error="onError" />
             </i>
         </a>
     </div>
 </template>
 
 <script>
-import { __imgPath } from "@jx3box/jx3box-common/data/jx3box";
+import { __cdn } from "@jx3box/jx3box-common/data/jx3box";
 import {resolveImagePath} from '@jx3box/jx3box-common/js/utils'
 export default {
     name: "luckyItem",
@@ -17,12 +17,19 @@ export default {
     data: function () {
         return {};
     },
-    computed: {},
+    computed: {
+        imgPath() {
+            return `${__cdn}design/pet/std/${this.item.source_id}.png`;
+        }
+    },
     methods: {
         getPetLink(item) {
             return item.source_id ? `/pet/${item.source_id}` : item.link;
         },
-        resolveImagePath
+        resolveImagePath,
+        onError(e) {
+            e.target.src = this.resolveImagePath(this.item.img);
+        },
     },
 };
 </script>
