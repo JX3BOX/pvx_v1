@@ -348,6 +348,7 @@ export default {
         showCount() {
             if (this.isPhone) {
                 this.per = 8;
+                this.count = 8;
                 return;
             }
             const listWidth = this.$refs.listRef?.clientWidth - 120;
@@ -362,7 +363,7 @@ export default {
             const page = this.typeList.filter((e) => e.type === type)[0].page;
             let params = cloneDeep(this.params);
             params.page = page + 1;
-            params.per = append ? this.per * 3 : this.per;
+            params.per = append ? this.count * 3 : this.count;
             params.type = type;
             this.loadList(params, type);
         },
@@ -374,12 +375,12 @@ export default {
                 list.forEach((e) => {
                     params.page = e.page;
                     params.type = e.type;
-                    params.per = this.per;
+                    params.per = this.count;
                     this.loadList(params, e.type);
                 });
             } else {
                 params.page = this.page;
-                params.per = this.per * 3;
+                params.per = this.count * 3;
                 this.loadList({ ...params, type: this.active }, this.active);
             }
         },
@@ -388,7 +389,7 @@ export default {
             if (this.typeList[index].pages < params.page && this.active === "") params.page = 1;
             getHorses(params)
                 .then((res) => {
-                    const { list, total, pages, page } = res.data;
+                    const { list, total, pages, page, per } = res.data;
                     const _list = this.appendMode ? concat(this.typeList[index].list, list) : list;
                     const newList = _list.map((item) => {
                         item.typeName = this.getType(item);
@@ -410,6 +411,7 @@ export default {
                     this.typeList[index].pages = pages || 1;
                     if (this.active !== "") this.page = page || 1;
                     this.total = total;
+                    this.per = per;
                 })
                 .finally(() => {
                     this.loading = false;

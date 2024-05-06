@@ -113,7 +113,7 @@ export default {
 
 <style lang="less">
 .p-gonggao {
-    .pt(20px);
+    .pt(40px);
     .m-content {
         .pt(20px);
     }

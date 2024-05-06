@@ -195,7 +195,7 @@ export default {
             return this.$store.state.client;
         },
         params() {
-            const _params = { client: this.client, per: this.per };
+            const _params = { client: this.client };
             if (this.keyword) _params.keyword = this.keyword;
             if (this.active) _params.profession = this.active;
             return _params;
@@ -264,6 +264,7 @@ export default {
         showCount() {
             if (this.isPhone) {
                 this.per = 8;
+                this.count = 8;
                 return;
             }
             const listWidth = this.$refs.listRef?.clientWidth - 120;
@@ -278,7 +279,7 @@ export default {
             const page = this.list.filter((e) => e.id == type)[0].page;
             let params = cloneDeep(this.params);
             params.page = page + 1;
-            params.per = append ? this.per * 3 : this.per;
+            params.per = append ? this.count * 3 : this.per;
             params.profession = type;
             this.loadList(params, type);
         },
@@ -295,7 +296,7 @@ export default {
                 });
             } else {
                 params.page = this.page;
-                params.per = this.per * 3;
+                params.per = this.count * 3;
                 this.loadList({ ...params, profession: this.active }, this.active);
             }
         },
@@ -305,7 +306,7 @@ export default {
             if (this.list[index].pages < params.page && this.active === 0) params.page = 1;
             getList(params)
                 .then((res) => {
-                    const { list, total, pages, page } = res.data;
+                    const { list, total, pages, page, per } = res.data;
                     const _list = this.appendMode ? concat(this.list[index].list, list) : list;
                     this.list[index].list = _list || [];
                     this.list[index].page = page || 1;
@@ -313,6 +314,7 @@ export default {
                     this.list[index].total = total || 0;
                     if (this.active !== 0) this.page = page || 1;
                     this.total = total;
+                    this.per = per;
                 })
                 .finally(() => {
                     this.loading = false;
