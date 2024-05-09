@@ -5,13 +5,16 @@
             :class="{
                 start: addClass,
             }"
+            :style="{
+                zoom: contentZoom,
+            }"
         >
             <img class="u-content__bg" src="../../assets/img/treasure/content_bg.png" alt="" />
             <div class="m-left" :class="reelAddClass">
-                <img class="u-left__img" src="../../assets/img/treasure/left.png" alt="" />
+                <img class="u-left__img" src="../../assets/img/treasure/landscape/left.png" alt="" />
             </div>
             <div class="m-right" :class="reelAddClass">
-                <img class="u-right__img" src="../../assets/img/treasure/right.png" alt="" />
+                <img class="u-right__img" src="../../assets/img/treasure/landscape/right.png" alt="" />
             </div>
             <div class="m-qy-box">
                 <!-- 普通奇遇 -->
@@ -19,97 +22,7 @@
                     <div class="m-qy-list">
                         <div class="m-qy__row">
                             <div class="m-qy__item" v-for="(item, index) in Array(3)" :key="index">
-                                <img class="u-qy__img" src="../../assets/img/treasure/pt/brm.png" alt="" />
-                                <div class="m-qy__text">
-                                    <img class="u-qy__bg" src="../../assets/img/treasure/pt/text_bg.png" alt="" />
-                                    <span class="u-qy__text">白日梦梦</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="m-qy__row">
-                            <div class="m-qy__item" v-for="(item, index) in Array(3)" :key="index">
-                                <img class="u-qy__img" src="../../assets/img/treasure/pt/brm.png" alt="" />
-                                <div class="m-qy__text">
-                                    <img class="u-qy__bg" src="../../assets/img/treasure/pt/text_bg.png" alt="" />
-                                    <span class="u-qy__text">白日梦梦</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="m-qy__row">
-                            <div class="m-qy__item" v-for="(item, index) in Array(3)" :key="index">
-                                <img class="u-qy__img" src="../../assets/img/treasure/pt/brm.png" alt="" />
-                                <div class="m-qy__text">
-                                    <img class="u-qy__bg" src="../../assets/img/treasure/pt/text_bg.png" alt="" />
-                                    <span class="u-qy__text">白日梦梦</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="m-qy__row">
-                            <div class="m-qy__item" v-for="(item, index) in Array(3)" :key="index">
-                                <img class="u-qy__img" src="../../assets/img/treasure/pt/brm.png" alt="" />
-                                <div class="m-qy__text">
-                                    <img class="u-qy__bg" src="../../assets/img/treasure/pt/text_bg.png" alt="" />
-                                    <span class="u-qy__text">白日梦梦</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="m-qy__row">
-                            <div class="m-qy__item" v-for="(item, index) in Array(3)" :key="index">
-                                <img class="u-qy__img" src="../../assets/img/treasure/pt/brm.png" alt="" />
-                                <div class="m-qy__text">
-                                    <img class="u-qy__bg" src="../../assets/img/treasure/pt/text_bg.png" alt="" />
-                                    <span class="u-qy__text">白日梦梦</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="m-qy__row">
-                            <div class="m-qy__item" v-for="(item, index) in Array(3)" :key="index">
-                                <img class="u-qy__img" src="../../assets/img/treasure/pt/brm.png" alt="" />
-                                <div class="m-qy__text">
-                                    <img class="u-qy__bg" src="../../assets/img/treasure/pt/text_bg.png" alt="" />
-                                    <span class="u-qy__text">白日梦梦</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="m-qy__row">
-                            <div class="m-qy__item" v-for="(item, index) in Array(3)" :key="index">
-                                <img class="u-qy__img" src="../../assets/img/treasure/pt/brm.png" alt="" />
-                                <div class="m-qy__text">
-                                    <img class="u-qy__bg" src="../../assets/img/treasure/pt/text_bg.png" alt="" />
-                                    <span class="u-qy__text">白日梦梦</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="m-qy__row">
-                            <div class="m-qy__item" v-for="(item, index) in Array(3)" :key="index">
-                                <img class="u-qy__img" src="../../assets/img/treasure/pt/brm.png" alt="" />
-                                <div class="m-qy__text">
-                                    <img class="u-qy__bg" src="../../assets/img/treasure/pt/text_bg.png" alt="" />
-                                    <span class="u-qy__text">白日梦梦</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="m-qy__row">
-                            <div class="m-qy__item" v-for="(item, index) in Array(3)" :key="index">
-                                <img class="u-qy__img" src="../../assets/img/treasure/pt/brm.png" alt="" />
-                                <div class="m-qy__text">
-                                    <img class="u-qy__bg" src="../../assets/img/treasure/pt/text_bg.png" alt="" />
-                                    <span class="u-qy__text">白日梦梦</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="m-qy__row">
-                            <div class="m-qy__item" v-for="(item, index) in Array(3)" :key="index">
-                                <img class="u-qy__img" src="../../assets/img/treasure/pt/brm.png" alt="" />
-                                <div class="m-qy__text">
-                                    <img class="u-qy__bg" src="../../assets/img/treasure/pt/text_bg.png" alt="" />
-                                    <span class="u-qy__text">白日梦梦</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="m-qy__row">
-                            <div class="m-qy__item" v-for="(item, index) in Array(3)" :key="index">
-                                <img class="u-qy__img" src="../../assets/img/treasure/pt/brm.png" alt="" />
+                                <img class="u-qy__img" src="../../assets/img/treasure/pt/白日梦S.png" alt="" />
                                 <div class="m-qy__text">
                                     <img class="u-qy__bg" src="../../assets/img/treasure/pt/text_bg.png" alt="" />
                                     <span class="u-qy__text">白日梦梦</span>
@@ -117,8 +30,11 @@
                             </div>
                         </div>
                     </div>
+                    <!-- <div class="u-no-qy">
+                        <img src="../../assets/img/treasure/landscape/no_qy.png" alt="" />
+                    </div> -->
                     <div class="m-qy-count">
-                        <img class="u-count__img" src="../../assets/img/treasure/pt_qy_bg_s.png" alt="" />
+                        <img class="u-count__img" src="../../assets/img/treasure/landscape/pt_qy_bg.png" alt="" />
                         <div class="m-count-info">
                             <div>23</div>
                             <div>/</div>
@@ -128,7 +44,7 @@
                 </div>
                 <!-- 宠物奇遇 -->
                 <div class="m-qy m-pet">
-                    <div class="m-qy-list">
+                    <!-- <div class="m-qy-list">
                         <div class="m-qy__row">
                             <div class="m-qy__item" v-for="(item, index) in Array(5)" :key="index">
                                 <img
@@ -139,9 +55,12 @@
                                 <img class="u-qy__border" src="../../assets/img/treasure/pet_img_border.png" alt="" />
                             </div>
                         </div>
+                    </div> -->
+                    <div class="u-no-qy">
+                        <img src="../../assets/img/treasure/landscape/no_qy.png" alt="" />
                     </div>
                     <div class="m-qy-count">
-                        <img class="u-count__img" src="../../assets/img/treasure/pet_qy_bg_s.png" alt="" />
+                        <img class="u-count__img" src="../../assets/img/treasure/landscape/pet_qy_bg.png" alt="" />
                         <div class="m-count-info">
                             <div>12</div>
                             <div>/</div>
@@ -154,7 +73,7 @@
             <div class="m-world">
                 <img class="u-world__bg" src="../../assets/img/treasure/world/world_bg.svg" alt="" />
                 <div class="m-world-count">
-                    <img class="u-count__img" src="../../assets/img/treasure/world_qy_bg_s.png" alt="" />
+                    <img class="u-count__img" src="../../assets/img/treasure/landscape/world_qy_bg.png" alt="" />
                     <div class="m-count-info">
                         <div>23</div>
                         <div>/</div>
@@ -262,7 +181,7 @@
             </div>
             <!-- 右侧内容 -->
             <div class="m-title">
-                <img class="u-logo" src="../../assets/img/treasure/title_icon_h.png" alt="" />
+                <img class="u-logo" src="../../assets/img/treasure/landscape/title_icon.png" alt="" />
                 <div class="m-title-info">
                     <div class="m-tip">
                         天缘至时自会来，强求无果亦何哀。 <br />
@@ -292,14 +211,30 @@ export default {
     data: () => ({
         addClass: false,
         reelAddClass: false,
+        contentZoom: "",
     }),
     mounted() {
         setTimeout(() => {
             this.addClass = true;
             this.reelAddClass = "start";
         }, 1000);
+
+        window.addEventListener("resize", this.handleScreenWidthChange);
+        window.addEventListener("load", this.handleScreenWidthChange);
+        this.handleScreenWidthChange();
     },
-    methods: {},
+    methods: {
+        handleScreenWidthChange() {
+            var screenWidth = window.innerWidth - 80;
+            var boxWidth = 1920;
+            var scale = screenWidth / boxWidth;
+            var zoom = 1;
+            if (screenWidth <= boxWidth) {
+                zoom = scale;
+            }
+            this.contentZoom = zoom;
+        },
+    },
 };
 </script>
 

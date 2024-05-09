@@ -1,6 +1,5 @@
 .m-body {
     padding: 200px 0;
-    zoom: 0.7;
 }
 .m-content {
     position: relative;
@@ -8,7 +7,7 @@
     transform: translateY(-100%) rotate(90deg);
     width: max-content;
     height: 900px;
-    background-image: url(../../img/treasure/bg.png);
+    background-image: url(../../img/treasure/landscape/bg.png);
     background-size: auto 100%;
     background-position: center;
     display: flex;
@@ -120,8 +119,9 @@
     .m-qy-box {
         margin-top: 88px;
         margin-left: 60px;
+        position: relative;
+        z-index: 1;
         display: flex;
-        flex-wrap: wrap;
         flex-direction: column;
         align-items: flex-end;
         .m-qy {
@@ -165,6 +165,9 @@
                     }
                 }
             }
+            .u-no-qy {
+                width: 47px;
+            }
             .m-qy-count {
                 position: relative;
                 height: max-content;
@@ -186,6 +189,7 @@
                 }
             }
             &.m-ordinary {
+                min-height: 343px;
                 .m-qy-list {
                     .m-qy__row {
                         .m-qy__item {
