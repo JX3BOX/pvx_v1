@@ -1,20 +1,20 @@
 import { getRoleGameAchievements, getAdventures } from "@/service/treasure.js";
 
 const perfectAchievement = {
-    111: { hasClass: "zhg", zIndex: 10 },
-    3: { hasClass: "yylj", zIndex: 12 },
+    111: { hasClass: "zhg", zIndex: 9 },
+    3: { hasClass: "yylj", zIndex: 10 },
     88: { hasClass: "xxjt", zIndex: 14 },
     83: { hasClass: "zzwg", zIndex: 16 },
-    104: { hasClass: "wldg", zIndex: 18 },
-    78: { hasClass: "tjh", zIndex: 20 },
-    1: { hasClass: "sssh", zIndex: 22 },
-    2: { hasClass: "scqf", zIndex: 24 },
-    126: { hasClass: "swxf", zIndex: 26 },
-    21: { hasClass: "swbj", zIndex: 28 },
-    121: { hasClass: "rjg", zIndex: 30 },
-    106: { hasClass: "qqj", zIndex: 32 },
-    90: { hasClass: "lnrh", zIndex: 34 },
-    66: { hasClass: "jcs", zIndex: 36 },
+    104: { hasClass: "wldg", zIndex: 20 },
+    78: { hasClass: "tjh", zIndex: 17 },
+    1: { hasClass: "sssh", zIndex: 7 },
+    2: { hasClass: "scqf", zIndex: 18 },
+    126: { hasClass: "swxf", zIndex: 12 },
+    21: { hasClass: "swbj", zIndex: 11 },
+    121: { hasClass: "rjg", zIndex: 19 },
+    106: { hasClass: "qqj", zIndex: 13 },
+    90: { hasClass: "lnrh", zIndex: 8 },
+    66: { hasClass: "jcs", zIndex: 15 },
 };
 
 let formatDateTime = (dateTimeString) => {

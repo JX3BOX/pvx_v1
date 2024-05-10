@@ -72,10 +72,10 @@
                     <div class="m-qy-list" v-if="userAchievement.normal.length">
                         <div class="m-qy__row" v-for="(ele, eleIndex) in userAchievement.normal" :key="eleIndex">
                             <div class="m-qy__item" v-for="(item, index) in ele" :key="index">
-                                <!-- <img
+                                <img
                                     class="u-qy__img"
                                     :src="require(`../../assets/img/treasure/pt/${item.szName}S.png`)"
-                                /> -->
+                                />
                                 <div class="m-qy__text">
                                     <img class="u-qy__bg" src="../../assets/img/treasure/pt/text_bg.png" />
                                     <span class="u-qy__text">{{ item.szName }}</span>
