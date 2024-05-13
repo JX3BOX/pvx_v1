@@ -2,18 +2,27 @@
     overflow: hidden;
 }
 .m-body {
-    padding-top: 100px;
+    padding-top: 130px;
     margin: 0 auto;
     position: relative;
+    .u-btn {
+        display: block;
+        width: 100%;
+        margin-top: 30px;
+    }
 }
 
+#capture{
+    margin: 0 -20px;
+    padding: 0 20px;
+    width: max-content;
+}
 .m-content {
     position: relative;
     background-image: url(../../img/treasure/portrait/bg.png);
     background-size: 100% auto;
     background-position: center;
     width: 900px;
-    margin: 0 auto;
     img {
         display: block;
     }
@@ -33,8 +42,15 @@
         &.start {
             animation: Start 2s forwards;
         }
+        &.over {
+            transform: translateX(-50%);
+            bottom: 0;
+            &::after {
+                display: none;
+            }
+        }
         &::after {
-            content: " ";
+            content: "";
             width: 100%;
             height: 2300px;
             background-color: white;
@@ -418,6 +434,9 @@
     top: 30px;
     .el-select {
         width: 100%;
+        &:not(:first-child) {
+            margin-top: 10px;
+        }
     }
     .u-tip {
         .mb(10px);
@@ -454,7 +473,7 @@
     }
 
     .el-input--prefix .el-input__inner {
-        padding-left: 75px;
+        padding-left: 85px;
     }
 }
 

@@ -1,6 +1,16 @@
 .m-body {
     padding: 100px 0;
     position: relative;
+    .u-btn {
+        margin: 0 auto;
+        display: block;
+        margin-top: 10px;
+    }
+}
+#capture {
+    padding: 20px 60px;
+    width: max-content;
+    margin: 0 auto;
 }
 .m-content {
     position: relative;
@@ -59,15 +69,6 @@
                 }
             }
         }
-        &.start2 {
-            animation: leftA2 2s forwards;
-            animation-delay: 1s;
-            @keyframes leftA2 {
-                100% {
-                    left: 10%;
-                }
-            }
-        }
     }
     .m-right {
         .reelCss();
@@ -90,15 +91,6 @@
                 }
             }
         }
-        &.start2 {
-            animation: RightA2 2s forwards;
-            animation-delay: 1s;
-            @keyframes RightA2 {
-                100% {
-                    right: 10%;
-                }
-            }
-        }
     }
     &.start {
         animation: Start 1s forwards;
@@ -115,6 +107,16 @@
                 opacity: 1;
                 transform: translateY(0%);
             }
+        }
+    }
+    &.over {
+        transform: translateY(0%) rotate(0);
+        opacity: 1;
+        .m-left {
+            left: 0;
+        }
+        .m-right {
+            right: 0;
         }
     }
     .m-qy-box {
@@ -511,6 +513,10 @@
     left: 50%;
     transform: translateX(-50%);
     top: 30px;
+    display: flex;
+    .el-select:not(:first-child) {
+        margin-left: 10px;
+    }
     .u-tip {
         .mb(10px);
         i {
@@ -522,13 +528,11 @@
             box-shadow: 0 1px 0 @color-link;
         }
     }
-
     .el-input__prefix {
         left: 1px;
         top: 1px;
         .r(5px);
     }
-
     .u-prefix {
         .db;
         .h(30px);
@@ -544,9 +548,8 @@
         padding: 0 10px;
         white-space: nowrap;
     }
-
     .el-input--prefix .el-input__inner {
-        padding-left: 75px;
+        padding-left: 85px;
     }
 }
 
