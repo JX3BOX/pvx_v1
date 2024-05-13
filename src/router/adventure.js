@@ -11,6 +11,11 @@ const routes = [
     { name: "list", path: "/", component: List },
     { name: "single", path: "/:id(\\d+)", component: Single },
     {
+        name: "treasure",
+        path: "/treasure",
+        redirect: "/treasure/landscape",
+    },
+    {
         name: "landscape",
         path: "/treasure/landscape",
         component: landscape,
