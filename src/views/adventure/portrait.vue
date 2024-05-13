@@ -114,8 +114,8 @@
                             <img
                                 class="u-item__img"
                                 :src="
-                                    require(`../../assets/img/treasure/world/${item.szName}${
-                                        item.isAct ? '激活' : '未激活'
+                                    require(`../../assets/img/treasure/world/${item.dwID}${
+                                        item.isAct ? '_act' : ''
                                     }.png`)
                                 "
                             />
@@ -143,22 +143,22 @@
                             </div>
                             <div class="m-qy-list" v-if="userAchievement.normal.length">
                                 <div class="m-qy__item" v-for="(item, index) in userAchievement.normal" :key="index">
-                                    <template v-if="['黑白路', '莫负初心'].indexOf(item.szName) > -1">
+                                    <template v-if="[4, 118].indexOf(item.dwID) > -1">
                                         <img
                                             v-show="currentCamp == 'hq'"
                                             class="u-qy__img"
-                                            :src="require(`../../assets/img/treasure/pt/${item.szName}/hq.png`)"
+                                            :src="require(`../../assets/img/treasure/pt/${item.dwID}_hq.png`)"
                                         />
                                         <img
                                             v-show="currentCamp == 'er'"
                                             class="u-qy__img"
-                                            :src="require(`../../assets/img/treasure/pt/${item.szName}/er.png`)"
+                                            :src="require(`../../assets/img/treasure/pt/${item.dwID}_er.png`)"
                                         />
                                     </template>
                                     <img
                                         v-else
                                         class="u-qy__img"
-                                        :src="require(`../../assets/img/treasure/pt/${item.szName}S.png`)"
+                                        :src="require(`../../assets/img/treasure/pt/${item.dwID}.png`)"
                                     />
                                     <div class="m-qy__text">
                                         <img class="u-qy__bg" src="../../assets/img/treasure/pt/text_bg.png" />

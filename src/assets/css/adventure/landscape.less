@@ -11,6 +11,7 @@
     padding: 20px 60px;
     width: max-content;
     margin: 0 auto;
+    user-select: none;
 }
 .m-content {
     position: relative;
@@ -25,6 +26,7 @@
     opacity: 0;
     img {
         display: block;
+        pointer-events: none;
     }
     .u-content__bg {
         position: absolute;
@@ -460,10 +462,11 @@
                 }
                 .u-name {
                     margin-top: 8px;
-                    writing-mode: vertical-rl;
                     color: #112d24;
                     font-size: 24px;
                     font-weight: bold;
+                    width: 33px;
+                    text-align: center;
                     line-height: 25px;
                 }
             }
