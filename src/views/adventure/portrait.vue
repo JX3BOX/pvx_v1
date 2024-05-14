@@ -84,10 +84,7 @@
                         </div>
                         <div class="u-progress">奇遇进度：{{ userAchievement.progress }}%</div>
                         <div class="u-time">记录时间：{{ userAchievement.updated_at }}</div>
-                        <div class="m-tip">
-                            天缘至时自会来，强求无果亦何哀。 <br />
-                            有缘相遇堪称幸，愿君福泽早相开。
-                        </div>
+                        <img class="m-tip" src="../../assets/img/treasure/poetry_por.png" />
                     </div>
                     <img class="u-introduce__bg" src="../../assets/img/treasure/content_bg.png" />
                 </div>
@@ -303,6 +300,8 @@ export default {
             getData(userJx3Id).then((res) => {
                 this.isSync = !!userJx3Id; // 是否在游戏中同步
                 this.userAchievement = res;
+                this.addClass = false;
+                this.isOver = false;
                 this.$nextTick((_) => {
                     this.start();
                 });

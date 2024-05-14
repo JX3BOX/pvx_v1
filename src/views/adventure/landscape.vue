@@ -183,10 +183,7 @@
                 <div class="m-title">
                     <img class="u-logo" src="../../assets/img/treasure/landscape/title_icon.png" />
                     <div class="m-title-info">
-                        <div class="m-tip">
-                            天缘至时自会来，强求无果亦何哀。 <br />
-                            有缘相遇堪称幸，愿君福泽早相开。
-                        </div>
+                        <img class="m-tip" src="../../assets/img/treasure/poetry_lan.png" />
                         <div class="m-user">
                             <img class="u-icon" :src="showSchoolIcon(roleInfo.mount)" />
                             <span class="u-name">{{ roleInfo.name }}</span>
@@ -308,6 +305,9 @@ export default {
                 res.normal = this.splitArrayIntoChunks(res.normal, 3);
                 this.userAchievement = res;
                 this.$nextTick((_) => {
+                    this.addClass = false;
+                    this.reelAddClass = "";
+                    this.isOver = false;
                     setTimeout(() => {
                         this.start();
                     }, 500);
