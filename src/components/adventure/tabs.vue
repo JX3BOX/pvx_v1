@@ -1,5 +1,7 @@
 <template>
-    <CommonToolbar search color="#d16400" :active="active" :types="body_types" @update="updateToolbar"> </CommonToolbar>
+    <CommonToolbar search color="#d16400" :active="active" :types="body_types" @update="updateToolbar">
+        <a class="u-jump" href="/adventure/treasure" slot="append">奇遇珍卷</a>
+    </CommonToolbar>
 </template>
 
 <script>
@@ -7,7 +9,7 @@ import CommonToolbar from "@/components/common/toolbar.vue";
 export default {
     name: "tabs",
     components: { CommonToolbar },
-    props: ["body_types","active"],
+    props: ["body_types", "active"],
     data: function () {
         return {
             name: "",
@@ -52,3 +54,7 @@ export default {
     },
 };
 </script>
+
+<style lang="less">
+@import "~@/assets/css/adventure/tabs.less";
+</style>

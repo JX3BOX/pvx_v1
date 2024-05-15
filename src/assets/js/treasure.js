@@ -20,11 +20,11 @@ const perfectAchievement = {
 let formatDateTime = (dateTimeString) => {
     const dateTime = new Date(dateTimeString);
     const year = dateTime.getFullYear();
-    const month = dateTime.getMonth() + 1; // 月份从0开始，需要加1
-    const date = dateTime.getDate();
-    const hours = dateTime.getHours();
-    const minutes = dateTime.getMinutes();
-    const seconds = dateTime.getSeconds();
+    const month = String(dateTime.getMonth() + 1).padStart(2, '0'); 
+    const date = String(dateTime.getDate()).padStart(2, '0');
+    const hours = String(dateTime.getHours()).padStart(2, '0');
+    const minutes = String(dateTime.getMinutes()).padStart(2, '0');
+    const seconds = String(dateTime.getSeconds()).padStart(2, '0');
 
     const formattedDateTime = `${year}年${month}月${date}日 ${hours}:${minutes}:${seconds}`;
     return formattedDateTime;
