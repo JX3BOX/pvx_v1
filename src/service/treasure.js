@@ -34,3 +34,10 @@ export function getAdventures(params) {
         },
     });
 }
+
+// 获取用户奇遇映射表
+export function getAchievements() {
+    return $node().get(`/serendipity/achievements`, {
+        client,
+    });
+}

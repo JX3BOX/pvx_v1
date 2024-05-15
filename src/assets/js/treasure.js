@@ -1,4 +1,4 @@
-import { getRoleGameAchievements, getAdventures } from "@/service/treasure.js";
+import { getRoleGameAchievements, getAdventures, getAchievements } from "@/service/treasure.js";
 
 const perfectAchievement = {
     111: { hasClass: "zhg", zIndex: 9 },
@@ -38,9 +38,16 @@ let getData = (userJx3Id) => {
             perfect: [],
         };
 
-        getRoleGameAchievements(userJx3Id).then((res) => {
+        Promise.all([getRoleGameAchievements(userJx3Id), getAchievements()]).then(([res, mapRule]) => {
             const achievements = res.data?.data?.achievements || "";
-            const list = achievements.split(",");
+            let list = achievements.split(",");
+            let newList = [];
+            mapRule.data.map((item) => {
+                if (list.includes(String(item.achievement_id))) {
+                    newList.push(item.adventure_id);
+                }
+            });
+            list = newList;
             if (res.data?.data?.updated_at) {
                 returnData.updated_at = formatDateTime(res.data?.data?.updated_at);
             } else {
@@ -59,7 +66,7 @@ let getData = (userJx3Id) => {
                     res.data.list.forEach((item) => {
                         if (type == "perfect") {
                             item.isAct = false;
-                            if (list.includes(String(item.dwID))) {
+                            if (list.includes(item.dwID)) {
                                 item.isAct = true;
                                 actNum++;
                             }
@@ -68,7 +75,7 @@ let getData = (userJx3Id) => {
                                 ...perfectAchievement[item.dwID],
                             });
                         } else {
-                            if (list.includes(String(item.dwID))) {
+                            if (list.includes(item.dwID)) {
                                 achievementsList.push(item);
                                 actNum++;
                             }
