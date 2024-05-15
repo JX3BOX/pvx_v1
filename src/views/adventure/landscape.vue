@@ -191,7 +191,7 @@
                     </div>
                 </div>
                 <div class="m-producer">
-                    <img src="../../assets/img/treasure/producer.png" />
+                    <img class="u-producer" src="../../assets/img/treasure/producer.png" />
                     <div class="u-producer__text">*剑网3魔盒提供技术支持，茗伊插件提供数据支持。</div>
                 </div>
                 <div class="m-qy-progress">
