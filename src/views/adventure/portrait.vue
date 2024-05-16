@@ -21,24 +21,7 @@
                     >
                         <a href="/tool/74559" target="_blank"><i class="el-icon-warning-outline"></i></a>
                     </el-tooltip>
-                    <el-tooltip
-                        v-else
-                        class="item"
-                        effect="dark"
-                        content="虚拟角色即为魔盒账号本身，可自定义进度"
-                        placement="top"
-                    >
-                        <a href="/tool/74559" target="_blank"><i class="el-icon-warning-outline"></i></a>
-                    </el-tooltip>
                 </span>
-                <el-option v-if="isLogin" :value="virtualRole" :label="virtualRole.name + '<虚拟角色>'">
-                    <span class="u-role">
-                        <span class="u-role-name"
-                            ><img class="u-role-icon" :src="virtualRole.avatar" />{{ virtualRole.name }}</span
-                        >
-                        <span class="u-role-server"> &lt;虚拟角色&gt;</span>
-                    </span>
-                </el-option>
                 <el-option v-for="role in roleList" :key="role.ID" :value="role" :label="role.name">
                     <span class="u-role">
                         <span class="u-role-name"
@@ -59,7 +42,12 @@
                 <el-option value="er" label="恶人谷阵营"> </el-option>
             </el-select>
         </div>
-        <div id="capture" ref="capture">
+        <div class="u-bind_role" v-if="noRole">
+            <el-empty description="当前暂未绑定角色" :image-size="200">
+                <a class="u-btn el-button el-button--primary" href="/team/role/bind">前往绑定</a>
+            </el-empty>
+        </div>
+        <div id="capture" ref="capture" v-if="!noRole">
             <div
                 class="m-content"
                 :style="{
@@ -218,6 +206,7 @@ export default {
         contentZoom: "",
         userAchievement: false,
         roleList: [],
+        noRole: false,
         currentRole: "",
         currentCamp: "hq",
         roleInfo: {},
@@ -255,6 +244,7 @@ export default {
     mounted() {
         getUserRoles().then((res) => {
             if (res.data.data.list.length) {
+                this.noRole = false;
                 this.roleList =
                     res.data?.data?.list.filter((item) => {
                         return !!item.player_id;
@@ -263,6 +253,7 @@ export default {
                     this.currentRole = this.roleList[0];
                 }
             } else {
+                this.noRole = true;
                 this.$message.error("未获取到角色信息");
             }
         });
@@ -356,4 +347,5 @@ export default {
 <style lang="less">
 @import "~@/assets/css/app.less";
 @import "~@/assets/css/adventure/portrait.less";
+@import "~@/assets/css/adventure/treasure.less";
 </style>
