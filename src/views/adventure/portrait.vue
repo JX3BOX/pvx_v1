@@ -1,193 +1,210 @@
 <template>
     <div class="m-body">
-        <div class="m-related-roles">
-            <el-select
-                v-if="isLogin"
-                v-model="currentRole"
-                value-key="ID"
-                placeholder="请选择当前角色"
-                :disabled="!isLogin"
-                popper-class="m-related-roles-options"
-                size="small"
-            >
-                <span slot="prefix" class="u-prefix">
-                    角色
-                    <el-tooltip
-                        v-if="!isVirtual && !isSync"
-                        class="item"
-                        effect="dark"
-                        content="请先在游戏中同步成就"
-                        placement="top"
-                    >
-                        <a href="/tool/74559" target="_blank"><i class="el-icon-warning-outline"></i></a>
-                    </el-tooltip>
-                </span>
-                <el-option v-for="role in roleList" :key="role.ID" :value="role" :label="role.name">
-                    <span class="u-role">
-                        <span class="u-role-name"
-                            ><img class="u-role-icon" :src="showSchoolIcon(role.mount)" />{{ role.name }}</span
+        <template v-if="!isLogin">
+            <div class="u-bind_role">
+                <el-empty description="您还没有登录" :image="__imgPath + `/img/common/empty.png`" :image-size="200">
+                    <a class="u-btn el-button el-button--primary" :href="login_url">前往登录</a>
+                </el-empty>
+            </div>
+        </template>
+        <template v-else-if="noRole">
+            <div class="u-bind_role">
+                <el-empty description="当前暂未绑定角色" :image="__imgPath + `/img/common/empty.png`" :image-size="200">
+                    <a class="u-btn el-button el-button--primary" href="/team/role/bind">前往绑定</a>
+                </el-empty>
+            </div>
+        </template>
+        <template v-else>
+            <div class="m-related-roles">
+                <el-select
+                    v-model="currentRole"
+                    value-key="ID"
+                    placeholder="请选择当前角色"
+                    :disabled="!isLogin"
+                    popper-class="m-related-roles-options"
+                    size="small"
+                >
+                    <span slot="prefix" class="u-prefix">
+                        角色
+                        <el-tooltip
+                            v-if="!isVirtual && !isSync"
+                            class="item"
+                            effect="dark"
+                            content="请先在游戏中同步成就"
+                            placement="top"
                         >
-                        <span class="u-role-server">{{ role.server }}</span>
+                            <a href="/tool/74559" target="_blank"><i class="el-icon-warning-outline"></i></a>
+                        </el-tooltip>
                     </span>
-                </el-option>
-            </el-select>
-            <el-select
-                v-model="currentCamp"
-                placeholder="请选择阵营"
-                popper-class="m-related-roles-options"
-                size="small"
-            >
-                <span slot="prefix" class="u-prefix">所在阵营</span>
-                <el-option value="hq" label="浩气盟阵营"> </el-option>
-                <el-option value="er" label="恶人谷阵营"> </el-option>
-            </el-select>
-        </div>
-        <div class="u-bind_role" v-if="noRole">
-            <el-empty description="当前暂未绑定角色" :image="__imgPath + `/img/common/empty.png`" :image-size="200">
-                <a class="u-btn el-button el-button--primary" href="/team/role/bind">前往绑定</a>
-            </el-empty>
-        </div>
-        <div id="capture" ref="capture" v-if="!noRole">
-            <div
-                class="m-content"
-                :style="{
-                    zoom: contentZoom,
-                }"
-            >
-                <div class="m-top">
-                    <img class="u-top__img" src="../../assets/img/treasure/portrait/top.png" />
-                </div>
+                    <el-option v-for="role in roleList" :key="role.ID" :value="role" :label="role.name">
+                        <span class="u-role">
+                            <span class="u-role-name"
+                                ><img class="u-role-icon" :src="showSchoolIcon(role.mount)" />{{ role.name }}</span
+                            >
+                            <span class="u-role-server">{{ role.server }}</span>
+                        </span>
+                    </el-option>
+                </el-select>
+                <el-select
+                    v-model="currentCamp"
+                    placeholder="请选择阵营"
+                    popper-class="m-related-roles-options"
+                    size="small"
+                >
+                    <span slot="prefix" class="u-prefix">所在阵营</span>
+                    <el-option value="hq" label="浩气盟阵营"> </el-option>
+                    <el-option value="er" label="恶人谷阵营"> </el-option>
+                </el-select>
+            </div>
 
-                <!-- 顶部 -->
-                <div class="m-introduce">
-                    <div class="m-producer">
-                        <img class="u-producer" src="../../assets/img/treasure/producer.png" />
-                        <img class="u-title__icon" src="../../assets/img/treasure/portrait/title_icon.png" />
+            <div id="capture" ref="capture" v-if="!noRole">
+                <div
+                    class="m-content"
+                    :style="{
+                        zoom: contentZoom,
+                    }"
+                >
+                    <div class="m-top">
+                        <img class="u-top__img" src="../../assets/img/treasure/portrait/top.png" />
                     </div>
-                    <div class="m-info">
-                        <div class="u-producer__text">*剑网3魔盒提供技术支持，茗伊插件提供数据支持。</div>
-                        <div class="m-user">
-                            <span class="u-name">{{ roleInfo.name }}</span>
-                            <img class="u-icon" :src="showSchoolIcon(roleInfo.mount)" />
+
+                    <!-- 顶部 -->
+                    <div class="m-introduce">
+                        <div class="m-producer">
+                            <img class="u-producer" src="../../assets/img/treasure/producer.png" />
+                            <img class="u-title__icon" src="../../assets/img/treasure/portrait/title_icon.png" />
                         </div>
-                        <div class="u-progress">奇遇进度：{{ userAchievement.progress }}%</div>
-                        <div class="u-time">记录时间：{{ userAchievement.updated_at }}</div>
-                        <img class="m-tip" src="../../assets/img/treasure/poetry_por.png" />
-                    </div>
-                    <img class="u-introduce__bg" src="../../assets/img/treasure/content_bg.png" />
-                </div>
-
-                <template v-if="userAchievement">
-                    <!-- 绝世奇遇 -->
-                    <div class="m-world">
-                        <img class="u-world__bg" src="../../assets/img/treasure/world/world_bg.svg" />
-                        <div class="m-world-count">
-                            <img class="u-count__img" src="../../assets/img/treasure/portrait/world_qy_bg.png" />
-                            <div class="m-count-info">
-                                {{ userAchievement.perfectNowNum + "/" + userAchievement.perfectAllNum }}
+                        <div class="m-info">
+                            <div class="u-producer__text">*剑网3魔盒提供技术支持，茗伊插件提供数据支持。</div>
+                            <div class="m-user">
+                                <span class="u-name">{{ roleInfo.name }}</span>
+                                <img class="u-icon" :src="showSchoolIcon(roleInfo.mount)" />
                             </div>
+                            <div class="u-progress">奇遇进度：{{ userAchievement.progress }}%</div>
+                            <div class="u-time">记录时间：{{ userAchievement.updated_at }}</div>
+                            <img class="m-tip" src="../../assets/img/treasure/poetry_por.png" />
                         </div>
-                        <div
-                            class="m-world-item"
-                            v-for="(item, index) in userAchievement.perfect"
-                            :key="index"
-                            :class="item.hasClass"
-                            :style="{
-                                zIndex: item.zIndex,
-                            }"
-                        >
-                            <img
-                                class="u-item__img"
-                                :src="
-                                    require(`../../assets/img/treasure/world/${item.dwID}${
-                                        item.isAct ? '_act' : ''
-                                    }.png`)
-                                "
-                            />
-                            <div class="m-item__text">
+                        <img class="u-introduce__bg" src="../../assets/img/treasure/content_bg.png" />
+                    </div>
+
+                    <template v-if="userAchievement">
+                        <!-- 绝世奇遇 -->
+                        <div class="m-world">
+                            <img class="u-world__bg" src="../../assets/img/treasure/world/world_bg.svg" />
+                            <div class="m-world-count">
+                                <img class="u-count__img" src="../../assets/img/treasure/portrait/world_qy_bg.png" />
+                                <div class="m-count-info">
+                                    {{ userAchievement.perfectNowNum + "/" + userAchievement.perfectAllNum }}
+                                </div>
+                            </div>
+                            <div
+                                class="m-world-item"
+                                v-for="(item, index) in userAchievement.perfect"
+                                :key="index"
+                                :class="item.hasClass"
+                                :style="{
+                                    zIndex: item.zIndex,
+                                }"
+                            >
                                 <img
-                                    class="u-item__bg"
+                                    class="u-item__img"
                                     :src="
-                                        require(`../../assets/img/treasure/world/text_bg${
+                                        require(`../../assets/img/treasure/world/${item.dwID}${
                                             item.isAct ? '_act' : ''
                                         }.png`)
                                     "
                                 />
-                                <span class="u-item__text">{{ item.szName }}</span>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- 普通奇遇 -->
-                    <div class="m-qy-box">
-                        <div class="m-qy m-ordinary">
-                            <div class="m-qy-count">
-                                <img class="u-count__img" src="../../assets/img/treasure/portrait/pt_qy_bg.png" />
-                                <div class="m-count-info">
-                                    {{ userAchievement.normalNowNum + "/" + userAchievement.normalAllNum }}
+                                <div class="m-item__text">
+                                    <img
+                                        class="u-item__bg"
+                                        :src="
+                                            require(`../../assets/img/treasure/world/text_bg${
+                                                item.isAct ? '_act' : ''
+                                            }.png`)
+                                        "
+                                    />
+                                    <span class="u-item__text">{{ item.szName }}</span>
                                 </div>
                             </div>
-                            <div class="m-qy-list" v-if="userAchievement.normal.length">
-                                <div class="m-qy__item" v-for="(item, index) in userAchievement.normal" :key="index">
-                                    <template v-if="[4, 118].indexOf(item.dwID) > -1">
-                                        <img
-                                            v-show="currentCamp == 'hq'"
-                                            class="u-qy__img"
-                                            :src="require(`../../assets/img/treasure/pt/${item.dwID}_hq.png`)"
-                                        />
-                                        <img
-                                            v-show="currentCamp == 'er'"
-                                            class="u-qy__img"
-                                            :src="require(`../../assets/img/treasure/pt/${item.dwID}_er.png`)"
-                                        />
-                                    </template>
-                                    <img
-                                        v-else
-                                        class="u-qy__img"
-                                        :src="require(`../../assets/img/treasure/pt/${item.dwID}.png`)"
-                                    />
-                                    <div class="m-qy__text">
-                                        <img class="u-qy__bg" src="../../assets/img/treasure/pt/text_bg.png" />
-                                        <span class="u-qy__text">{{ item.szName }}</span>
+                        </div>
+                        <!-- 普通奇遇 -->
+                        <div class="m-qy-box">
+                            <div class="m-qy m-ordinary">
+                                <div class="m-qy-count">
+                                    <img class="u-count__img" src="../../assets/img/treasure/portrait/pt_qy_bg.png" />
+                                    <div class="m-count-info">
+                                        {{ userAchievement.normalNowNum + "/" + userAchievement.normalAllNum }}
                                     </div>
                                 </div>
-                            </div>
-                            <div class="u-no-qy" v-else>
-                                <img src="../../assets/img/treasure/portrait/no_qy.png" />
-                            </div>
-                        </div>
-                        <!-- 宠物奇遇 -->
-                        <div class="m-qy m-pet">
-                            <div class="m-qy-count">
-                                <img class="u-count__img" src="../../assets/img/treasure/portrait/pet_qy_bg.png" />
-                                <div class="m-count-info">
-                                    {{ userAchievement.petNowNum + "/" + userAchievement.petAllNum }}
+                                <div class="m-qy-list" v-if="userAchievement.normal.length">
+                                    <div
+                                        class="m-qy__item"
+                                        v-for="(item, index) in userAchievement.normal"
+                                        :key="index"
+                                    >
+                                        <template v-if="[4, 118].indexOf(item.dwID) > -1">
+                                            <img
+                                                v-show="currentCamp == 'hq'"
+                                                class="u-qy__img"
+                                                :src="require(`../../assets/img/treasure/pt/${item.dwID}_hq.png`)"
+                                            />
+                                            <img
+                                                v-show="currentCamp == 'er'"
+                                                class="u-qy__img"
+                                                :src="require(`../../assets/img/treasure/pt/${item.dwID}_er.png`)"
+                                            />
+                                        </template>
+                                        <img
+                                            v-else
+                                            class="u-qy__img"
+                                            :src="require(`../../assets/img/treasure/pt/${item.dwID}.png`)"
+                                        />
+                                        <div class="m-qy__text">
+                                            <img class="u-qy__bg" src="../../assets/img/treasure/pt/text_bg.png" />
+                                            <span class="u-qy__text">{{ item.szName }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="u-no-qy" v-else>
+                                    <img src="../../assets/img/treasure/portrait/no_qy.png" />
                                 </div>
                             </div>
-                            <div class="m-qy-list" v-if="userAchievement.pet.length">
-                                <div class="m-qy__item" v-for="(item, index) in userAchievement.pet" :key="index">
-                                    <img class="u-qy__img" :src="getImgUrl(item)" />
-                                    <img class="u-qy__border" src="../../assets/img/treasure/pet_img_border.png" />
+                            <!-- 宠物奇遇 -->
+                            <div class="m-qy m-pet">
+                                <div class="m-qy-count">
+                                    <img class="u-count__img" src="../../assets/img/treasure/portrait/pet_qy_bg.png" />
+                                    <div class="m-count-info">
+                                        {{ userAchievement.petNowNum + "/" + userAchievement.petAllNum }}
+                                    </div>
+                                </div>
+                                <div class="m-qy-list" v-if="userAchievement.pet.length">
+                                    <div class="m-qy__item" v-for="(item, index) in userAchievement.pet" :key="index">
+                                        <img class="u-qy__img" :src="getImgUrl(item)" />
+                                        <img class="u-qy__border" src="../../assets/img/treasure/pet_img_border.png" />
+                                    </div>
+                                </div>
+                                <div class="u-no-qy" v-else>
+                                    <img src="../../assets/img/treasure/portrait/no_qy.png" />
                                 </div>
                             </div>
-                            <div class="u-no-qy" v-else>
-                                <img src="../../assets/img/treasure/portrait/no_qy.png" />
-                            </div>
                         </div>
-                    </div>
-                </template>
+                    </template>
 
-                <div
-                    class="m-bottom"
-                    :class="{
-                        start: addClass,
-                        over: isOver,
-                    }"
-                >
-                    <img class="u-bottom__img" src="../../assets/img/treasure/portrait/bottom.png" />
+                    <div
+                        class="m-bottom"
+                        :class="{
+                            start: addClass,
+                            over: isOver,
+                        }"
+                    >
+                        <img class="u-bottom__img" src="../../assets/img/treasure/portrait/bottom.png" />
+                    </div>
                 </div>
             </div>
-        </div>
-        <button v-if="isOver" @click="saveAsImage" class="u-btn m-hide el-button el-button--primary">保存图片</button>
+            <button v-if="isOver" @click="saveAsImage" class="u-btn m-hide el-button el-button--primary">
+                保存图片
+            </button>
+        </template>
     </div>
 </template>
 
@@ -197,6 +214,7 @@ import { showSchoolIcon } from "@jx3box/jx3box-common/js/utils";
 import getData from "@/assets/js/treasure.js";
 import User from "@jx3box/jx3box-common/js/user";
 import html2canvas from "html2canvas";
+import { __Links } from "@jx3box/jx3box-common/data/jx3box.json";
 export default {
     name: "portrait",
     inject: ["__imgRoot", "__imgPath"],
@@ -217,6 +235,7 @@ export default {
             ID: ~~User.getInfo().uid,
         },
         isSync: false,
+        login_url: __Links.account.login + "?redirect=" + location.href,
     }),
     computed: {
         client: function () {
