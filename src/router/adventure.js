@@ -13,7 +13,10 @@ const routes = [
     {
         name: "treasure",
         path: "/treasure",
-        redirect: "/treasure/landscape",
+        redirect: () => {
+            const isMobile = window.innerWidth <= 768;
+            return isMobile ? '/treasure/portrait' : '/treasure/landscape';
+        },
     },
     {
         name: "landscape",
