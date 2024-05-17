@@ -1,5 +1,5 @@
 .m-body {
-    padding: 100px 0;
+    padding: 100px 0 50px;
     position: relative;
     .u-btn {
         margin: 0 auto;
@@ -123,30 +123,30 @@
         }
     }
     &.start {
-        animation: Start 1s forwards, openScroll 1s forwards;
+        animation: Start 1s forwards, openScroll 1.9s 1s forwards;
         @keyframes Start {
             0% {
                 opacity: 1;
                 transform: translateY(-100%) rotate(90deg);
+                clip-path: inset(-50% 47%);
             }
             85% {
                 opacity: 1;
                 transform: translateY(5%);
+                clip-path: inset(-50% 47%);
             }
             100% {
                 opacity: 1;
                 transform: translateY(0%);
+                clip-path: inset(-50% 47%);
             }
         }
         @keyframes openScroll {
             0% {
-                clip-path: inset(-50% 45%);
-            }
-            95% {
-                clip-path: inset(-50% 45%);
+                clip-path: inset(-50% 47%);
             }
             100% {
-                clip-path: inset(-50%);
+                clip-path: inset(-50% -3%);
             }
         }
     }
