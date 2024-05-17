@@ -20,6 +20,7 @@ export default {
     provide: {
         __imgRoot: __imgPath + "adventure/",
         __dataRoot: __dataPath + "pvx/",
+        __imgPath,
     },
     data: function () {
         return {

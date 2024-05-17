@@ -43,7 +43,7 @@
             </el-select>
         </div>
         <div class="u-bind_role" v-if="noRole">
-            <el-empty description="当前暂未绑定角色" :image-size="200">
+            <el-empty description="当前暂未绑定角色" :image="__imgPath + `/img/common/empty.png`" :image-size="200">
                 <a class="u-btn el-button el-button--primary" href="/team/role/bind">前往绑定</a>
             </el-empty>
         </div>
@@ -199,7 +199,7 @@ import User from "@jx3box/jx3box-common/js/user";
 import html2canvas from "html2canvas";
 export default {
     name: "portrait",
-    inject: ["__imgRoot"],
+    inject: ["__imgRoot", "__imgPath"],
     data: () => ({
         addClass: false,
         isOver: false,

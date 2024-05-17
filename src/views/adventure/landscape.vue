@@ -1,5 +1,6 @@
 <template>
     <div class="m-body">
+        <a class="u-go_back" href="#" onclick="history.back(); return false;">返回主页</a>
         <div class="m-related-roles">
             <el-select
                 v-if="isLogin"
@@ -10,18 +11,6 @@
                 popper-class="m-related-roles-options"
                 size="small"
             >
-                <span slot="prefix" class="u-prefix">
-                    角色
-                    <el-tooltip
-                        v-if="!isVirtual && !isSync"
-                        class="item"
-                        effect="dark"
-                        content="请先在游戏中同步成就"
-                        placement="top"
-                    >
-                        <a href="/tool/74559" target="_blank"><i class="el-icon-warning-outline"></i></a>
-                    </el-tooltip>
-                </span>
                 <el-option v-for="role in roleList" :key="role.ID" :value="role" :label="role.name">
                     <span class="u-role">
                         <span class="u-role-name"
@@ -38,13 +27,12 @@
                 popper-class="m-related-roles-options"
                 size="small"
             >
-                <span slot="prefix" class="u-prefix">所在阵营</span>
                 <el-option value="hq" label="浩气盟阵营"> </el-option>
                 <el-option value="er" label="恶人谷阵营"> </el-option>
             </el-select>
         </div>
         <div class="u-bind_role" v-if="noRole">
-            <el-empty description="当前暂未绑定角色" :image-size="200">
+            <el-empty description="当前暂未绑定角色" :image="__imgPath + `/img/common/empty.png`" :image-size="200">
                 <a class="el-button el-button--primary" href="/team/role/bind">前往绑定</a>
             </el-empty>
         </div>
@@ -200,7 +188,7 @@ import User from "@jx3box/jx3box-common/js/user";
 import html2canvas from "html2canvas";
 export default {
     name: "landscape",
-    inject: ["__imgRoot"],
+    inject: ["__imgRoot", "__imgPath"],
     data: () => ({
         addClass: false,
         reelAddClass: false,
