@@ -25,7 +25,7 @@
                     size="small"
                 >
                     <span slot="prefix" class="u-prefix">
-                        角色
+                        角色名称
                         <el-tooltip
                             v-if="!isVirtual && !isSync"
                             class="item"
@@ -201,9 +201,9 @@
                     </div>
                 </div>
             </div>
-            <button v-if="isOver" @click="saveAsImage" class="u-btn m-hide el-button el-button--primary">
+            <!-- <button v-if="isOver" @click="saveAsImage" class="u-btn m-hide el-button el-button--primary">
                 保存图片
-            </button>
+            </button> -->
         </template>
     </div>
 </template>

@@ -22,11 +22,11 @@
             background-image: url(../../img/treasure/save_btn_act.png);
         }
     }
-    .u-bind_role{
-        .el-empty__description{
+    .u-bind_role {
+        .el-empty__description {
             color: white;
         }
-        .u-btn{
+        .u-btn {
             display: flex;
             align-items: center;
             justify-content: center;
@@ -486,27 +486,32 @@
     .el-input__prefix {
         left: 1px;
         top: 1px;
-        .r(5px);
     }
 
     .u-prefix {
         .db;
         .h(30px);
         .lh(30px);
-
-        background-color: #f5f7fa;
-        color: #909399;
-
-        border-right: 1px solid #dcdfe6;
-        border-top-left-radius: 4px;
-        border-bottom-left-radius: 4px;
-
+        background: linear-gradient(180deg, #dec699 0%, #ffffff 100%);
+        border-right: 1px solid #81453e;
         padding: 0 10px;
         white-space: nowrap;
+        .r(4px 0 0 4px);
+        .color(#81453e);
+        .fz(14px);
     }
 
     .el-input--prefix .el-input__inner {
         padding-left: 85px;
+        border: 1px solid #81453e;
+        .r(4px);
+        color: #8f7c64;
+        .fz(14px);
+    }
+    .el-input__suffix {
+        .el-input__icon {
+            color: #8f7c64;
+        }
     }
 }
 
