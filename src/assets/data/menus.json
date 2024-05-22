@@ -5,6 +5,13 @@
         "index": "1",
         "submenus": [
             {
+                "path": "/exterior",
+                "label": "外观大全",
+                "icon": "el-icon-download",
+                "key": "exterior",
+                "status": true
+            },
+            {
                 "path": "/face",
                 "label": "捏脸数据",
                 "icon": "el-icon-download",
