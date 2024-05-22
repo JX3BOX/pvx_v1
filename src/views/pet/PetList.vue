@@ -24,12 +24,7 @@
                     <div class="u-all" @click="setActive(item.class)">查看全部</div>
                 </div>
                 <div class="m-pet-list">
-                    <pet-item
-                        :style="!isPhone ? `width: calc(100% / ${per_page} - 20px)` : ''"
-                        v-for="pet in item.list"
-                        :key="pet.id"
-                        :petObject="pet"
-                    />
+                    <pet-item v-for="pet in item.list" :key="pet.id" :petObject="pet" />
                 </div>
             </div>
         </template>
