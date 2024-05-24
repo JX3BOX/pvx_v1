@@ -1,40 +1,6 @@
 <template>
     <div ref="listRef" class="p-exam" v-loading="loading">
         <PvxSearch class="m-exam-search" :items="searchProps" :initValue="initValue" @search="searchEvent($event)">
-            <a
-                v-if="publishText"
-                class="u-search-btn"
-                :class="`u-publish__${search.type}`"
-                :href="publishLink"
-                slot="default"
-            >
-                <i v-if="search.type === 1" class="el-icon-warning"></i>
-                <span>{{ publishText }}</span>
-            </a>
-            <!-- <div v-if="[2, 3].includes(search.type)" class="m-exam-search__extra" slot="extra">
-                <div class="u-extra-title">筛选 <i class="el-icon-caret-top"></i></div>
-                <div class="m-filter-tags">
-                    <span
-                        @click="selected(item)"
-                        class="u-tag"
-                        v-for="(item, i) in tags"
-                        :key="i"
-                        :class="search.tag === item.key ? 'is-active' : ''"
-                        >{{ item.value }}</span
-                    >
-                </div>
-                <div class="m-filter-tags">
-                    <span
-                        @click="switchClient(item)"
-                        class="u-tag"
-                        v-for="(item, i) in clients"
-                        :key="i"
-                        :class="search.client === item.key ? 'is-active' : ''"
-                        >{{ item.value }}</span
-                    >
-                </div>
-            </div> -->
-
             <el-button
                 type="primary"
                 size="medium"
@@ -155,20 +121,6 @@ export default {
         };
     },
     computed: {
-        publishText: function () {
-            let text = "";
-            const type = this.search.type;
-            // if (type === 1) {
-            //     text = "缺题补充";
-            // }
-            if (type === 2) {
-                text = "我要出题";
-            }
-            if (type === 3) {
-                text = "我要出卷";
-            }
-            return text;
-        },
         publishLink() {
             let type = "question";
             if (this.search.type === 3) {
@@ -277,23 +229,7 @@ export default {
             },
         },
     },
-    methods: {
-        toPublish() {
-            if (!User.isLogin()) {
-                User.toLogin();
-                return;
-            }
-            const type = this.search.type;
-            if (type === 1) {
-                this.$router.push({ name: "gameQuestionPublish" });
-            }
-            if (type === 2) {
-                this.$router.push({ name: "questionPublish" });
-            }
-            if (type === 3) {
-                this.$router.push({ name: "paperPublish" });
-            }
-        },
+    methods: { 
         load() {
             const type = ~~this.search.type;
             if (type === 2) {
@@ -302,13 +238,7 @@ export default {
             if (type === 3) {
                 this.loadMethod(getExamPaperList);
             }
-        },
-        selected(val) {
-            this.search.tag = val.key;
-        },
-        switchClient(val) {
-            this.search.client = val.key;
-        },
+        }, 
         searchEvent(data) {
             const search = cloneDeep(this.search);
             this.search = {
@@ -350,9 +280,8 @@ export default {
         pageChange() {
             this.load();
         },
-        openLink(id) {
-            const link = id === 2 ? "/publish/#/question" : "/publish/#/paper";
-            window.open(__Root + link, "_blank");
+        openLink() {
+            window.open(__Root + this.publishLink, "_blank");
         },
     },
     mounted() {
