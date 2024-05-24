@@ -126,7 +126,7 @@ export default {
             if (this.search.type === 3) {
                 type = "paper";
             }
-            return "/publish/#/" + type;
+            return "publish/#/" + type;
         },
         tags() {
             return tags.map((item) => {
