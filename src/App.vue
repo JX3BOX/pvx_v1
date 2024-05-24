@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import Nav from "@/components/Nav_v4.vue";
+import Nav from "@/components/Nav_v5.vue";
 import PvxBacktop from "@/components/PvxBacktop.vue";
 export default {
     name: "App",
@@ -23,7 +23,7 @@ export default {
     components: { Nav, PvxBacktop },
     methods: {
         statusChange(navStatusClass) {
-            this.navStatusClass = navStatusClass;
+            // this.navStatusClass = navStatusClass;
         },
     },
 };
