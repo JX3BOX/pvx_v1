@@ -78,6 +78,12 @@ module.exports = {
             template: "public/index.html",
             filename: "exam/index.html",
         },
+        exterior: {
+            title: "外观大全 - JX3BOX",
+            entry: "src/pages/exterior.js",
+            template: "public/index.html",
+            filename: "exterior/index.html",
+        },
     },
 
     outputDir: process.env["BUILD_MODE"] == "preview" ? path.resolve(__dirname, pkg.name) : 'dist', // 指定构建输出的目录
