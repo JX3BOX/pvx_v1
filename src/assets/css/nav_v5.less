@@ -3,18 +3,31 @@
 .m-pvx-box {
     .w(@box_width);
     border-radius: 0px 10px 10px 0px;
-    background: #fff;
+    background: #252328;
     /* 黑色阴影-中浓度 */
     box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.25);
     position: fixed;
     z-index: 600;
-    transition: width 0.3s;
+    transition: width 0.5s ease-in-out;
     left: 0;
     top: @header-height+40px;
     box-sizing: border-box;
     border-right: 1px solid rgba(0, 0, 0, 0.1);
-    overflow: visible;
     padding: 20px;
+    .clip;
+    &.close {
+        .w(32px);
+        padding: 8px 2px;
+        .u-btn {
+            .flex;
+            .pointer;
+            .fz(14px);
+            color: #ffdead;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+    }
 }
 .m-pvx-aside {
     position: fixed;
@@ -32,26 +45,14 @@
             .u-icon {
                 fill: #a3a5a7;
             }
+            &:hover {
+                .u-icon {
+                    fill: #ffdead;
+                }
+            }
         }
     }
-    .u-btn {
-        .pa;
-        top: @header-height+40px;
-        .flex;
-        justify-content: center;
-        align-items: center;
-        .size(25px, auto);
-        transition: all 0.3s;
-        background-color: #fff;
-        border-top-right-radius: 10px;
-        border-bottom-right-radius: 10px;
-        cursor: pointer;
-        color: #9f9f9f;
-        flex-direction: column;
-        padding: 8px 2px;
-        .fz(16px);
-        box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.25);
-    }
+
     .m-nav-item {
         .u-nav-icon {
             .pr;
@@ -82,9 +83,7 @@
             box-shadow: 0px 0px 10px #ffffff77;
         }
     }
-    &.is-opened {
-        //
-    }
+
     &.is-closed {
         @keyframes scale-springback {
             0% {
@@ -115,8 +114,9 @@
             .u-btn-item {
                 .x;
                 animation: scale-pringback-children 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-                .u-svg {
-                    .size(16px);
+                .u-icon {
+                    .size(14px);
+                    fill: #ffdead;
                 }
             }
         }
@@ -137,11 +137,12 @@
             .mt(30px);
         }
         .u-menu-title {
-            color: #9f9f9f;
             .fz(12px);
             .bold(700);
-            line-height: normal;
             .mb(10px);
+            color: #9f9f9f;
+            line-height: normal;
+            cursor: default;
         }
         .m-nav-item-box {
             .flex;
@@ -178,14 +179,14 @@
             &:hover {
                 .u-nav-label {
                     .flex;
-                    color: #000;
+                    color: #ffdead;
                 }
             }
 
             &.is-active {
                 a {
                     span {
-                        color: #000;
+                        color: #ffdead;
                         // .bold;
                     }
                 }
