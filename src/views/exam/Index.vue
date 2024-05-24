@@ -34,6 +34,17 @@
                     >
                 </div>
             </div> -->
+
+            <el-button
+                type="primary"
+                size="medium"
+                class="u-analysis"
+                slot="extra"
+                v-if="search.type == 3"
+                @click="openLink"
+            >
+                新增试题
+            </el-button>
         </PvxSearch>
         <div class="m-exam-content">
             <ImperialExamList v-if="search.type === 1" :search="search.title" :data="data"></ImperialExamList>
@@ -68,7 +79,7 @@ import ImperialExamList from "@/components/exam/imperial_exam_list.vue";
 import PaperList from "@/components/exam/paper_list.vue";
 import QuestionList from "@/components/exam/question_list.vue";
 import tags from "@/assets/data/exam_tags.json";
-import { __clients } from "@jx3box/jx3box-common/data/jx3box.json";
+import { __clients, __Root } from "@jx3box/jx3box-common/data/jx3box.json";
 import { cloneDeep } from "lodash";
 import { deleteNull } from "@/utils/index";
 import User from "@jx3box/jx3box-common/js/user";
@@ -338,6 +349,9 @@ export default {
         },
         pageChange() {
             this.load();
+        },
+        openLink() {
+            window.open(`${__Root}publish/#/question`, "_blank");
         },
     },
     mounted() {
