@@ -1,50 +1,51 @@
 <template>
     <aside class="m-pvx-aside" :class="navStatusClass" v-show="active !== 'pvx'">
-        <div class="m-pvx-box" @mouseleave="toLeft" v-if="navStatus">
-            <div class="u-home-wrap" :class="active === 'pvx' && 'is-active'">
-                <a class="u-home" :class="active" href="/pvx">
-                    <img src="@/assets/img/nav/home.svg" svg-inline class="u-icon" />
-                </a>
-            </div>
-            <div class="m-pvx-nav" v-if="clientMenus.length">
-                <div class="m-nav-group" :class="group.key" v-for="group in clientMenus" :key="group.key">
-                    <div class="u-menu-title" v-if="group.menuTitle">
-                        {{ group.menuTitle }}
-                    </div>
-                    <div class="m-nav-item-box">
-                        <div
-                            class="m-nav-item"
-                            v-for="item in group.submenus"
-                            :key="item.key"
-                            :class="[{ 'is-active': active == item.key }, item.key]"
-                            v-show="item.status"
-                        >
-                            <a :href="item.path" :target="item.target || '_self'">
-                                <div class="u-nav-icon">
-                                    <img
-                                        svg-inline
-                                        :src="require(`../assets/img/nav/${item.key}.svg`)"
-                                        class="u-icon"
-                                    />
-                                    <img
-                                        svg-inline
-                                        :src="require(`../assets/img/nav/${item.key}2.svg`)"
-                                        class="u-icon-hover"
-                                    />
-                                </div>
+        <div :class="`m-pvx-box ${navStatus ? 'open' : 'close'}`" @mouseleave="toLeft">
+            <template v-if="navStatus">
+                <div class="u-home-wrap" :class="active === 'pvx' && 'is-active'">
+                    <a class="u-home" :class="active" href="/pvx">
+                        <img src="@/assets/img/nav/home.svg" svg-inline class="u-icon" />
+                    </a>
+                </div>
+                <div class="m-pvx-nav" v-if="clientMenus.length">
+                    <div class="m-nav-group" :class="group.key" v-for="group in clientMenus" :key="group.key">
+                        <div class="u-menu-title" v-if="group.menuTitle">
+                            {{ group.menuTitle }}
+                        </div>
+                        <div class="m-nav-item-box">
+                            <div
+                                class="m-nav-item"
+                                v-for="item in group.submenus"
+                                :key="item.key"
+                                :class="[{ 'is-active': active == item.key }, item.key]"
+                                v-show="item.status"
+                            >
+                                <a :href="item.path" :target="item.target || '_self'">
+                                    <div class="u-nav-icon">
+                                        <img
+                                            svg-inline
+                                            :src="require(`../assets/img/nav/${item.key}.svg`)"
+                                            class="u-icon"
+                                        />
+                                        <img
+                                            svg-inline
+                                            :src="require(`../assets/img/nav/${item.key}2.svg`)"
+                                            class="u-icon-hover"
+                                        />
+                                    </div>
 
-                                <span class="u-nav-label">{{ item.label }}</span>
-                            </a>
+                                    <span class="u-nav-label">{{ item.label }}</span>
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-
-        <div class="u-btn" v-else @mouseenter="toRight">
-            <div class="u-btn-item">
-                <img class="u-svg" src="../assets/img/nav/op.svg" svg-inline />
-                <div>菜<br />单</div>
+            </template>
+            <div class="u-btn" v-else @mouseenter="toRight">
+                <div class="u-btn-item">
+                    <img class="u-icon" src="@/assets/img/nav/op.svg" svg-inline />
+                    <div>菜<br />单</div>
+                </div>
             </div>
         </div>
     </aside>
