@@ -40,10 +40,10 @@
                 size="medium"
                 class="u-analysis"
                 slot="extra"
-                v-if="search.type == 3"
-                @click="openLink"
+                v-if="search.type == 2 || search.type == 3"
+                @click="openLink(search.type)"
             >
-                新增试题
+                {{ search.type === 2 ? "我要出题" : "我要出卷" }}
             </el-button>
         </PvxSearch>
         <div class="m-exam-content">
@@ -350,8 +350,9 @@ export default {
         pageChange() {
             this.load();
         },
-        openLink() {
-            window.open(`${__Root}publish/#/question`, "_blank");
+        openLink(id) {
+            const link = id === 2 ? "/publish/#/question" : "/publish/#/paper";
+            window.open(__Root + link, "_blank");
         },
     },
     mounted() {
