@@ -13,10 +13,13 @@
 </template>
 
 <script>
-import Nav from "@/components/Nav_v4.vue";
+import Nav from "@/components/Nav_v5.vue";
+import { __imgPath, __dataPath } from "@jx3box/jx3box-common/data/jx3box.json";
 export default {
     name: "App",
-    provide: {},
+    provide: {
+        __imgPath,
+    },
     data: function () {
         return {
             navStatusClass: "is-regular",
