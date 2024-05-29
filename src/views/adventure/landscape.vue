@@ -1,17 +1,21 @@
 <template>
     <div class="m-body">
-        <a class="u-go_back" href="#" onclick="history.back(); return false;">返回主页</a>
+        <a class="u-go_back" href="/adventure">返回主页</a>
         <template v-if="!isLogin">
             <div class="u-bind_role">
                 <el-empty description="您还没有登录" :image="__imgPath + `/img/common/empty.png`" :image-size="200">
-                    <a class="el-button el-button--primary" :href="login_url">前往登录 <i class="el-icon-arrow-right"></i></a>
+                    <a class="el-button el-button--primary" :href="login_url"
+                        >前往登录 <i class="el-icon-arrow-right"></i
+                    ></a>
                 </el-empty>
             </div>
         </template>
         <template v-else-if="noRole">
             <div class="u-bind_role">
                 <el-empty description="当前暂未绑定角色" :image="__imgPath + `/img/common/empty.png`" :image-size="200">
-                    <a class="el-button el-button--primary" href="/team/role/bind">前往绑定 <i class="el-icon-arrow-right"></i></a>
+                    <a class="el-button el-button--primary" href="/team/role/bind"
+                        >前往绑定 <i class="el-icon-arrow-right"></i
+                    ></a>
                 </el-empty>
             </div>
         </template>
@@ -196,9 +200,12 @@
                     </div>
                 </div>
             </div>
-            <button v-if="isOver" @click="saveAsImage" class="u-btn m-hide el-button el-button--primary">
-                保存图片
-            </button>
+            <div class="m-treasure-footer">
+                <a class="u-btn m-hide el-button el-button--primary" href="/tool/74559" target="_blank">同步数据</a>
+                <button v-if="isOver" @click="saveAsImage" class="u-btn m-hide el-button el-button--primary">
+                    保存图片
+                </button>
+            </div>
         </template>
     </div>
 </template>
