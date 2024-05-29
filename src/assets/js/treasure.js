@@ -20,7 +20,7 @@ const perfectAchievement = {
 let formatDateTime = (dateTimeString) => {
     const dateTime = new Date(dateTimeString);
     const year = dateTime.getFullYear();
-    const month = String(dateTime.getMonth() + 1).padStart(2, '0'); 
+    const month = String(dateTime.getMonth() + 1).padStart(2, '0');
     const date = String(dateTime.getDate()).padStart(2, '0');
     const hours = String(dateTime.getHours()).padStart(2, '0');
     const minutes = String(dateTime.getMinutes()).padStart(2, '0');
@@ -63,7 +63,7 @@ let getData = (userJx3Id) => {
                 }).then((res) => {
                     const achievementsList = [];
                     let actNum = 0;
-                    res.data.list.forEach((item) => {
+                    res?.data?.list?.forEach((item) => {
                         if (type == "perfect") {
                             item.isAct = false;
                             if (list.includes(item.dwID)) {
