@@ -200,9 +200,12 @@
                     </div>
                 </div>
             </div>
-            <button v-if="isOver" @click="saveAsImage" class="u-btn m-hide el-button el-button--primary">
-                保存图片
-            </button>
+            <div class="m-treasure-footer">
+                <a class="u-btn m-hide el-button el-button--primary" href="/tool/74559" target="_blank">同步数据</a>
+                <button v-if="isOver" @click="saveAsImage" class="u-btn m-hide el-button el-button--primary">
+                    保存图片
+                </button>
+            </div>
         </template>
     </div>
 </template>

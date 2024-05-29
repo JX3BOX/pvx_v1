@@ -81,7 +81,7 @@ let getData = (userJx3Id) => {
                             }
                         }
                     });
-                    returnData[`${type}AllNum`] = res.data.list.length;
+                    returnData[`${type}AllNum`] = res?.data?.list?.length || 0;
                     returnData[`${type}NowNum`] = actNum;
                     returnData[type] = achievementsList;
                 });
