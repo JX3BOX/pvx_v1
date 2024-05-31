@@ -16,7 +16,7 @@ reporter.install(Vue);
 
 // 数据与路由
 import router from "../router/exterior";
-import store from "../store";
+import store from "../store/exterior";
 
 import App from "@/views/exterior/index.vue";
 new Vue({

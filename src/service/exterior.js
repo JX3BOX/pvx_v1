@@ -1,4 +1,4 @@
-import { $node } from "@jx3box/jx3box-common/js/https";
+import { $node, $cms } from "@jx3box/jx3box-common/js/https";
 
 // 外观类型列表
 function getExteriorsTypes() {
@@ -24,4 +24,31 @@ function getExteriorsPriceTrending(params) {
     });
 }
 
-export { getExteriorsTypes, getExteriorsList, getExteriorsDetail, getExteriorsPriceTrending };
+// 用户入库外观
+function entWarehouse(params) {
+    return $cms().post(`/api/cms/pvx/exterior/user/store`, {
+        params,
+    });
+}
+
+// 用户查看自己关注的外观列表
+function exteriorUserStar(params) {
+    return $cms().get(`/api/cms/pvx/exterior/user/star`, {
+        params,
+    });
+}
+
+// 用户获取/关注/取消收藏外观
+function userStarExterior(type, id, params) {
+    return $cms()[type](`/api/cms/pvx/exterior/user/star/${id}`, params);
+}
+
+export {
+    getExteriorsTypes,
+    getExteriorsList,
+    getExteriorsDetail,
+    getExteriorsPriceTrending,
+    entWarehouse,
+    exteriorUserStar,
+    userStarExterior,
+};
