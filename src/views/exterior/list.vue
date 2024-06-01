@@ -184,30 +184,42 @@
             </div>
             <div class="m-action">
                 <div class="m-close">
-                    <div class="u-action u-close" @click="pageStatus = 'list'">
+                    <div class="u-action u-close" @click="pageStatus = 'list'" :class="[selectColor]">
                         <img class="u-img" src="@/assets/img/exterior/icon/close.png" />
                     </div>
                 </div>
                 <div class="m-quick">
                     <div class="u-action u-like" @click="userStar">
                         <div class="m-img__pr" v-if="!exteriorDetail.isStar">
-                            <img class="u-img" src="@/assets/img/exterior/icon/mdi_heart.png" />
-                            <img class="u-img u-img__hover" src="@/assets/img/exterior/icon/mdi_heart_act.png" />
+                            <img class="u-img" src="@/assets/img/exterior/icon/mdi_heart.svg" />
+                            <img class="u-img u-img__hover" src="@/assets/img/exterior/icon/mdi_heart_act.svg" />
                         </div>
                         <template v-else>
-                            <img class="u-img" src="@/assets/img/exterior/icon/mdi_heart_act.png" />
-                            <img class="u-img u-img__fill" src="@/assets/img/exterior/icon/ri_dislike-fill.png" />
+                            <img class="u-img" src="@/assets/img/exterior/icon/mdi_heart_act.svg" />
+                            <img class="u-img u-img__fill" src="@/assets/img/exterior/icon/ri_dislike-fill.svg" />
                         </template>
                         <div class="u-text">{{ `${userStarExteriorList.length}/5` }}</div>
                     </div>
                     <div class="u-action u-bag" @click="userEntWarehouse">
-                        <img class="u-img" src="@/assets/img/exterior/icon/solar_inbox-in-bold.png" />
+                        <div class="m-img__pr">
+                            <img class="u-img" src="@/assets/img/exterior/icon/solar_inbox-in-bold.png" />
+                            <img
+                                class="u-img u-img__hover"
+                                src="@/assets/img/exterior/icon/solar_inbox-in-bold_act.svg"
+                            />
+                        </div>
                     </div>
                     <div class="u-action u-wbl" @click="jumpWBL">
                         <img class="u-img" src="@/assets/img/exterior/icon/wbl-icon.png" />
                     </div>
                     <div class="u-action u-unfold" @click="pageStatus = 'unfold'">
-                        <img class="u-img" src="@/assets/img/exterior/icon/icomoon-free_new-tab.png" />
+                        <div class="m-img__pr">
+                            <img class="u-img" src="@/assets/img/exterior/icon/icomoon-free_new-tab.svg" />
+                            <img
+                                class="u-img u-img__hover"
+                                src="@/assets/img/exterior/icon/icomoon-free_new-tab_act.svg"
+                            />
+                        </div>
                     </div>
                 </div>
                 <div class="m-change_bg">

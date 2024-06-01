@@ -177,6 +177,7 @@
                 }
                 .m-archive-pages {
                     .x();
+                    .pb(40px);
                     li {
                         background-color: white;
                         &:hover {
@@ -428,12 +429,6 @@
                     .r(50%);
                 }
                 &.u-close {
-                    background: var(
-                        --Pink,
-                        linear-gradient(0deg, rgba(255, 255, 255, 0.46) 0%, rgba(255, 255, 255, 0.46) 100%),
-                        linear-gradient(180deg, #fe9991 -122.92%, #ffd5bc 67%)
-                    );
-                    box-shadow: 0px 0px 10px 0px #ffe3d7;
                 }
                 &.u-like {
                     background: #ff4365;
@@ -553,7 +548,8 @@
         }
         .color1 {
             background: linear-gradient(180deg, #fe9991 -122.92%, #ffd5bc 67%);
-            &.m-info {
+            &.m-info,
+            &.u-close {
                 background: var(
                     --Pink,
                     linear-gradient(0deg, rgba(255, 255, 255, 0.46) 0%, rgba(255, 255, 255, 0.46) 100%),
@@ -564,7 +560,8 @@
         }
         .color2 {
             background: linear-gradient(180deg, #2aa7af -17.5%, #ffd5bc 182.5%);
-            &.m-info {
+            &.m-info,
+            &.u-close {
                 background: var(
                     --sky,
                     linear-gradient(0deg, rgba(255, 255, 255, 0.46) 0%, rgba(255, 255, 255, 0.46) 100%),
@@ -575,7 +572,8 @@
         }
         .color3 {
             background: linear-gradient(171deg, #ffdb5a -4.09%, #ffd5bc 95.63%);
-            &.m-info {
+            &.m-info,
+            &.u-close {
                 background: var(
                     --orange,
                     linear-gradient(0deg, rgba(255, 255, 255, 0.46) 0%, rgba(255, 255, 255, 0.46) 100%),
