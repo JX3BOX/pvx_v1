@@ -1,39 +1,16 @@
 <template>
     <div ref="listRef" class="p-exam" v-loading="loading">
         <PvxSearch class="m-exam-search" :items="searchProps" :initValue="initValue" @search="searchEvent($event)">
-            <a
-                v-if="publishText"
-                class="u-search-btn"
-                :class="`u-publish__${search.type}`"
-                :href="publishLink"
-                slot="default"
+            <el-button
+                type="primary"
+                size="medium"
+                class="u-analysis"
+                slot="extra"
+                v-if="search.type == 2 || search.type == 3"
+                @click="openLink(search.type)"
             >
-                <i v-if="search.type === 1" class="el-icon-warning"></i>
-                <span>{{ publishText }}</span>
-            </a>
-            <!-- <div v-if="[2, 3].includes(search.type)" class="m-exam-search__extra" slot="extra">
-                <div class="u-extra-title">筛选 <i class="el-icon-caret-top"></i></div>
-                <div class="m-filter-tags">
-                    <span
-                        @click="selected(item)"
-                        class="u-tag"
-                        v-for="(item, i) in tags"
-                        :key="i"
-                        :class="search.tag === item.key ? 'is-active' : ''"
-                        >{{ item.value }}</span
-                    >
-                </div>
-                <div class="m-filter-tags">
-                    <span
-                        @click="switchClient(item)"
-                        class="u-tag"
-                        v-for="(item, i) in clients"
-                        :key="i"
-                        :class="search.client === item.key ? 'is-active' : ''"
-                        >{{ item.value }}</span
-                    >
-                </div>
-            </div> -->
+                {{ search.type === 2 ? "我要出题" : "我要出卷" }}
+            </el-button>
         </PvxSearch>
         <div class="m-exam-content">
             <ImperialExamList v-if="search.type === 1" :search="search.title" :data="data"></ImperialExamList>
@@ -68,7 +45,7 @@ import ImperialExamList from "@/components/exam/imperial_exam_list.vue";
 import PaperList from "@/components/exam/paper_list.vue";
 import QuestionList from "@/components/exam/question_list.vue";
 import tags from "@/assets/data/exam_tags.json";
-import { __clients } from "@jx3box/jx3box-common/data/jx3box.json";
+import { __clients, __Root } from "@jx3box/jx3box-common/data/jx3box.json";
 import { cloneDeep } from "lodash";
 import { deleteNull } from "@/utils/index";
 import User from "@jx3box/jx3box-common/js/user";
@@ -144,26 +121,12 @@ export default {
         };
     },
     computed: {
-        publishText: function () {
-            let text = "";
-            const type = this.search.type;
-            // if (type === 1) {
-            //     text = "缺题补充";
-            // }
-            if (type === 2) {
-                text = "我要出题";
-            }
-            if (type === 3) {
-                text = "我要出卷";
-            }
-            return text;
-        },
         publishLink() {
             let type = "question";
             if (this.search.type === 3) {
                 type = "paper";
             }
-            return "/publish/#/" + type;
+            return "publish/#/" + type;
         },
         tags() {
             return tags.map((item) => {
@@ -266,23 +229,7 @@ export default {
             },
         },
     },
-    methods: {
-        toPublish() {
-            if (!User.isLogin()) {
-                User.toLogin();
-                return;
-            }
-            const type = this.search.type;
-            if (type === 1) {
-                this.$router.push({ name: "gameQuestionPublish" });
-            }
-            if (type === 2) {
-                this.$router.push({ name: "questionPublish" });
-            }
-            if (type === 3) {
-                this.$router.push({ name: "paperPublish" });
-            }
-        },
+    methods: { 
         load() {
             const type = ~~this.search.type;
             if (type === 2) {
@@ -291,13 +238,7 @@ export default {
             if (type === 3) {
                 this.loadMethod(getExamPaperList);
             }
-        },
-        selected(val) {
-            this.search.tag = val.key;
-        },
-        switchClient(val) {
-            this.search.client = val.key;
-        },
+        }, 
         searchEvent(data) {
             const search = cloneDeep(this.search);
             this.search = {
@@ -338,6 +279,9 @@ export default {
         },
         pageChange() {
             this.load();
+        },
+        openLink() {
+            window.open(__Root + this.publishLink, "_blank");
         },
     },
     mounted() {

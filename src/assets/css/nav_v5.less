@@ -14,10 +14,13 @@
     box-sizing: border-box;
     border-right: 1px solid rgba(0, 0, 0, 0.1);
     padding: 20px;
-    .clip;
+    max-height: calc(100vh - @header-height - 50px);
+    overflow-y: auto;
+    overflow-x: hidden;
     &.close {
         .w(32px);
         padding: 8px 2px;
+        .clip;
         .u-btn {
             .flex;
             .pointer;
