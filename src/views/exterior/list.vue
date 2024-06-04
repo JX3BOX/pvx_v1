@@ -212,7 +212,7 @@
                     <div class="u-action u-wbl" @click="jumpWBL">
                         <img class="u-img" src="@/assets/img/exterior/icon/wbl-icon.png" />
                     </div>
-                    <div class="u-action u-unfold" @click="pageStatus = 'unfold'">
+                    <div class="u-action u-unfold" @click="window.open(`${location.href}?id=${exteriorDetail.id}`)">
                         <div class="m-img__pr">
                             <img class="u-img" src="@/assets/img/exterior/icon/icomoon-free_new-tab.svg" />
                             <img
@@ -252,13 +252,9 @@
 import { Chart } from "@antv/g2";
 import CommonToolbar from "@/components/common/toolbar.vue";
 import { __clients } from "@jx3box/jx3box-common/data/jx3box.json";
-import {
-    getExteriorsList,
-    getExteriorsDetail,
-    getExteriorsPriceTrending,
-    entWarehouse,
-    userStarExterior,
-} from "@/service/exterior";
+import { getExteriorsList, getExteriorsDetail, getExteriorsPriceTrending, userStarExterior } from "@/service/exterior";
+import { __Links } from "@jx3box/jx3box-common/data/jx3box.json";
+import User from "@jx3box/jx3box-common/js/user";
 export default {
     name: "ExamList",
     components: {
@@ -287,6 +283,8 @@ export default {
             trendChart: null,
             searchKey: "",
             searchTime: "",
+
+            login_url: __Links.account.login + "?redirect=" + location.href,
         };
     },
     computed: {
@@ -423,6 +421,10 @@ export default {
             });
         },
         userStar() {
+            if (!User.isLogin()) {
+                location.href = this.login_url;
+                return;
+            }
             let reqType = this.exteriorDetail.isStar ? "delete" : "post";
             userStarExterior(reqType, this.exteriorDetail.id, {
                 order: 0,

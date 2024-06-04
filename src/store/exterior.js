@@ -1,6 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import { exteriorUserStar } from "@/service/exterior";
+import User from "@jx3box/jx3box-common/js/user";
 
 Vue.use(Vuex);
 
@@ -22,9 +23,11 @@ let store = {
 
     actions: {
         getExteriorUserStar(ctx) {
-            exteriorUserStar().then((res) => {
-                ctx.commit("toExteriorList", res.data.data);
-            });
+            if (User.isLogin()) {
+                exteriorUserStar().then((res) => {
+                    ctx.commit("toExteriorList", res.data.data);
+                });
+            }
         },
     },
 };
