@@ -26,6 +26,13 @@
                                 <div class="u-title">{{ item.name }}</div>
                             </div>
                         </div>
+                        <el-empty
+                            v-if="!otherExteriorList.length"
+                            description="未找到您要找的物品"
+                            :image="__imgPath + `/img/common/empty.png`"
+                            :image-size="200"
+                        >
+                        </el-empty>
                     </div>
                 </template>
                 <template v-else>
@@ -212,7 +219,7 @@
                     <div class="u-action u-wbl" @click="jumpWBL">
                         <img class="u-img" src="@/assets/img/exterior/icon/wbl-icon.png" />
                     </div>
-                    <div class="u-action u-unfold" @click="window.open(`${location.href}?id=${exteriorDetail.id}`)">
+                    <div class="u-action u-unfold" @click="openNewDetail">
                         <div class="m-img__pr">
                             <img class="u-img" src="@/assets/img/exterior/icon/icomoon-free_new-tab.svg" />
                             <img
@@ -325,6 +332,15 @@ export default {
         // 获取其他类的外观
         this.getListData();
         this.$store.dispatch("getExteriorUserStar");
+
+        if (this.$route.query?.id) {
+            this.openDetail(
+                {
+                    id: this.$route.query.id,
+                },
+                "unfold"
+            );
+        }
     },
     methods: {
         updateToolbar(data) {
@@ -333,7 +349,7 @@ export default {
                 this.searchKey = data.search;
             }, 500);
         },
-        openDetail(itemData) {
+        openDetail(itemData, type) {
             getExteriorsDetail(itemData.id).then((res) => {
                 res.data.data.isStar = this.userStarExteriorList.some((item) => item.exterior_id === res.data.data.id);
                 this.exteriorDetail = res.data.data;
@@ -363,11 +379,16 @@ export default {
                     }
                 });
                 this.bodySelectKey = this.bodyList.length > 1 ? this.bodyList[0]?.key : "";
-                if (window.innerWidth < 1280) {
-                    this.pageStatus = "unfold";
+                if (type) {
+                    this.pageStatus = type;
                 } else {
-                    this.pageStatus = "fewer";
+                    if (window.innerWidth < 1280) {
+                        this.pageStatus = "unfold";
+                    } else {
+                        this.pageStatus = "fewer";
+                    }
                 }
+
                 this.$nextTick(() => {
                     setTimeout(() => {
                         getExteriorsPriceTrending({
@@ -454,6 +475,9 @@ export default {
         },
         jumpWBL() {
             window.open("https://jx3.seasunwbl.com/buyer?t=skin", "_blank");
+        },
+        openNewDetail() {
+            window.open(`${location.origin}/exterior?id=${this.exteriorDetail.id}`);
         },
     },
 };

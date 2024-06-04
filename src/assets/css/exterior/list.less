@@ -98,11 +98,11 @@
     }
     .m-left {
         transition: 0.3s all;
-        max-height: calc(100vh - @header-height - 80px);
         padding: 40px 10px;
         width: 100%;
         .m-list {
             box-shadow: 0px 0px 10px 0px rgba(218, 128, 41, 0.3);
+            max-height: calc(100vh - @header-height - 180px);
             .r(10px);
             .mt(40px);
             padding: 20px;
@@ -192,6 +192,18 @@
                     .btn-prev,
                     .btn-next {
                         background-color: white;
+                    }
+                }
+                .el-empty {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    flex-direction: column;
+                    text-align: center;
+                    box-sizing: border-box;
+                    padding: 40px 0;
+                    .el-empty__description {
+                        .color(#DA8029);
                     }
                 }
                 &:not(:first-child) {
@@ -584,7 +596,7 @@
             }
         }
     }
-    .m-left,
+    .m-list,
     .m-right .m-info__scroll {
         overflow-y: scroll;
         &::-webkit-scrollbar {
