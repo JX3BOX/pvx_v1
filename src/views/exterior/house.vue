@@ -36,7 +36,7 @@
                         <div class="u-item" v-for="index in 8" :key="index">{{ index }}</div>
                     </div>
                     <div class="m-goods">
-                        <div class="m-item">
+                        <div class="m-item" v-for="index in 8" :key="index">
                             <div class="m-item__top">
                                 <div class="u-logo"></div>
                                 <div class="m-info">
