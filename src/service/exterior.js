@@ -43,6 +43,15 @@ function userStarExterior(type, id, params) {
     return $cms()[type](`/api/cms/pvx/exterior/user/star/${id}`, params);
 }
 
+// 获取用户信息
+function getMyInfo() {
+    return $cms().get(`/api/cms/user/my/info`, {
+        params: {
+            __no_cache: 1,
+        },
+    });
+}
+
 export {
     getExteriorsTypes,
     getExteriorsList,
@@ -51,4 +60,5 @@ export {
     entWarehouse,
     exteriorUserStar,
     userStarExterior,
+    getMyInfo,
 };

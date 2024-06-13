@@ -1,0 +1,208 @@
+.p-main {
+    .pt(40px);
+    .comLayout {
+        .r(20px);
+        box-shadow: 0px 0px 10px 0px rgba(243, 202, 162, 0.9);
+    }
+    .comTrTime {
+        transition: 0.2s all;
+    }
+    .m-left {
+        .w(280px);
+        .m-author {
+            .comLayout();
+            .pr();
+            padding: 20px 15px;
+            background-image: url(../../img/exterior/house/atcard.png);
+            background-size: cover;
+            .u-avatar {
+                .db();
+                .size(80px);
+                background-color: black;
+                .r(50%);
+            }
+            .u-icon {
+                .pa();
+                .rt(10px);
+                .w(18px);
+                .comTrTime();
+                fill: #000000;
+                fill-opacity: 0.3;
+                &:hover {
+                    fill: #da8029;
+                    fill-opacity: 1;
+                }
+                &:active {
+                    fill: #da8029;
+                    fill-opacity: 0.5;
+                }
+            }
+        }
+        .m-sidebar_warehouse {
+            background-color: #f6d8ba;
+            padding: 14px;
+            .comLayout();
+            .mt(30px);
+            .m-top {
+                .flex();
+                .flex(y);
+                justify-content: space-between;
+                .m-top_left {
+                    .flex();
+                    .flex(y);
+                    .u-icon {
+                        .w(20px);
+                        .mr(6px);
+                    }
+                    .u-title {
+                        .color(#da8029);
+                        .fz(16px);
+                        .bold();
+                    }
+                }
+                .m-top_right {
+                    .flex();
+                    .flex(y);
+                    .u-icon {
+                        width: 18px;
+                        stroke: #da8029;
+                        .comTrTime();
+                        .pointer();
+                        &:last-child {
+                            .ml(10px);
+                        }
+                        &:hover {
+                            stroke: #ffffff;
+                        }
+                    }
+                }
+            }
+            .u-update {
+                .mt(4px);
+                .color(#da8029);
+                .fz(10px);
+                font-family: Outfit;
+            }
+            .m-price {
+                padding: 20px;
+                background-color: #ffffff;
+                .mt(10px);
+                .r(10px);
+                .m-item {
+                    .color(#000000);
+                    .fz(12px);
+                    .pr();
+                    span {
+                        vertical-align: middle;
+                    }
+                    .u-value {
+                        font-family: Outfit;
+                        .fz(16px);
+                        b {
+                            .color(#DA8029);
+                        }
+                    }
+                    .u-unit {
+                        .pa();
+                        .rt(0,50%);
+                        transform: translateY(-50%);
+                    }
+                    &:last-child {
+                        .mt(16px);
+                    }
+                }
+            }
+        }
+        .m-list {
+            background-color: #ffffff;
+            padding: 10px;
+            .mt(10px);
+            .r(10px);
+            .m-page {
+                .flex();
+                justify-content: space-between;
+                .u-item {
+                    .color(#da8029);
+                    .x();
+                    .fz(14px,18px);
+                    .bold();
+                    font-family: Outfit;
+                }
+            }
+            .m-goods {
+                .mt(10px);
+                .m-item {
+                    .r(10px);
+                    padding: 12px 10px;
+                    background-color: #f9e4cf;
+                    .m-item__top {
+                        .pr();
+                        .flex();
+                        .flex(y);
+                        .u-logo {
+                            .size(36px);
+                            .r(4px);
+                            background-color: white;
+                        }
+                        .m-info {
+                            .ml(10px);
+                            .u-title {
+                                .color(#da8029);
+                                .fz(14px,18px);
+                                .bold();
+                            }
+                            .u-type {
+                                .mt(5px);
+                                .color(#000000);
+                                .fz(10px,13px);
+                            }
+                        }
+                        .u-number {
+                            .pa();
+                            .rb(0);
+                            .color(#000000);
+                            font-family: Outfit;
+                            .fz(14px);
+                            .bold();
+                        }
+                    }
+                    .m-item__bottom {
+                        .mt(10px);
+                        .m-detail {
+                            .flex();
+                            justify-content: space-between;
+                            .fz(12px,16px);
+                            gap: 12px;
+                            .m-detail__box {
+                                .flex();
+                                .r(4px);
+                                flex: 1;
+                                overflow: hidden;
+                                .u-title {
+                                    background-color: #da8029;
+                                    color: #ffffff;
+                                    padding: 4px;
+                                }
+                                .u-value {
+                                    background-color: white;
+                                    flex: 1;
+                                    padding: 4px;
+                                    .pr(0);
+                                    color: #000;
+                                    font-family: Outfit;
+                                }
+                            }
+                            &:last-child {
+                                .mt(10px);
+                                .u-value {
+                                    .flex();
+                                    justify-content: space-between;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
