@@ -2,12 +2,37 @@
     <div class="p-main" :class="pageStatus" v-loading="loading">
         <div class="u-back__status" @click="pageStatus = 'list'">返回列表</div>
         <div class="m-left">
-            <CommonToolbar search @update="updateToolbar"></CommonToolbar>
+            <CommonToolbar
+                color="#fff7ef"
+                actColor="#DA8029"
+                search
+                @update="updateToolbar"
+                :types="pageStatus == 'list' ? tabList : []"
+            >
+                <template v-slot:filter v-if="pageStatus == 'fewer'">
+                    <div class="u-filter">
+                        <el-popover placement="bottom-end" trigger="click" v-model="filterOpen">
+                            <div class="m-common-filter">
+                                <el-radio-group v-model="searchType">
+                                    <el-radio-button
+                                        class="u-item"
+                                        v-for="(item, index) in tabList"
+                                        :key="index"
+                                        :label="item.value"
+                                        >{{ item.label }}</el-radio-button
+                                    >
+                                </el-radio-group>
+                            </div>
+                            <img svg-inline src="@/assets/img/filter.svg" slot="reference" />
+                        </el-popover>
+                    </div>
+                </template>
+            </CommonToolbar>
 
             <div class="m-list">
-                <template v-if="searchKey">
+                <template v-if="searchType > 0">
                     <div class="m-box">
-                        <p class="u-box__title">搜索结果</p>
+                        <p class="u-box__title">{{ searchKey ? "搜索结果" : tabList[searchType].label }}</p>
                         <div class="m-new__list">
                             <div
                                 class="m-item"
@@ -19,7 +44,7 @@
                                     <div
                                         class="u-img"
                                         :style="{
-                                            backgroundImage: `url(${getImgPath(item.name + '-封面.png')})`,
+                                            backgroundImage: `url(${getImgPath(item.id + '-封面.png')})`,
                                         }"
                                     ></div>
                                 </div>
@@ -49,7 +74,7 @@
                                     <div
                                         class="u-img"
                                         :style="{
-                                            backgroundImage: `url(${getImgPath(item.name + '-封面.png')})`,
+                                            backgroundImage: `url(${getImgPath(item.id + '-封面.png')})`,
                                         }"
                                     ></div>
                                 </div>
@@ -74,7 +99,7 @@
                                     <div
                                         class="u-img"
                                         :style="{
-                                            backgroundImage: `url(${getImgPath(item.name + '-封面.png')})`,
+                                            backgroundImage: `url(${iconLink(item.meta.icon_id, client)})`,
                                         }"
                                     ></div>
                                     <span class="u-title">{{ item.name }}</span>
@@ -116,7 +141,7 @@
                                 class="u-img"
                                 :style="{
                                     backgroundImage: `url(${getImgPath(
-                                        exteriorDetail.name + '-封面' + bodySelectKey + '.png'
+                                        exteriorDetail.id + '-封面' + bodySelectKey + '.png'
                                     )})`,
                                 }"
                             ></div>
@@ -160,7 +185,7 @@
                                     <div
                                         class="u-img"
                                         :style="{
-                                            backgroundImage: `url(${item.meta.img_urls[0]})`,
+                                            backgroundImage: `url(${iconLink(item.meta.icon_id, client)})`,
                                         }"
                                     ></div>
                                 </div>
@@ -177,7 +202,14 @@
                             <div class="u-title">外观预览</div>
                             <div class="u-line"></div>
                         </div>
-                        <img class="u-exterior" :src="getImgPath(exteriorDetail.name + '-详情-1.png')" />
+                        <template v-for="(item, index) in exteriorDetail.meta.img_urls">
+                            <img
+                                class="u-exterior"
+                                :key="index"
+                                v-if="item.indexOf('详情') > -1"
+                                :src="getImgPath(item)"
+                            />
+                        </template>
                         <div class="m-info__title">
                             <div class="u-line"></div>
                             <div class="u-title">近期价格走势</div>
@@ -258,16 +290,16 @@
 <script>
 import { Chart } from "@antv/g2";
 import CommonToolbar from "@/components/common/toolbar.vue";
-import { __clients } from "@jx3box/jx3box-common/data/jx3box.json";
+import { __clients, __Links } from "@jx3box/jx3box-common/data/jx3box.json";
 import { getExteriorsList, getExteriorsDetail, getExteriorsPriceTrending, userStarExterior } from "@/service/exterior";
-import { __Links } from "@jx3box/jx3box-common/data/jx3box.json";
 import User from "@jx3box/jx3box-common/js/user";
+import { iconLink } from "@jx3box/jx3box-common/js/utils";
 export default {
     name: "ExamList",
     components: {
         CommonToolbar,
     },
-    inject: ["__imgPath"],
+    inject: ["__imgPath", "__cdn"],
     data() {
         return {
             loading: false,
@@ -289,9 +321,22 @@ export default {
 
             trendChart: null,
             searchKey: "",
+            searchType: 0,
             searchTime: "",
 
             login_url: __Links.account.login + "?redirect=" + location.href,
+
+            tabList: [
+                { label: "自定义", list: [], value: 0, client: ["std", "origin"], page: 1, pages: 1 },
+                { label: "物品", list: [], value: 1, client: ["std", "origin"], page: 1, pages: 1 },
+                { label: "外观", list: [], value: 2, client: ["std", "origin"], page: 1, pages: 1 },
+                { label: "头发", list: [], value: 3, client: ["std"], page: 1, pages: 1 },
+                { label: "挂件", list: [], value: 4, client: ["std", "origin"], page: 1, pages: 1 },
+                { label: "脚印&环绕", list: [], value: 5, client: ["std", "origin"], page: 1, pages: 1 },
+                { label: "其他", list: [], value: 6, client: ["std", "origin"], page: 1, pages: 1 },
+                { label: "宠物", list: [], value: 7, client: ["std", "origin"], page: 1, pages: 1 },
+            ],
+            filterOpen: false,
         };
     },
     computed: {
@@ -307,6 +352,7 @@ export default {
                 pageSize: 20,
                 skip: this.searchKey ? 0 : 10,
                 client: this.client,
+                source: this.searchType,
             };
             if (this.searchKey) {
                 _params.keyword = this.searchKey;
@@ -343,11 +389,16 @@ export default {
         }
     },
     methods: {
+        iconLink,
         updateToolbar(data) {
-            clearTimeout(this.searchTime);
-            this.searchTime = setTimeout(() => {
-                this.searchKey = data.search;
-            }, 500);
+            if (data.type != this.searchType) {
+                this.searchType = data.type;
+            } else {
+                clearTimeout(this.searchTime);
+                this.searchTime = setTimeout(() => {
+                    this.searchKey = data.search;
+                }, 500);
+            }
         },
         openDetail(itemData, type) {
             getExteriorsDetail(itemData.id).then((res) => {
@@ -461,7 +512,6 @@ export default {
             // }).then((res) => {});
         },
         splitByColon(text) {
-            console.log(text);
             const regex = /[:：]/;
             const parts = text.split(regex);
             if (parts.length > 1) {
@@ -471,7 +521,7 @@ export default {
             }
         },
         getImgPath(path) {
-            return `${this.__imgPath}exterior/${this.client}/${path}`;
+            return `${this.__cdn}design/exterior/${path}`;
         },
         jumpWBL() {
             window.open("https://jx3.seasunwbl.com/buyer?t=skin", "_blank");

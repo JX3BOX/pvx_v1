@@ -12,6 +12,9 @@
     &.fewer {
         .m-left {
             max-width: 411px;
+            .m-list {
+                max-height: calc(100vh - @header-height - 220px);
+            }
             .m-more__list {
                 .u-more_col {
                     width: 100%;
@@ -42,6 +45,7 @@
         }
         .m-left {
             max-width: 0;
+            max-height: 0;
             overflow: hidden;
             opacity: 0;
         }
@@ -102,7 +106,6 @@
         width: 100%;
         .m-list {
             box-shadow: 0px 0px 10px 0px rgba(218, 128, 41, 0.3);
-            max-height: calc(100vh - @header-height - 180px);
             .r(10px);
             .mt(40px);
             padding: 20px;
@@ -603,6 +606,17 @@
             width: 0;
         }
     }
+
+    .u-filter {
+        &:hover {
+            background-color: #fff7ef;
+            svg {
+                fill: #da8029 !important;
+            }
+        }
+    }
+}
+.m-common-filter {
 }
 // 平板
 @media screen and (max-width: 1133px) {
@@ -611,5 +625,52 @@
 @media screen and (max-width: 768px) {
     .p-main .m-left .m-list .m-box .m-new__list .m-item {
         margin: 0 auto;
+    }
+    .p-main {
+        .m-right {
+            .flex();
+            .mt(0);
+            flex-direction: column-reverse;
+            padding-right: 0 !important;
+            .m-info {
+                .m-info__top {
+                    .db();
+                    .m-detail {
+                        .ml(0);
+                        .m-goods {
+                            flex-wrap: wrap;
+                        }
+                    }
+                }
+            }
+            .m-action {
+                .ps();
+                .w(100%);
+                .mb(30px);
+
+                .m-quick {
+                    .flex();
+                    justify-content: center;
+                    .u-action {
+                        &:not(:first-child) {
+                            .mt(0);
+                            .ml(20px);
+                        }
+                    }
+                }
+                .m-change_bg,
+                .m-change_color {
+                    .mt(30px);
+                    .flex();
+                    justify-content: center;
+                    .u-change__btn {
+                        &:not(:first-child) {
+                            .mt(0);
+                            .ml(40px);
+                        }
+                    }
+                }
+            }
+        }
     }
 }

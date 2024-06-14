@@ -51,6 +51,10 @@ export default {
             type: String,
             default: "#6b52ff",
         },
+        actColor:{
+            type: String,
+            default: "#ffffff",
+        },
         active: {
             type: [String, Number],
             default: null,
@@ -86,7 +90,7 @@ export default {
         style(val) {
             const has = this.hover === val || this.type === val;
             const backgroundColor = has ? this.color : "#fff";
-            const color = has ? "#fff" : "#949494";
+            const color = has ? this.actColor : "#949494";
             return { backgroundColor, color };
         },
     },
@@ -101,6 +105,7 @@ export default {
             immediate: true,
             deep: true,
             handler: function (list) {
+                console.log(list);
                 if (list && list.length) {
                     this.type = this.active || list[0].value;
                 }
