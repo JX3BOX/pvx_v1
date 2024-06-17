@@ -1,7 +1,7 @@
 .m-main {
     .pb(0);
 }
-.p-main {
+.p-exterior {
     .flex();
     .pr();
     transition: 0.3s all;
@@ -620,7 +620,7 @@
     .el-button,
     .el-checkbox-button__inner,
     .el-radio-button__inner {
-        margin: 0 10px 0 10px;
+        // margin: 0 10px 0 10px;
         .db;
         .r(30px) !important;
         border: 1px solid #dcdfe6;
@@ -653,15 +653,28 @@
         }
     }
 }
+.m-common-filter {
+    max-width: 360px;
+
+    .el-radio-group {
+        .flex;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+    .u-filter {
+        .mb(10px);
+    }
+}
+
 // 平板
 @media screen and (max-width: 1133px) {
 }
 // 手机
 @media screen and (max-width: 768px) {
-    .p-main .m-left .m-list .m-box .m-new__list .m-item {
+    .p-exterior .m-left .m-list .m-box .m-new__list .m-item {
         margin: 0 auto;
     }
-    .p-main {
+    .p-exterior {
         .m-right {
             .flex();
             .mt(0);

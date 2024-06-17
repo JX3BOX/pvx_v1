@@ -1,5 +1,5 @@
 <template>
-    <div class="p-main" :class="pageStatus" v-loading="loading">
+    <div class="p-exterior" :class="pageStatus" v-loading="loading">
         <div class="u-back__status" @click="pageStatus = 'list'">返回列表</div>
         <div class="m-left">
             <CommonToolbar
@@ -11,7 +11,7 @@
             >
                 <template v-slot:filter v-if="pageStatus == 'fewer'">
                     <div class="u-filter">
-                        <el-popover placement="bottom-end" trigger="click" v-model="filterOpen">
+                        <el-popover placement="bottom-start" trigger="hover" v-model="filterOpen">
                             <div class="m-common-filter">
                                 <el-radio-group v-model="searchType">
                                     <el-radio-button
