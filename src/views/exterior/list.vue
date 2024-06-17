@@ -9,7 +9,7 @@
                 @update="updateToolbar"
                 :types="pageStatus == 'list' ? tabList : []"
             >
-                <template v-slot:filter v-if="pageStatus == 'fewer'">
+                <template v-slot:append v-if="pageStatus == 'fewer'">
                     <div class="u-filter">
                         <el-popover placement="bottom-end" trigger="click" v-model="filterOpen">
                             <div class="m-common-filter">
