@@ -15,7 +15,7 @@
                             <div class="m-common-filter">
                                 <el-radio-group v-model="searchType">
                                     <el-radio-button
-                                        class="u-item"
+                                        class="u-filter"
                                         v-for="(item, index) in tabList"
                                         :key="index"
                                         :label="item.value"
