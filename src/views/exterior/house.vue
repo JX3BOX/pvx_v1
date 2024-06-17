@@ -1,5 +1,5 @@
 <template>
-    <div class="p-main">
+    <div class="p-exterior">
         <div class="m-left">
             <div class="m-author">
                 <img class="u-avatar" src="" />
