@@ -83,7 +83,7 @@ export default {
             let str = arr[0];
             if (str === "pvg") str = arr[1];
             if (str === "homeland") str = "blueprint";
-            if (str === "body") str = "exterior";
+            // if (str === "body") str = "exterior";
             return str;
         },
         client() {

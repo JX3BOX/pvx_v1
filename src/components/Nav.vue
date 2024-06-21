@@ -59,13 +59,6 @@ export default {
                             status: true,
                             target: "_blank",
                         },
-                        // {
-                        //     path: "/share/facedata",
-                        //     label: "妆容解析",
-                        //     icon: "el-icon-setting",
-                        //     key: "facedata",
-                        //     status: true,
-                        // },
                     ],
                 },
 
@@ -74,6 +67,13 @@ export default {
                     label: "珍奇",
                     index: "2",
                     submenus: [
+                        // {
+                        //     path: "/exterior",
+                        //     label: "外观大全",
+                        //     icon: "el-icon-setting",
+                        //     key: "exterior",
+                        //     status: false,
+                        // },
                         {
                             path: "/pet",
                             label: "宠物大全",
@@ -116,13 +116,6 @@ export default {
                             key: "reputation",
                             status: true,
                         },
-                        // {
-                        //     path: "/exterior",
-                        //     label: "外观大全",
-                        //     icon: "el-icon-setting",
-                        //     key: "exterior",
-                        //     status: false,
-                        // },
                     ],
                 },
 
@@ -160,28 +153,28 @@ export default {
                 //     label: "家园",
                 //     index: "4",
                 //     submenus: [
-                        // {
-                        //     path: "/homeland/tutorial",
-                        //     label: "家园建设",
-                        //     icon: "el-icon-reading",
-                        //     key: "tutorial",
-                        //     status: true,
-                        // },
-                        // {
-                        //     path: "/homeland/maps",
-                        //     label: "家园地图",
-                        //     icon: "el-icon-map-location",
-                        //     key: "maps",
-                        //     status: true,
-                        // },
-                        // {
-                        //     path: "/homeland/flower",
-                        //     label: "家园花价",
-                        //     icon: "el-icon-sunny",
-                        //     key: "flower",
-                        //     status: true,
-                        // },
-                    // ],
+                // {
+                //     path: "/homeland/tutorial",
+                //     label: "家园建设",
+                //     icon: "el-icon-reading",
+                //     key: "tutorial",
+                //     status: true,
+                // },
+                // {
+                //     path: "/homeland/maps",
+                //     label: "家园地图",
+                //     icon: "el-icon-map-location",
+                //     key: "maps",
+                //     status: true,
+                // },
+                // {
+                //     path: "/homeland/flower",
+                //     label: "家园花价",
+                //     icon: "el-icon-sunny",
+                //     key: "flower",
+                //     status: true,
+                // },
+                // ],
                 // },
             ],
         };
@@ -189,7 +182,7 @@ export default {
     computed: {
         active: function () {
             let arr = compact(location.pathname?.split("/"));
-            return arr[0]
+            return arr[0];
         },
         client() {
             return location.href.includes("origin") ? "origin" : "std";
