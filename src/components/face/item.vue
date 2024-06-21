@@ -6,6 +6,7 @@
         v-reporter="{ data: { href: '/face/' + item.id, ...reporter }, caller: 'face_index' }"
     >
         <el-image class="u-img" :src="showThumb(imgLink)" fit="cover"></el-image>
+        <img v-if="item.code_mode" class="u-pinch__marker" src="@/assets/img/face/bxs_barcode.svg" alt="" />
         <div class="m-tags">
             <div class="m-tag-left">
                 <template v-if="client === 'std'">

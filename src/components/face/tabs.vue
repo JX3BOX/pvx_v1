@@ -24,9 +24,15 @@
                             <el-checkbox-button v-model="price_type" class="u-filter">免费</el-checkbox-button>
                             <el-checkbox-button v-model="is_unlimited" class="u-filter">可新建</el-checkbox-button>
                         </p>
-                        <el-radio-group v-model="filter_empty_images">
+                        <p style="margin-top: 0;">
+                            <el-radio-group v-model="filter_empty_images">
+                                <el-radio-button class="u-filter" :label="0">全部</el-radio-button>
+                                <el-radio-button class="u-filter" :label="1">有图</el-radio-button>
+                            </el-radio-group>
+                        </p>
+                        <el-radio-group v-model="code_mode">
                             <el-radio-button class="u-filter" :label="0">全部</el-radio-button>
-                            <el-radio-button class="u-filter" :label="1">有图</el-radio-button>
+                            <el-radio-button class="u-filter" :label="1">捏脸码</el-radio-button>
                         </el-radio-group>
                     </div>
                     <img svg-inline src="@/assets/img/filter.svg" slot="reference" />
@@ -79,6 +85,7 @@ export default {
             price_type: false,
             filter_empty_images: -1,
             is_new_face: -1,
+            code_mode: -1,
             title: "",
             filterOpen: false,
             screenWidth: window.innerWidth,
@@ -94,6 +101,7 @@ export default {
             if (this.filter_empty_images) _params.filter_empty_images = true;
             _params.is_new_face = this.is_new_face;
             _params.body_type = this.active;
+            _params.code_mode = this.code_mode;
             return _params;
         },
         client() {
