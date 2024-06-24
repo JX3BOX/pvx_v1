@@ -57,13 +57,30 @@
             <template v-if="!hoverStatus">
                 <div class="m-icon">
                     <img
-                        class="u-icon"
+                        v-if="type == 'warehouse'"
+                        class="u-icon delete"
                         @click="hoverStatus = 'delete'"
                         svg-inline
                         src="@/assets/img/exterior/house/delete.svg"
                     />
+                    <img
+                        v-if="type == 'shop'"
+                        class="u-icon cancel"
+                        @click="hoverStatus = 'cancel'"
+                        svg-inline
+                        src="@/assets/img/exterior/house/cancel_favorite.svg"
+                    />
                 </div>
-                <div class="u-detail">查看详情</div>
+                <div class="m-btn__box">
+                    <div class="u-btn__detail" @click="dialogVisibleType = 'detail'">查看详情</div>
+                    <img
+                        v-if="type == 'shop'"
+                        class="u-btn__put"
+                        svg-inline
+                        @click="dialogVisibleType = 'putIn'"
+                        src="@/assets/img/exterior/house/solar_inbox-in-bold.svg"
+                    />
+                </div>
             </template>
             <div class="m-modal" v-if="hoverStatus == 'delete'">
                 <div class="u-title">确认移除</div>
@@ -73,7 +90,17 @@
                     <div class="u-btn" @click="hoverStatus = false">否</div>
                 </div>
             </div>
+            <div class="m-modal m-cancel" v-if="hoverStatus == 'cancel'">
+                <div class="u-title">取消收藏</div>
+                <div class="u-content">春山鸟归 · 鹤 · 豪华</div>
+                <div class="m-btn">
+                    <div class="u-btn">是</div>
+                    <div class="u-btn" @click="hoverStatus = false">否</div>
+                </div>
+            </div>
         </div>
+
+        <el-dialog :visible.sync="dialogVisibleType"> 123123 </el-dialog>
     </div>
 </template>
 
@@ -84,6 +111,7 @@ export default {
     data: function () {
         return {
             hoverStatus: false,
+            dialogVisibleType: false,
         };
     },
     computed: {},
