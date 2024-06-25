@@ -107,10 +107,24 @@
                         <div class="u-price" v-if="post.price_type == 2">售价：{{ post.price_count }} 金箔</div>
                         <div class="u-buy"><img :src="require('@/assets/img/face/shopcart.svg')" alt="" />购买</div>
                     </div>
-                    <div class="m-face-buy-btn" v-else @click="downloadAll">
-                        <div class="u-buy"><img :src="require('@/assets/img/face/download.svg')" alt="" />下载数据</div>
+                    <div
+                        class="m-face-buy-btn"
+                        v-else
+                        @click="downloadAll"
+                        :class="{
+                            'm-face-buy-btn_copy': post.code_mode,
+                        }"
+                    >
+                        <div class="u-buy" v-if="post.code_mode">
+                            <img :src="require('@/assets/img/face/bxs_copy.svg')" alt="" />复制捏脸码
+                        </div>
+                        <div class="u-buy" v-else>
+                            <img :src="require('@/assets/img/face/download.svg')" alt="" />下载数据
+                        </div>
                     </div>
-
+                    <div class="u-face__code" v-if="post.code_mode">
+                        {{ post.code }}
+                    </div>
                     <div class="u-update-time">更新时间： {{ post.updated_at }}</div>
                     <img class="u-box-img" :src="require('@/assets/img/face/face_stroke.svg')" />
                 </div>
@@ -460,26 +474,36 @@ export default {
             }
         },
         downloadAll() {
-            if (this.downFileList.length === 1) {
-                const item = this.downFileList[0];
-                this.getDownUrl(item.uuid, item.name);
-                return;
-            }
-            const urlArr = [];
-            this.downFileList.forEach((item) => {
-                urlArr.push(getDownUrl(this.id, item.uuid));
-            });
-            let p = Promise.all(urlArr);
-            let downloadFiles = [];
-            p.then((arr) => {
-                downloadFiles = arr.map((item, index) => {
-                    return {
-                        name: this.downFileList[index].name,
-                        url: item.data.data?.url,
-                    };
+            if (this.post.code_mode) {
+                navigator.clipboard.writeText(this.post.code).then(() => {
+                    this.$notify({
+                        title: "复制成功",
+                        message: "内容：" + this.post.code,
+                        type: "success",
+                    });
                 });
-                downloadZip(downloadFiles, `face_${this.id}.zip`, "url", "name");
-            });
+            } else {
+                if (this.downFileList.length === 1) {
+                    const item = this.downFileList[0];
+                    this.getDownUrl(item.uuid, item.name);
+                    return;
+                }
+                const urlArr = [];
+                this.downFileList.forEach((item) => {
+                    urlArr.push(getDownUrl(this.id, item.uuid));
+                });
+                let p = Promise.all(urlArr);
+                let downloadFiles = [];
+                p.then((arr) => {
+                    downloadFiles = arr.map((item, index) => {
+                        return {
+                            name: this.downFileList[index].name,
+                            url: item.data.data?.url,
+                        };
+                    });
+                    downloadZip(downloadFiles, `face_${this.id}.zip`, "url", "name");
+                });
+            }
         },
         facePay() {
             if (!User.isLogin()) {
