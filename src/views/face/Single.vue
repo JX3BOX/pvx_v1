@@ -112,7 +112,7 @@
                             class="m-face-buy-btn"
                             v-if="post.code_mode"
                             :class="{ 'm-face-buy-btn_copy': post.code_mode }"
-                            @click="copy(post.code_mode)"
+                            @click="copy(post.code)"
                         >
                             <div class="u-buy">
                                 <img :src="require('@/assets/img/face/bxs_copy.svg')" alt="" />复制捏脸码
