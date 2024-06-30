@@ -3,6 +3,10 @@
     .pointer();
     .pr();
     background-color: #f9e4cf;
+    .comTrTime {
+        .pointer();
+        transition: 0.2s all;
+    }
     &.warehouse {
         padding: 12px 10px;
         .m-item__top {
@@ -137,23 +141,59 @@
         background: rgba(255, 255, 255, 0.9);
         border: 2px solid #ff4365;
         opacity: 0;
-        transition: 0.2s all;
+        .comTrTime();
         .m-icon {
             .pa();
             .rt(10px);
             .u-icon {
                 .db();
-                .size(15px);
+                .r(4px);
+                .comTrTime();
+                &.delete {
+                    .size(15px);
+                    fill: #000000;
+                    padding: 2px;
+                    &:hover {
+                        background-color: #000000;
+                        fill: #ffffff;
+                    }
+                }
+                &.cancel {
+                    .size(20px);
+                    fill: #ff4365;
+                    &:hover {
+                        background-color: #ff4365;
+                        fill: #ffffff;
+                    }
+                }
             }
         }
-        .u-detail {
-            .w(102px);
-            .fz(18px,34px);
+        .m-btn__box {
             .x();
-            .r(4px);
-            .color(#ffffff);
-            .bold();
-            background: #ff4365;
+            .flex();
+            .flex(y);
+            gap: 5px;
+            .u-btn__detail {
+                .comTrTime();
+                .r(4px);
+                .color(#ffffff);
+                .bold();
+                .w(102px);
+                .fz(18px,34px);
+                background-color: #ff4365;
+                &:hover {
+                    box-shadow: 0px 0px 10px 0px rgba(255, 67, 101, 0.8);
+                }
+            }
+            .u-btn__put {
+                .comTrTime();
+                .r(4px);
+                padding: 7px;
+                background-color: #ffdb5a;
+                &:hover {
+                    box-shadow: 0px 0px 10px 0px rgba(248, 212, 89, 0.8);
+                }
+            }
         }
         .m-modal {
             .x();
@@ -182,7 +222,7 @@
                     .fz(18px,34px);
                     .color(#ffffff);
                     .r(4px);
-                    transition: 0.2s all;
+                    .comTrTime();
                     &:first-child {
                         background-color: #8d8d8d;
                         &:hover {
@@ -196,6 +236,10 @@
                         }
                     }
                 }
+            }
+            &.m-cancel {
+                background-color: #000000;
+                .color(#ffffff);
             }
         }
     }
