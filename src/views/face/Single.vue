@@ -107,21 +107,24 @@
                         <div class="u-price" v-if="post.price_type == 2">售价：{{ post.price_count }} 金箔</div>
                         <div class="u-buy"><img :src="require('@/assets/img/face/shopcart.svg')" alt="" />购买</div>
                     </div>
-                    <div
-                        class="m-face-buy-btn"
-                        v-else
-                        @click="downloadAll"
-                        :class="{
-                            'm-face-buy-btn_copy': post.code_mode,
-                        }"
-                    >
-                        <div class="u-buy" v-if="post.code_mode">
-                            <img :src="require('@/assets/img/face/bxs_copy.svg')" alt="" />复制捏脸码
+                    <template v-else>
+                        <div
+                            class="m-face-buy-btn"
+                            v-if="post.code_mode"
+                            :class="{ 'm-face-buy-btn_copy': post.code_mode }"
+                            @click="copy(post.code_mode)"
+                        >
+                            <div class="u-buy">
+                                <img :src="require('@/assets/img/face/bxs_copy.svg')" alt="" />复制捏脸码
+                            </div>
                         </div>
-                        <div class="u-buy" v-else>
-                            <img :src="require('@/assets/img/face/download.svg')" alt="" />下载数据
+                        <div class="m-face-buy-btn" v-else @click="downloadAll">
+                            <div class="u-buy">
+                                <img :src="require('@/assets/img/face/download.svg')" alt="" />下载数据
+                            </div>
                         </div>
-                    </div>
+                    </template>
+
                     <div class="u-face__code" v-if="post.code_mode">
                         {{ post.code }}
                     </div>
@@ -707,6 +710,15 @@ export default {
         // 将图片地址替换为cdn
         resolveImageArr(arr) {
             return arr.map((item) => resolveImagePath(item));
+        },
+        copy(txt) {
+            navigator.clipboard.writeText(txt).then(() => {
+                this.$notify({
+                    title: "复制成功",
+                    message: txt + "",
+                    type: "success",
+                });
+            });
         },
     },
 };
