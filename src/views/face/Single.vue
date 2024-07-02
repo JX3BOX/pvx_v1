@@ -176,7 +176,7 @@
             </div>
         </div>
         <!-- 数据区 -->
-        <div class="m-single-data">
+        <div class="m-single-data" v-if="!post.code_mode">
             <span class="m-single-data-title">独家数据分析</span>
             <facedata v-if="has_buy && facedata" :data="faceAllData" :lock="true" type="face" />
             <div class="m-single-buy-box" v-else>
