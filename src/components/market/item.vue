@@ -72,12 +72,11 @@
                     />
                 </div>
                 <div class="m-btn__box">
-                    <div class="u-btn__detail" @click="dialogVisibleType = 'detail'">查看详情</div>
+                    <div class="u-btn__detail" @click="detailVisible = true">查看详情</div>
                     <img
                         v-if="type == 'shop'"
                         class="u-btn__put"
                         svg-inline
-                        @click="dialogVisibleType = 'putIn'"
                         src="@/assets/img/exterior/house/solar_inbox-in-bold.svg"
                     />
                 </div>
@@ -100,7 +99,43 @@
             </div>
         </div>
 
-        <el-dialog :visible.sync="dialogVisibleType"> 123123 </el-dialog>
+        <el-dialog class="m-mask_layout" :visible.sync="detailVisible">
+            <div>
+                <div class="m-info">
+                    <div class="m-body">
+                        <span class="u-item act">成男</span>
+                        <span class="u-item act">成女</span>
+                        <span class="u-item act">正太</span>
+                        <span class="u-item act">萝莉</span>
+                    </div>
+                    <div class="m-preview">
+                        <div class="u-img"></div>
+                    </div>
+                    <div class="m-detail">
+                        <div class="u-title">花醉良辰·凤卜礼盒</div>
+                        <div class="m-brief">
+                            <span class="u-item">类型：包身礼盒</span>
+                            <span class="u-item">原价：880</span>
+                            <span class="u-item">发行时间：2020-02-03</span>
+                        </div>
+                        <div class="m-input">
+                            <div class="m-item">
+                                <span>购入时间</span>
+                                <span>2020-02-03</span>
+                            </div>
+                            <div class="m-select">
+                                <span>今天</span>
+                                <img src="" alt="" />
+                            </div>
+                            <div class="m-select">
+                                <span></span>
+                                <img src="" alt="" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </el-dialog>
     </div>
 </template>
 
@@ -111,7 +146,7 @@ export default {
     data: function () {
         return {
             hoverStatus: false,
-            dialogVisibleType: false,
+            detailVisible: false,
         };
     },
     computed: {},

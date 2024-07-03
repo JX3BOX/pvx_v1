@@ -248,4 +248,67 @@
             opacity: 1 !important;
         }
     }
+
+    .m-mask_layout {
+        .el-dialog {
+            background: none;
+            .w(max-content);
+            .el-dialog__header {
+                .none();
+            }
+            .el-dialog__body {
+                padding: 0;
+            }
+        }
+        .m-info {
+            .r(30px);
+            background: #f9e4cf;
+            box-shadow: 0px 0px 10px 0px #ffe3d7;
+            padding: 30px;
+            .flex();
+            .m-body {
+                .x();
+                .w(22px);
+                .mr(2px);
+                .u-item {
+                    .dbi();
+                    .color(#958b71);
+                    .fz(12px);
+                    .mt(4px);
+                    .pr();
+                    .z(1);
+                    .pointer();
+                    padding: 4px 2px;
+                    border: 1px solid #afa089;
+                    &.act {
+                        .color(white);
+                        &::before {
+                            content: "";
+                            .db();
+                            .pa();
+                            .lt(2px);
+                            .rb(2px);
+                            .z(-1);
+                            background: #958b71;
+                        }
+                    }
+                }
+            }
+            .m-preview {
+                .w(158px);
+                .h(248px);
+                padding: 5px;
+                box-sizing: border-box;
+                background-image: url(../../img/exterior/exterior_border.svg);
+                background-size: 100% 100%;
+                .u-img {
+                    .h(100%);
+                    background-size: cover;
+                }
+            }
+            .m-detail {
+                .ml(18px);
+            }
+        }
+    }
 }
