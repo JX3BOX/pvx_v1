@@ -24,7 +24,7 @@
                             <el-checkbox-button v-model="price_type" class="u-filter">免费</el-checkbox-button>
                             <el-checkbox-button v-model="is_unlimited" class="u-filter">可新建</el-checkbox-button>
                         </p>
-                        <p style="margin-top: 0;">
+                        <p style="margin-top: 0">
                             <el-radio-group v-model="filter_empty_images">
                                 <el-radio-button class="u-filter" :label="0">全部</el-radio-button>
                                 <el-radio-button class="u-filter" :label="1">有图</el-radio-button>
@@ -138,6 +138,13 @@ export default {
         },
     },
     mounted() {
+        if (this.$route.query) {
+            Object.keys(this.$route.query).forEach((key) => {
+                if (!this.hasOwnProperty(key)) {
+                    this[key] = this.$route.query[key];
+                }
+            });
+        }
         window.addEventListener("resize", this.handleResize);
     },
     destroyed() {
