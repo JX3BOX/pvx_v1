@@ -140,7 +140,7 @@ export default {
     mounted() {
         if (this.$route.query) {
             Object.keys(this.$route.query).forEach((key) => {
-                if (!this.hasOwnProperty(key)) {
+                if (this.hasOwnProperty(key)) {
                     this[key] = this.$route.query[key];
                 }
             });
