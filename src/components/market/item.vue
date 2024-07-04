@@ -72,9 +72,10 @@
                     />
                 </div>
                 <div class="m-btn__box">
-                    <div class="u-btn__detail" @click="detailVisible = true">查看详情</div>
+                    <div class="u-btn__detail">查看详情</div>
                     <img
                         v-if="type == 'shop'"
+                        @click="storageVisible = true"
                         class="u-btn__put"
                         svg-inline
                         src="@/assets/img/exterior/house/solar_inbox-in-bold.svg"
@@ -99,8 +100,8 @@
             </div>
         </div>
 
-        <el-dialog class="m-mask_layout" :visible.sync="detailVisible">
-            <div>
+        <el-dialog class="m-mask_layout" :visible.sync="storageVisible">
+            <div class="m-mask_box">
                 <div class="m-info">
                     <div class="m-body">
                         <span class="u-item act">成男</span>
@@ -120,19 +121,46 @@
                         </div>
                         <div class="m-input">
                             <div class="m-item">
-                                <span>购入时间</span>
-                                <span>2020-02-03</span>
+                                <div>购入时间</div>
+                                <div>
+                                    123123
+                                    <el-date-picker type="date" placeholder="选择日期"> </el-date-picker>
+                                </div>
                             </div>
                             <div class="m-select">
                                 <span>今天</span>
-                                <img src="" alt="" />
+                                <div class="act"></div>
                             </div>
                             <div class="m-select">
-                                <span></span>
-                                <img src="" alt="" />
+                                <span>发售日</span>
+                                <div></div>
                             </div>
                         </div>
+                        <div class="m-input">
+                            <div class="m-item">
+                                <div>购入价格</div>
+                                <div>
+                                    <input class="u-input" type="text" />
+                                </div>
+                            </div>
+                            <div class="m-select">
+                                <span>原价</span>
+                                <div class="act"></div>
+                            </div>
+                        </div>
+                        <div class="m-input">
+                            <div class="m-item">
+                                <div>数量</div>
+                                <div class="m-number">
+                                    <input class="u-input" type="text" />
+                                </div>
+                            </div>
+                        </div>
+                        <button class="u-enter">入库</button>
                     </div>
+                </div>
+                <div class="m-close">
+                    <img class="u-img" @click="storageVisible = false" src="@/assets/img/exterior/icon/close.png" />
                 </div>
             </div>
         </el-dialog>
@@ -146,7 +174,7 @@ export default {
     data: function () {
         return {
             hoverStatus: false,
-            detailVisible: false,
+            storageVisible: false,
         };
     },
     computed: {},
