@@ -24,7 +24,7 @@
                         <div class="u-unit">元</div>
                     </div>
                     <div class="m-item">
-                        <span>成本：</span>
+                        <span>预计盈利：</span>
                         <span class="u-value">
                             <b>+ 114514.14</b>
                         </span>

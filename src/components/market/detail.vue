@@ -93,7 +93,7 @@
         </div>
         <div class="m-action">
             <div class="m-close">
-                <div class="u-action u-close" :class="[selectColor]">
+                <div class="u-action u-close" @click="detailClose" :class="[selectColor]">
                     <img class="u-img" src="@/assets/img/exterior/icon/close.png" />
                 </div>
             </div>
@@ -277,6 +277,9 @@ export default {
                 this.exteriorDetail.isStar = !this.exteriorDetail.isStar;
                 this.$store.dispatch("getExteriorUserStar");
             });
+        },
+        detailClose() {
+            this.$emit("close");
         },
         jumpWBL() {
             window.open("https://jx3.seasunwbl.com/buyer?t=skin", "_blank");

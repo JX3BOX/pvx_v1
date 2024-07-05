@@ -120,7 +120,9 @@
                 </template>
             </div>
         </div>
-        <detailBox ref="detailBoxRef" />
+        <div class="m-right">
+            <detailBox ref="detailBoxRef" @close="pageStatus = 'list'" />
+        </div>
     </div>
 </template>
 <script>

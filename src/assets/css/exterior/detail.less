@@ -1,11 +1,8 @@
 .m-guise_detail {
-    .mt(40px);
     .pr();
     .flex();
     align-self: self-start;
-    .m-info__scroll {
-        max-height: calc(100vh - @header-height - 120px);
-    }
+    .pr(80px);
     .m-info {
         .ml(30px);
         .r(30px);
@@ -377,6 +374,66 @@
                 linear-gradient(168deg, #da8029 -19.42%, #da8029 -19.41%, #ffe7c3 64.17%)
             );
             box-shadow: 0px 0px 10px 0px #f5d5b3;
+        }
+    }
+}
+
+// 手机
+@media screen and (max-width: 768px) {
+    .m-guise_detail {
+        .flex();
+        flex-direction: column-reverse;
+        padding-right: 0 !important;
+        .m-info {
+            .m-info__top {
+                .db();
+                .m-body {
+                    .flex();
+                    justify-content: space-around;
+                    .w(100%);
+                    .u-item {
+                        .w(20%);
+                    }
+                }
+                .m-preview {
+                    margin: 0 auto;
+                    .mt(10px);
+                }
+                .m-detail {
+                    .ml(0);
+                    .m-goods {
+                        flex-wrap: wrap;
+                    }
+                }
+            }
+        }
+        .m-action {
+            .ps();
+            .w(100%);
+            .mb(30px);
+
+            .m-quick {
+                .flex();
+                justify-content: center;
+                .u-action {
+                    &:not(:first-child) {
+                        .mt(0);
+                        .ml(20px);
+                    }
+                }
+            }
+            .m-change_bg,
+            .m-change_color {
+                .mt(30px);
+                .flex();
+                justify-content: center;
+                .u-change__btn {
+                    &:not(:first-child) {
+                        .mt(0);
+                        .ml(40px);
+                    }
+                }
+            }
         }
     }
 }
