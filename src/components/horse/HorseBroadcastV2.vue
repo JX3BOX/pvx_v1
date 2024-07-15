@@ -44,8 +44,29 @@
                             </div>
                         </div>
                     </div>
-                    <span v-else class="m-horse no-horse">本周赤兔尚未刷新</span>
                 </div>
+                <div v-if="hasExist" class="m-horse is-chitu">
+                    <div class="u-col u-times">
+                        <div>本CD赤兔已刷新</div>
+                        <div>{{ existData.time }}</div>
+                    </div>
+                    <span class="u-col u-name">{{ existData.map_name }}</span>
+                    <div class="u-col u-horse">
+                        <el-image :src="getImgSrc('赤兔')" class="item"></el-image>
+                    </div>
+                </div>
+                <span v-else class="m-horse no-horse">本CD赤兔尚未刷新</span>
+                <div v-if="diluHasExist" class="m-horse is-dilu">
+                    <div class="u-col u-times">
+                        <div>本周的卢已刷新</div>
+                        <div>{{ diluExistData.time }}</div>
+                    </div>
+                    <span class="u-col u-name">{{ diluExistData.map_name }}</span>
+                    <div class="u-col u-horse">
+                        <el-image :src="getImgSrc('的卢')" class="item"></el-image>
+                    </div>
+                </div>
+                <span v-else class="m-horse no-horse">本周的卢尚未刷新</span>
             </div>
         </div>
 
@@ -60,7 +81,7 @@ import servers_std from "@jx3box/jx3box-data/data/server/server_std.json";
 import servers_origin from "@jx3box/jx3box-data/data/server/server_origin.json";
 import horseSites from "@/assets/data/horse_sites.json";
 import horseBroadcast from "@/assets/data/horse_broadcast.json";
-import { getGameReporter, getUserInfo, getChituHorse } from "@/service/horse";
+import { getGameReporter, getUserInfo, getHorseReporter } from "@/service/horse";
 import dayjs from "@/plugins/day";
 export default {
     name: "HorseBroadcast",
@@ -87,6 +108,9 @@ export default {
             `,
             chituLoading: false,
             active: 0,
+
+            diluHasExist: false,
+            diluExistData: {},
         };
     },
     computed: {
@@ -117,7 +141,7 @@ export default {
             let list = this.list || [];
             const arr = this.isPhone ? [] : new Array(column * 4 - 1 - list.length).fill({});
             list = list.sort((a, b) => this.convertTime(a.fromTime) - this.convertTime(b.fromTime));
-            return list.concat(this.existData, arr) || [];
+            return list.concat(arr) || [];
         },
         isPhone() {
             return document.documentElement.clientWidth <= 820;
@@ -129,14 +153,59 @@ export default {
             this.existData = {};
             this.getGameReporter();
             this.loadChituData();
+            this.loadDiluData();
         },
     },
     methods: {
+        loadDiluData() {
+            // 每周一、三、五、六、日 10：00-24：00期间随机开启
+            // 开启前60分钟及开启时均有系统公告提醒
+            // 同服务器每周只开启一次
+            // 【的卢】随机刷新于某一野外场景
+            const server = this.server;
+            const type = "dilu-horse";
+            this.chituLoading = true;
+            getHorseReporter(type, server)
+                .then((res) => {
+                    const list = res.data?.data?.list || [];
+                    if (!list.length) {
+                        return;
+                    }
+                    // 最近刷新时间
+                    const created_at = dayjs.tz(list?.[0].created_at || dayjs.tz());
+                    const now = dayjs.tz();
+                    const now_day = now.day();
+                    let cd_from_time = now.day(1).hour(10).minute(0).second(0).millisecond(0);
+                    let cd_to_time = cd_from_time.add(1, "week").add(-10, "hour").add(-1, "millisecond");
+                    if (now_day < 1) {
+                        // 周日为0 / 为上一个CD
+                        cd_from_time = dayjs.tz(cd_from_time).add(-1, "week");
+                        cd_to_time = dayjs.tz(cd_to_time).add(-1, "week");
+                    }
+                    // 最近刷新时间是否在当前CD中
+                    const isBetween = dayjs.tz(created_at).isBetween(cd_from_time, cd_to_time);
+                    this.diluHasExist = isBetween;
+                    if (isBetween) {
+                        const content = list?.[0]?.content || "";
+                        const mapName = content.match(/的卢已经出现在(\S*)中/)
+                            ? content.match(/的卢已经出现在(\S*)中/)[1]
+                            : "";
+                        this.diluExistData = {
+                            map_name: mapName,
+                            time: dayjs.tz(created_at).format("YYYY-MM-DD HH:mm:ss"),
+                        };
+                    }
+                })
+                .finally(() => {
+                    this.chituLoading = false;
+                });
+        },
         loadChituData() {
             const server = this.server;
+            const type = "chitu-horse";
             // 周二7点到下周一7点为一个CD， 7天内随机刷一只，地图为黑戈壁、阴山大草原、鲲鹏岛
             this.chituLoading = true;
-            getChituHorse(server)
+            getHorseReporter(type, server)
                 .then((res) => {
                     const list = res.data?.data?.list || [];
                     const content = list?.[0]?.content || "";

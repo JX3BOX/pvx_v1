@@ -8,7 +8,7 @@ function getHorses(params) {
     });
 }
 
-function getHorse(params) {    
+function getHorse(params) {
     return $.get(`/horse`, {
         params,
     });
@@ -32,12 +32,13 @@ function getGameReporter(params) {
     });
 }
 
-export function getChituHorse(server) {
+// 赤兔 的卢
+function getHorseReporter(type, server) {
     const params = {
         pageIndex: 1,
         pageSize: 50,
         server,
-        type: "chitu-horse",
+        type,
         subtype: "share_msg",
     };
     return $next().get("/api/game/reporter/horse", {
@@ -49,4 +50,4 @@ function getUserInfo() {
     return $cms().get("/api/cms/user/my/info");
 }
 
-export { getHorses, getHorse, getAttrs, getFeeds, getGameReporter, getUserInfo };
+export { getHorses, getHorse, getAttrs, getFeeds, getGameReporter, getUserInfo, getHorseReporter };
