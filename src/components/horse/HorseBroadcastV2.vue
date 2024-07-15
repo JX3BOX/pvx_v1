@@ -45,17 +45,6 @@
                         </div>
                     </div>
                 </div>
-                <div v-if="hasExist" class="m-horse is-chitu">
-                    <div class="u-col u-times">
-                        <div>本CD赤兔已刷新</div>
-                        <div>{{ existData.time }}</div>
-                    </div>
-                    <span class="u-col u-name">{{ existData.map_name }}</span>
-                    <div class="u-col u-horse">
-                        <el-image :src="getImgSrc('赤兔')" class="item"></el-image>
-                    </div>
-                </div>
-                <span v-else class="m-horse no-horse">本CD赤兔尚未刷新</span>
                 <div v-if="diluHasExist" class="m-horse is-dilu">
                     <div class="u-col u-times">
                         <div>本周的卢已刷新</div>
@@ -67,6 +56,17 @@
                     </div>
                 </div>
                 <span v-else class="m-horse no-horse">本周的卢尚未刷新</span>
+                <div v-if="hasExist" class="m-horse is-chitu">
+                    <div class="u-col u-times">
+                        <div>本CD赤兔已刷新</div>
+                        <div>{{ existData.time }}</div>
+                    </div>
+                    <span class="u-col u-name">{{ existData.map_name }}</span>
+                    <div class="u-col u-horse">
+                        <el-image :src="getImgSrc('赤兔')" class="item"></el-image>
+                    </div>
+                </div>
+                <span v-else class="m-horse no-horse">本CD赤兔尚未刷新</span>
             </div>
         </div>
 
@@ -139,7 +139,7 @@ export default {
             let column = Math.floor((document.body.clientWidth - 460) / 350);
             column = column > 2 ? 2 : column;
             let list = this.list || [];
-            const arr = this.isPhone ? [] : new Array(column * 4 - 1 - list.length).fill({});
+            const arr = this.isPhone ? [] : new Array(column * 4 - 2 - list.length).fill({});
             list = list.sort((a, b) => this.convertTime(a.fromTime) - this.convertTime(b.fromTime));
             return list.concat(arr) || [];
         },
@@ -193,6 +193,7 @@ export default {
                         this.diluExistData = {
                             map_name: mapName,
                             time: dayjs.tz(created_at).format("YYYY-MM-DD HH:mm:ss"),
+                            is_dilu: true,
                         };
                     }
                 })
