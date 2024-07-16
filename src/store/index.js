@@ -8,6 +8,7 @@ let store = {
         client: location.href.includes("origin") ? "origin" : "std",
         faceSingle: {},
         isCollapse: false,
+        timezone: "Asia/Shanghai", // 时区
     },
     mutations: {
         toState(state, data) {

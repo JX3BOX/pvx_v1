@@ -51,7 +51,7 @@ export default {
             type: String,
             default: "#6b52ff",
         },
-        actColor:{
+        actColor: {
             type: String,
             default: "#ffffff",
         },
@@ -105,7 +105,6 @@ export default {
             immediate: true,
             deep: true,
             handler: function (list) {
-                console.log(list);
                 if (list && list.length) {
                     this.type = this.active || list[0].value;
                 }

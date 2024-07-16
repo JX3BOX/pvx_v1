@@ -4,7 +4,7 @@ import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
 import isToday from "dayjs/plugin/isToday";
 import isoWeek from "dayjs/plugin/isoWeek";
-import isBetween from "dayjs/plugin/isBetween"
+import isBetween from "dayjs/plugin/isBetween";
 dayjs.extend(utc);
 dayjs.extend(timezone);
 dayjs.extend(isoWeek);
@@ -12,7 +12,9 @@ dayjs.extend(isToday);
 dayjs.extend(isBetween);
 
 // 默认时区为东八区
-const _timezone = "Asia/Shanghai";
+import store from "@/store";
+store.state.timezone = dayjs.tz.guess();
+const _timezone = store.state.timezone;
 dayjs.tz.setDefault(_timezone);
 
 export default dayjs;

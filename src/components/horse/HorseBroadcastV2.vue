@@ -146,6 +146,11 @@ export default {
         isPhone() {
             return document.documentElement.clientWidth <= 820;
         },
+        isAsia() {
+            // 是否是东八区
+            const _timezone = this.$store.state.timezone;
+            return _timezone === "Asia/Shanghai";
+        },
     },
     watch: {
         server() {
@@ -171,8 +176,11 @@ export default {
                     if (!list.length) {
                         return;
                     }
-                    // 最近刷新时间
-                    const created_at = dayjs.tz(list?.[0].created_at || dayjs.tz());
+                    // 最近刷新时间 返回的时间已经是东八区时间，其余对比时间同样需要换算到东八区时间
+                    let created_at = dayjs(list?.[0].created_at || dayjs.tz());
+                    if (!this.isAsia) {
+                        created_at = dayjs.tz(list?.[0].created_at || dayjs.tz());
+                    }
                     const now = dayjs.tz();
                     const now_day = now.day();
                     let cd_from_time = now.day(1).hour(10).minute(0).second(0).millisecond(0);
@@ -183,7 +191,7 @@ export default {
                         cd_to_time = dayjs.tz(cd_to_time).add(-1, "week");
                     }
                     // 最近刷新时间是否在当前CD中
-                    const isBetween = dayjs.tz(created_at).isBetween(cd_from_time, cd_to_time);
+                    const isBetween = created_at.isBetween(cd_from_time, cd_to_time);
                     this.diluHasExist = isBetween;
                     if (isBetween) {
                         const content = list?.[0]?.content || "";
@@ -192,7 +200,7 @@ export default {
                             : "";
                         this.diluExistData = {
                             map_name: mapName,
-                            time: dayjs.tz(created_at).format("YYYY-MM-DD HH:mm:ss"),
+                            time: created_at.format("YYYY-MM-DD HH:mm:ss"),
                             is_dilu: true,
                         };
                     }
@@ -225,8 +233,11 @@ export default {
                             ...coor,
                         },
                     ];
-                    // 最近刷新时间
-                    const created_at = dayjs.tz(list?.[0].created_at || dayjs.tz());
+                    // 最近刷新时间 返回的时间已经是东八区时间，其余对比时间同样需要换算到东八区时间
+                    let created_at = dayjs(list?.[0].created_at || dayjs.tz());
+                    if (!this.isAsia) {
+                        created_at = dayjs.tz(list?.[0].created_at || dayjs.tz());
+                    }
                     const now = dayjs.tz();
                     const now_day = now.day();
                     const now_hour = now.hour();
@@ -238,7 +249,7 @@ export default {
                         cd_to_time = dayjs.tz(cd_to_time).add(-1, "week");
                     }
                     // 最近刷新时间是否在当前CD中
-                    const isBetween = dayjs.tz(created_at).isBetween(cd_from_time, cd_to_time);
+                    const isBetween = created_at.isBetween(cd_from_time, cd_to_time);
                     this.hasExist = isBetween;
                     const data = {
                         horses: horses,
@@ -249,7 +260,7 @@ export default {
                         time: "",
                     };
                     if (isBetween) {
-                        data.time = dayjs.tz(created_at).format("YYYY-MM-DD HH:mm:ss");
+                        data.time = created_at.format("YYYY-MM-DD HH:mm:ss");
                     }
                     this.existData = data;
                 })
@@ -355,15 +366,29 @@ export default {
                     let fromTime = "";
                     let toTime = "";
                     if (!!("minute" in item)) {
-                        fromTime = dayjs
-                            .tz(new Date(item.created_at).valueOf() + (item.minute + 5) * 60 * 1000)
-                            .format("HH:mm");
-                        toTime = dayjs
-                            .tz(new Date(item.created_at).valueOf() + (item.minute + 10) * 60 * 1000)
-                            .format("HH:mm");
+                        if (!this.isAsia) {
+                            fromTime = dayjs
+                                .tz(new Date(item.created_at).valueOf() + (item.minute + 5) * 60 * 1000)
+                                .format("HH:mm");
+                            toTime = dayjs
+                                .tz(new Date(item.created_at).valueOf() + (item.minute + 10) * 60 * 1000)
+                                .format("HH:mm");
+                        } else {
+                            fromTime = dayjs(
+                                new Date(item.created_at).valueOf() + (item.minute + 5) * 60 * 1000
+                            ).format("HH:mm");
+                            toTime = dayjs(new Date(item.created_at).valueOf() + (item.minute + 10) * 60 * 1000).format(
+                                "HH:mm"
+                            );
+                        }
                     } else {
-                        fromTime = dayjs.tz(new Date(item.created_at).valueOf() + 5 * 60 * 1000).format("HH:mm");
-                        toTime = dayjs.tz(new Date(item.created_at).valueOf() + 10 * 60 * 1000).format("HH:mm");
+                        if (!this.isAsia) {
+                            fromTime = dayjs.tz(new Date(item.created_at).valueOf() + 5 * 60 * 1000).format("HH:mm");
+                            toTime = dayjs.tz(new Date(item.created_at).valueOf() + 10 * 60 * 1000).format("HH:mm");
+                        } else {
+                            fromTime = dayjs(new Date(item.created_at).valueOf() + 5 * 60 * 1000).format("HH:mm");
+                            toTime = dayjs(new Date(item.created_at).valueOf() + 10 * 60 * 1000).format("HH:mm");
+                        }
                     }
                     return {
                         ...item,
