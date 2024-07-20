@@ -8,6 +8,7 @@
         </div>
         <div class="m-horse-broadcast__list" v-if="listData.length && listData[active].map_id">
             <jx3box-map
+                v-if="listData[active].map_id"
                 class="u-horse-map"
                 :mapId="Number(listData[active].map_id)"
                 :key="listData[active].map_id"
@@ -289,31 +290,55 @@ export default {
             let coordinates = [];
             let result = {};
             let horses = [];
-            if (item.subtype === "npc_chat") {
-                // 预测
-                mapId = item.map_id;
-                mapName = item.map_name;
-                coordinates = horseSites[mapId].coordinates;
-                horses = horseSites[mapId].horses[item.horseIndex];
-            } else {
-                // 播报
-                mapName = item.content.match(/在(\S*)出没/) ? item.content.match(/在(\S*)出没/)[1] : "";
-                for (let key in horseSites) {
-                    if (horseSites[key].mapName === mapName) {
-                        mapId = key;
-                        coordinates = horseSites[key].coordinates;
-                        horses = horseSites[mapId].horses.flat();
+            if (item.type === "horse") {
+                if (item.subtype === "npc_chat") {
+                    // 预测
+                    mapId = item.map_id;
+                    mapName = item.map_name;
+                    coordinates = horseSites[mapId].coordinates;
+                    horses = horseSites[mapId].horses[item.horseIndex];
+                } else {
+                    // 播报
+                    mapName = item.content.match(/在(\S*)出没/) ? item.content.match(/在(\S*)出没/)[1] : "";
+                    for (let key in horseSites) {
+                        if (horseSites[key].mapName === mapName) {
+                            mapId = key;
+                            coordinates = horseSites[key].coordinates;
+                            horses = horseSites[mapId].horses.flat();
+                        }
                     }
                 }
-            }
-            const coor = coordinates[0];
-            result[mapId] = [
-                {
-                    content: `${horses.join()}
+                const coor = coordinates[0];
+                result[mapId] = [
+                    {
+                        content: `${horses.join()}
                     <br />坐标：(${coor.x},${coor.y},${coor.z})`,
-                    ...coor,
-                },
-            ];
+                        ...coor,
+                    },
+                ];
+            } else {
+                // 特殊马
+                const { type, content } = item;
+                if (type === "chitu-horse") {
+                    horses = ["赤兔·飞虹"];
+                    const npc = /\]\[(.*)\]大声喊/.exec(content)[1].trim();
+                    mapName = this.chituMap[npc] || "";
+                    mapId = this.chituMap?.[npc] || defaultMapId;
+                    const mapInfo = horseSites[mapId];
+                    const coor = mapInfo.coordinates[0];
+                    const horses = ["赤兔·飞虹"];
+                    result[mapId] = [
+                        {
+                            content: `${horses.join()}
+                    <br />坐标：(${coor.x},${coor.y},${coor.z})`,
+                            ...coor,
+                        },
+                    ];
+                } else {
+                    horses = ["的卢"];
+                    mapName = content.match(/的卢已经出现在(\S*)中/) ? content.match(/的卢已经出现在(\S*)中/)[1] : "";
+                }
+            }
             const obj = {
                 mapDatas: result,
                 map_id: mapId,
@@ -337,6 +362,25 @@ export default {
                     (item) =>
                         !item.map_id && (new Date().valueOf() - new Date(item.created_at).valueOf()) / 1000 / 60 <= 15
                 );
+
+                // 赤兔 的卢 播报 只取一条
+                const chitulList = list
+                    .filter((item) => {
+                        return (
+                            item.type === "chitu-horse" &&
+                            (new Date().valueOf() - new Date(item.created_at).valueOf()) / 1000 / 60 <= 15
+                        );
+                    })
+                    .slice(0, 1);
+                const diluList = list
+                    .filter((item) => {
+                        return (
+                            item.type === "dilu-horse" &&
+                            (new Date().valueOf() - new Date(item.created_at).valueOf()) / 1000 / 60 <= 15
+                        );
+                    })
+                    .slice(0, 1);
+
                 const newThreeList = [];
                 threeList.forEach((item) => {
                     // 三大马场拆分成四条
@@ -361,7 +405,7 @@ export default {
                         }
                     });
                 });
-                const newList = newThreeList.concat(bList);
+                const newList = newThreeList.concat(chitulList, diluList, bList);
                 this.list = newList.map((item) => {
                     let fromTime = "";
                     let toTime = "";
