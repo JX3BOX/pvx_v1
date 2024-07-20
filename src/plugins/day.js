@@ -13,7 +13,8 @@ dayjs.extend(isBetween);
 
 // 默认时区为东八区
 import store from "@/store";
-store.state.timezone = dayjs.tz.guess();
+// 用户当前时区 因游戏时间都是东八区，不再设置当前时区，此处影响范围：名望、抓马
+// store.state.timezone = dayjs.tz.guess();
 const _timezone = store.state.timezone;
 dayjs.tz.setDefault(_timezone);
 
