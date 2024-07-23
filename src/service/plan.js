@@ -1,4 +1,4 @@
-import { $helper, $cms } from "@jx3box/jx3box-common/js/https";
+import { $cms, $node } from "@jx3box/jx3box-common/js/https";
 
 
 // 获取列表
@@ -24,8 +24,8 @@ function delItemPlan(id) {
 
 // 多个清单搜索
 function searchItemsID(params) {
-    return $helper()
-        .get(`/api/items`, { params })
+    return $node()
+        .get(`/item/list`, { params })
         .then((res) => {
             return res.data.data;
         });

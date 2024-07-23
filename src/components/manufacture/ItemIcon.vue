@@ -31,7 +31,7 @@
 
 <script>
 import Item from "@jx3box/jx3box-editor/src/Item";
-// import { get_item } from "../service/item.js";
+import { get_item } from "@/service/item.js";
 import { __imgPath } from "@jx3box/jx3box-common/data/jx3box.json";
 import { iconLink } from "@jx3box/jx3box-common/js/utils";
 

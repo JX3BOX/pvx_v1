@@ -144,7 +144,7 @@ export default {
                         _arr.push(el.id);
                     });
                 });
-                searchItemsID({ ids: _arr, limit: _arr.length }).then((res) => {
+                searchItemsID({ ids: _arr }).then((res) => {
                     let items = res.data;
 
                     data.relation = data.relation.map((item) => {
@@ -165,7 +165,7 @@ export default {
                 for (const key in data.relation) {
                     _arr.push(...data.relation[key]);
                 }
-                searchItemsID({ ids: _arr, limit: _arr.length }).then((res) => {
+                searchItemsID({ ids: _arr }).then((res) => {
                     let items = res.data;
                     for (const key in data.relation) {
                         data.relation[key] = data.relation[key].map((el) => {
