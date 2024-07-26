@@ -258,7 +258,8 @@
     </div>
 </template>
 <script>
-import { getMyInfo } from "@/service/exterior";
+import { getMyInfo, entWarehouse } from "@/service/exterior";
+import { userStoreList, starTopList } from "@/service/house";
 import marketItem from "@/components/market/item";
 export default {
     name: "House",
@@ -291,8 +292,18 @@ export default {
                 console.log(this.userInfo);
             }
         });
+        this.Init();
     },
-    methods: {},
+    methods: {
+        Init() {
+            userStoreList().then((res) => {
+                console.log(res);
+            });
+            starTopList().then((res) => {
+                console.log(res);
+            });
+        },
+    },
 };
 </script>
 <style lang="less">

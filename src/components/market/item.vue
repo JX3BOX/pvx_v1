@@ -75,7 +75,7 @@
                     <div class="u-btn__detail">查看详情</div>
                     <img
                         v-if="type == 'shop'"
-                        @click="storageVisible = true"
+                        @click="openPutIn"
                         class="u-btn__put"
                         svg-inline
                         src="@/assets/img/exterior/house/solar_inbox-in-bold.svg"
@@ -99,77 +99,15 @@
                 </div>
             </div>
         </div>
-
-        <el-dialog class="m-mask_layout" :visible.sync="storageVisible">
-            <div class="m-mask_box">
-                <div class="m-info">
-                    <div class="m-body">
-                        <span class="u-item act">成男</span>
-                        <span class="u-item act">成女</span>
-                        <span class="u-item act">正太</span>
-                        <span class="u-item act">萝莉</span>
-                    </div>
-                    <div class="m-preview">
-                        <div class="u-img"></div>
-                    </div>
-                    <div class="m-detail">
-                        <div class="u-title">花醉良辰·凤卜礼盒</div>
-                        <div class="m-brief">
-                            <span class="u-item">类型：包身礼盒</span>
-                            <span class="u-item">原价：880</span>
-                            <span class="u-item">发行时间：2020-02-03</span>
-                        </div>
-                        <div class="m-input">
-                            <div class="m-item">
-                                <div>购入时间</div>
-                                <div>
-                                    123123
-                                    <el-date-picker type="date" placeholder="选择日期"> </el-date-picker>
-                                </div>
-                            </div>
-                            <div class="m-select">
-                                <span>今天</span>
-                                <div class="act"></div>
-                            </div>
-                            <div class="m-select">
-                                <span>发售日</span>
-                                <div></div>
-                            </div>
-                        </div>
-                        <div class="m-input">
-                            <div class="m-item">
-                                <div>购入价格</div>
-                                <div>
-                                    <input class="u-input" type="text" />
-                                </div>
-                            </div>
-                            <div class="m-select">
-                                <span>原价</span>
-                                <div class="act"></div>
-                            </div>
-                        </div>
-                        <div class="m-input">
-                            <div class="m-item">
-                                <div>数量</div>
-                                <div class="m-number">
-                                    <input class="u-input" type="text" />
-                                </div>
-                            </div>
-                        </div>
-                        <button class="u-enter">入库</button>
-                    </div>
-                </div>
-                <div class="m-close">
-                    <img class="u-img" @click="storageVisible = false" src="@/assets/img/exterior/icon/close.png" />
-                </div>
-            </div>
-        </el-dialog>
+        <putIn ref="putInRef" />
     </div>
 </template>
 
 <script>
+import putIn from "./putIn.vue";
 export default {
     name: "item",
+    components: { putIn },
     props: ["item", "type"],
     data: function () {
         return {
@@ -178,7 +116,11 @@ export default {
         };
     },
     computed: {},
-    methods: {},
+    methods: {
+        openPutIn() {
+            this.$refs.putInRef.open();
+        },
+    },
 };
 </script>
 

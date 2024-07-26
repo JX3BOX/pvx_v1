@@ -1,0 +1,168 @@
+.m-mask_layout {
+    .el-dialog {
+        background: none;
+        .w(max-content);
+        box-shadow: none;
+        .el-dialog__header {
+            .none();
+        }
+        .el-dialog__body {
+            padding: 0;
+        }
+    }
+    .m-mask_box {
+        .flex();
+        .m-info {
+            .r(30px);
+            background: #f9e4cf;
+            box-shadow: 0px 0px 10px 0px #ffe3d7;
+            padding: 30px;
+            .flex();
+            .m-body {
+                .x();
+                .w(22px);
+                .mr(2px);
+                .u-item {
+                    .dbi();
+                    .color(#958b71);
+                    .fz(12px);
+                    .mt(4px);
+                    .pr();
+                    .z(1);
+                    .pointer();
+                    padding: 4px 2px;
+                    border: 1px solid #afa089;
+                    &.act {
+                        .color(white);
+                        &::before {
+                            content: "";
+                            .db();
+                            .pa();
+                            .lt(2px);
+                            .rb(2px);
+                            .z(-1);
+                            background: #958b71;
+                        }
+                    }
+                }
+            }
+            .m-preview {
+                .w(158px);
+                .h(248px);
+                padding: 5px;
+                box-sizing: border-box;
+                background-image: url(../../img/exterior/exterior_border.svg);
+                background-size: 100% 100%;
+                .u-img {
+                    .h(100%);
+                    background-size: cover;
+                }
+            }
+            .m-detail {
+                .pr();
+                .ml(18px);
+                .flex();
+                gap: 10px;
+                flex-direction: column;
+                .u-title {
+                    .w(370px);
+                    .fz(16px,29px);
+                    .x();
+                    background: #958b71;
+                    .color(#ffffff);
+                    .bold();
+                }
+                .m-brief {
+                    .flex();
+                    gap: 20px;
+                    .fz(12px,16px);
+                }
+                .m-input {
+                    .flex();
+                    gap: 10px;
+                    .m-item {
+                        .flex();
+                        flex: 1;
+                        div {
+                            .x();
+                            &:nth-of-type(1) {
+                                .fz(14px,26px);
+                                background: #958b71;
+                                .color(#ffffff);
+                                .w(76px);
+                            }
+                            &:nth-of-type(2) {
+                                flex: 1;
+                                background: #ffffff;
+                                .pr();
+                                .fz(14px,26px);
+                                .color(rgba(0,0,0,0.3));
+                                font-family: "Microsoft YaHei";
+                                .el-date-editor {
+                                    .pa();
+                                    .rt(0);
+                                    .w(100%);
+                                    padding: 0;
+                                    opacity: 0;
+                                    input {
+                                        .fz(14px,26px);
+                                        .h(26px);
+                                    }
+                                }
+                                .u-input {
+                                    .db();
+                                    .w(100%);
+                                    padding: 0;
+                                    border: none;
+                                    .fz(14px,26px);
+                                    .x();
+                                    .color(rgba(0,0,0,0.3));
+                                    font-family: "Microsoft YaHei";
+                                }
+                                &.m-number {
+                                    flex: initial;
+                                    .w(74px);
+                                }
+                            }
+                        }
+                    }
+                    .m-select {
+                        background: #958b71;
+                        .color(#ffffff);
+                        .fz(14px,26px);
+                        padding: 0 10px;
+                        .flex();
+                        .flex(y);
+                        gap: 4px;
+                        div {
+                            .size(10px);
+                            background-color: #ffffff;
+                            background-size: 100% 100%;
+                            &.act {
+                                background-image: url(../../img/exterior/house/material-symbols_check.svg);
+                            }
+                        }
+                    }
+                }
+                .u-enter {
+                    .pa();
+                    .rb(0);
+                    background: #da8029;
+                    .size(68px,26px);
+                    .color(#ffffff);
+                    .fz(14px);
+                    border: none;
+                }
+            }
+        }
+        .m-close {
+            .ml(10px);
+            .u-img {
+                padding: 10px;
+                .r(100px);
+                background: #f9e4cf;
+                box-shadow: 0px 0px 10px 0px #ffe3d7;
+            }
+        }
+    }
+}
