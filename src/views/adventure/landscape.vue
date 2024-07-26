@@ -314,7 +314,6 @@ export default {
                 this.isSync = !!userJx3Id; // 是否在游戏中同步
                 res.pet = this.splitArrayIntoChunks(res.pet, 5);
                 res.normal = this.splitArrayIntoChunks(res.normal, 3);
-                res.perfect = res.perfect.filter(item => item.dwID !== 136);
                 this.userAchievement = res;
                 this.$nextTick((_) => {
                     this.addClass = false;

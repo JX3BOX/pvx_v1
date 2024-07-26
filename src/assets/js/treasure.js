@@ -20,11 +20,11 @@ const perfectAchievement = {
 let formatDateTime = (dateTimeString) => {
     const dateTime = new Date(dateTimeString);
     const year = dateTime.getFullYear();
-    const month = String(dateTime.getMonth() + 1).padStart(2, '0');
-    const date = String(dateTime.getDate()).padStart(2, '0');
-    const hours = String(dateTime.getHours()).padStart(2, '0');
-    const minutes = String(dateTime.getMinutes()).padStart(2, '0');
-    const seconds = String(dateTime.getSeconds()).padStart(2, '0');
+    const month = String(dateTime.getMonth() + 1).padStart(2, "0");
+    const date = String(dateTime.getDate()).padStart(2, "0");
+    const hours = String(dateTime.getHours()).padStart(2, "0");
+    const minutes = String(dateTime.getMinutes()).padStart(2, "0");
+    const seconds = String(dateTime.getSeconds()).padStart(2, "0");
 
     const formattedDateTime = `${year}年${month}月${date}日 ${hours}:${minutes}:${seconds}`;
     return formattedDateTime;
@@ -63,17 +63,23 @@ let getData = (userJx3Id) => {
                 }).then((res) => {
                     const achievementsList = [];
                     let actNum = 0;
+                    let unNum = 0;
                     res?.data?.list?.forEach((item) => {
                         if (type == "perfect") {
-                            item.isAct = false;
-                            if (list.includes(item.dwID)) {
-                                item.isAct = true;
-                                actNum++;
+                            try {
+                                let imagePath = require(`../img/treasure/world/${item.dwID}.png`);
+                                item.isAct = false;
+                                if (list.includes(item.dwID)) {
+                                    item.isAct = true;
+                                    actNum++;
+                                }
+                                achievementsList.push({
+                                    ...item,
+                                    ...perfectAchievement[item.dwID],
+                                });
+                            } catch (error) {
+                                unNum++;
                             }
-                            achievementsList.push({
-                                ...item,
-                                ...perfectAchievement[item.dwID],
-                            });
                         } else {
                             if (list.includes(item.dwID)) {
                                 achievementsList.push(item);
@@ -81,7 +87,7 @@ let getData = (userJx3Id) => {
                             }
                         }
                     });
-                    returnData[`${type}AllNum`] = res?.data?.list?.length || 0;
+                    returnData[`${type}AllNum`] = (res?.data?.list?.length || 0) - unNum;
                     returnData[`${type}NowNum`] = actNum;
                     returnData[type] = achievementsList;
                 });
