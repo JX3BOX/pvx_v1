@@ -1,10 +1,10 @@
 import axios from "axios";
 import { $cms, $next } from "@jx3box/jx3box-common/js/https";
-import { __spider2 } from "@jx3box/jx3box-common/data/jx3box.json"
+import { __spider2 } from "@jx3box/jx3box-common/data/jx3box.json";
 
 const $spider = axios.create({
     baseURL: __spider2,
-})
+});
 
 // 获取金价数据
 function getGoldPriceData() {
@@ -14,15 +14,15 @@ function getGoldPriceData() {
 // 获取系统关注的物品信息
 function getSystemGoodsData(params) {
     return $cms().get("api/cms/pvx/item/group", {
-        params
-    })
+        params,
+    });
 }
 
 // 获取服务器物价
 function getServerPriceData(params) {
     return $next().get("api/item-price/list", {
-        params
-    })
+        params,
+    });
 }
 
 // 获取用户信息
@@ -36,8 +36,8 @@ function getMyFollowList() {
 }
 
 // 设置我关注的清单
-function setMyFollowList(params) {
-    return $cms().post("api/cms/user/my/meta?key=follow_inventory", params);
+function setMyFollowList(data) {
+    return $cms().post("api/cms/user/my/meta?key=follow_inventory", data);
 }
 
 // 获取清单详情
@@ -52,5 +52,5 @@ export {
     getUserInfo,
     getMyFollowList,
     setMyFollowList,
-    getMyGoodsDetail
-}
+    getMyGoodsDetail,
+};

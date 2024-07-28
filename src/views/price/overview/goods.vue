@@ -86,7 +86,10 @@ export default {
             this.loading = true;
             getMyFollowList().then((res) => {
                 if (res.data.data) {
-                    this.myFollowData = res.data.data.split(",").map((item) => +item);
+                    this.myFollowData = res.data.data
+                        .split(",")
+                        .map((item) => +item)
+                        .filter((item) => !!item);
                 } else {
                     this.myFollowData = [];
                 }
@@ -133,6 +136,7 @@ export default {
             }
         },
         setMyFollowList(val) {
+            // 此处接口不支持不传，传空后前端过滤id为0的数据
             setMyFollowList({ val }).then((res) => {
                 this.showMyGoods = false;
                 this.$message.success("设置成功");
