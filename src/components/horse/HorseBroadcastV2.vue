@@ -381,22 +381,6 @@ export default {
                 //         "map_name": ""
                 //     },
                 //     {
-                //         "id": 795809,
-                //         "lang": "zhcn",
-                //         "edition": "zhcn_hd",
-                //         "server": "梦江南",
-                //         "content": "江湖快马飞报！段氏马场发布最新《九州寻驹图》消息：约五到十分钟后，将有宝马良驹在黑戈壁出没！各位侠士可以前往捕捉！切莫错过！",
-                //         "time": n,
-                //         "created_at": nString,
-                //         "report_count": 571,
-                //         "status": 0,
-                //         "type": "horse",
-                //         "subtype": "foreshow",
-                //         "map_id": 0,
-                //         "map_name": ""
-                //     },
-
-                //     {
                 //         "id": 795760,
                 //         "lang": "zhcn",
                 //         "edition": "",
@@ -410,21 +394,6 @@ export default {
                 //         "subtype": "npc_chat",
                 //         "map_id": 216,
                 //         "map_name": "阴山大草原"
-                //     },
-                //     {
-                //         "id": 795715,
-                //         "lang": "zhcn",
-                //         "edition": "zhcn_hd",
-                //         "server": "梦江南",
-                //         "content": "江湖快马飞报！段氏马场发布最新《九州寻驹图》消息：约五到十分钟后，将有宝马良驹在黑戈壁出没！各位侠士可以前往捕捉！切莫错过！",
-                //         "time": 1722896761,
-                //         "created_at": "2024-08-06T06:26:01+08:00",
-                //         "report_count": 300,
-                //         "status": 0,
-                //         "type": "horse",
-                //         "subtype": "foreshow",
-                //         "map_id": 0,
-                //         "map_name": ""
                 //     },
                 // ]
 
@@ -516,14 +485,12 @@ export default {
                 // 马场播报去重。系统播报和npc预测时间会重复，需要去重。
                 // 没有异常情况下，系统播报的马驹必定在npc预测的马场中出现，
                 // 且npc预测信息更多，故仅保留npc预测信息
-                const seenReport = new Set();
                 this.list = normalizedBroadcastList.filter((item) => {
                     if (item.content.match("江湖.*" + threeMainHorseSites.join("|"))) {
                         return false;
                     }
                     return true
                 });
-                console.log("lll", this.list)
             });
         },
         convertTime(time) {
