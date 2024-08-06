@@ -141,7 +141,11 @@ export default {
             column = column > 2 ? 2 : column;
             let list = this.list || [];
             const arr = this.isPhone ? [] : new Array(column * 4 - 2 - list.length).fill({});
-            list = list.sort((a, b) => this.convertTime(a.fromTime) - this.convertTime(b.fromTime));
+            list = list.sort((a, b) => a.fromTime - b.fromTime).map(item => {
+                item.fromTime = item.fromTime.format("HH:mm");
+                item.toTime = item.toTime.format("HH:mm");
+                return item;
+            });
             return list.concat(arr) || [];
         },
         isPhone() {
@@ -349,9 +353,82 @@ export default {
         },
         getGameReporter() {
             const params = this.params;
+            const threeMainHorseSites = ["黑戈壁", "阴山大草原", "鲲鹏岛"];
             getGameReporter(params).then((res) => {
                 const data = res?.data?.data;
                 const list = data?.list || [];
+                // const n = Date.now();
+                // const nString = new Date(n).toISOString();
+                // const tomorrow = dayjs().add(1, "day").set("hour", 0).set("minute", 1).set("second", 0);
+                // const diff = tomorrow.diff(dayjs())
+                // const diffInSeconds = Math.floor(diff / 1000);
+                // const diffMinutes = Math.floor(diffInSeconds  / 60);
+
+                // const list = [
+                //     {
+                //         "id": 795810,
+                //         "lang": "zhcn",
+                //         "edition": "zhcn_hd",
+                //         "server": "梦江南",
+                //         "content": "江湖快马飞报！段氏马场发布最新《九州寻驹图》消息：约五到十分钟后，将有宝马良驹在阴山大草原出没！各位侠士可以前往捕捉！切莫错过！",
+                //         "time": n,
+                //         "created_at": nString,
+                //         "report_count": 669,
+                //         "status": 0,
+                //         "type": "horse",
+                //         "subtype": "foreshow",
+                //         "map_id": 0,
+                //         "map_name": ""
+                //     },
+                //     {
+                //         "id": 795809,
+                //         "lang": "zhcn",
+                //         "edition": "zhcn_hd",
+                //         "server": "梦江南",
+                //         "content": "江湖快马飞报！段氏马场发布最新《九州寻驹图》消息：约五到十分钟后，将有宝马良驹在黑戈壁出没！各位侠士可以前往捕捉！切莫错过！",
+                //         "time": n,
+                //         "created_at": nString,
+                //         "report_count": 571,
+                //         "status": 0,
+                //         "type": "horse",
+                //         "subtype": "foreshow",
+                //         "map_id": 0,
+                //         "map_name": ""
+                //     },
+
+                //     {
+                //         "id": 795760,
+                //         "lang": "zhcn",
+                //         "edition": "",
+                //         "server": "梦江南",
+                //         "content": `当前马场内没有龙子/麟驹的马驹。\n距离下一匹龙子/麟驹即将出世\n\n当前马场内没有绝尘/闪电/赤蛇的马驹。\n距离下一匹绝尘/闪电/赤蛇出世时间尚久，无法预知。\n\n当前马场内没有里飞沙的马驹。\n距离下一匹里飞沙出世还有${diffMinutes}分钟，无法预知。\n\n当前马场内没有赤兔的马驹。\n距离下一匹赤兔出世时间尚久，无法预知。\n\n`,
+                //         "time": n,
+                //         "created_at": nString,
+                //         "report_count": 1,
+                //         "status": 0,
+                //         "type": "horse",
+                //         "subtype": "npc_chat",
+                //         "map_id": 216,
+                //         "map_name": "阴山大草原"
+                //     },
+                //     {
+                //         "id": 795715,
+                //         "lang": "zhcn",
+                //         "edition": "zhcn_hd",
+                //         "server": "梦江南",
+                //         "content": "江湖快马飞报！段氏马场发布最新《九州寻驹图》消息：约五到十分钟后，将有宝马良驹在黑戈壁出没！各位侠士可以前往捕捉！切莫错过！",
+                //         "time": 1722896761,
+                //         "created_at": "2024-08-06T06:26:01+08:00",
+                //         "report_count": 300,
+                //         "status": 0,
+                //         "type": "horse",
+                //         "subtype": "foreshow",
+                //         "map_id": 0,
+                //         "map_name": ""
+                //     },
+                // ]
+
+
                 // 三大马场只各取一条
                 const myMap = new Map();
                 const threeList = list.filter(
@@ -380,7 +457,6 @@ export default {
                         );
                     })
                     .slice(0, 1);
-
                 const newThreeList = [];
                 threeList.forEach((item) => {
                     // 三大马场拆分成四条
@@ -406,32 +482,28 @@ export default {
                     });
                 });
                 const newList = newThreeList.concat(chitulList, diluList, bList);
-                this.list = newList.map((item) => {
+                const normalizedBroadcastList = newList.map((item) => {
                     let fromTime = "";
                     let toTime = "";
                     if (!!("minute" in item)) {
                         if (!this.isAsia) {
                             fromTime = dayjs
-                                .tz(new Date(item.created_at).valueOf() + (item.minute + 5) * 60 * 1000)
-                                .format("HH:mm");
+                                .tz(new Date(item.created_at).valueOf() + (item.minute + 5) * 60 * 1000);
                             toTime = dayjs
-                                .tz(new Date(item.created_at).valueOf() + (item.minute + 10) * 60 * 1000)
-                                .format("HH:mm");
+                                .tz(new Date(item.created_at).valueOf() + (item.minute + 10) * 60 * 1000);
                         } else {
                             fromTime = dayjs(
                                 new Date(item.created_at).valueOf() + (item.minute + 5) * 60 * 1000
-                            ).format("HH:mm");
-                            toTime = dayjs(new Date(item.created_at).valueOf() + (item.minute + 10) * 60 * 1000).format(
-                                "HH:mm"
                             );
+                            toTime = dayjs(new Date(item.created_at).valueOf() + (item.minute + 10) * 60 * 1000);
                         }
                     } else {
                         if (!this.isAsia) {
-                            fromTime = dayjs.tz(new Date(item.created_at).valueOf() + 5 * 60 * 1000).format("HH:mm");
-                            toTime = dayjs.tz(new Date(item.created_at).valueOf() + 10 * 60 * 1000).format("HH:mm");
+                            fromTime = dayjs.tz(new Date(item.created_at).valueOf() + 5 * 60 * 1000);
+                            toTime = dayjs.tz(new Date(item.created_at).valueOf() + 10 * 60 * 1000);
                         } else {
-                            fromTime = dayjs(new Date(item.created_at).valueOf() + 5 * 60 * 1000).format("HH:mm");
-                            toTime = dayjs(new Date(item.created_at).valueOf() + 10 * 60 * 1000).format("HH:mm");
+                            fromTime = dayjs(new Date(item.created_at).valueOf() + 5 * 60 * 1000);
+                            toTime = dayjs(new Date(item.created_at).valueOf() + 10 * 60 * 1000);
                         }
                     }
                     return {
@@ -441,6 +513,17 @@ export default {
                         toTime: toTime,
                     };
                 });
+                // 马场播报去重。系统播报和npc预测时间会重复，需要去重。
+                // 没有异常情况下，系统播报的马驹必定在npc预测的马场中出现，
+                // 且npc预测信息更多，故仅保留npc预测信息
+                const seenReport = new Set();
+                this.list = normalizedBroadcastList.filter((item) => {
+                    if (item.content.match("江湖.*" + threeMainHorseSites.join("|"))) {
+                        return false;
+                    }
+                    return true
+                });
+                console.log("lll", this.list)
             });
         },
         convertTime(time) {
