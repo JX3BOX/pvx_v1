@@ -32,8 +32,13 @@
 </template>
 <script>
 import server_std from "@jx3box/jx3box-data/data/server/server_std.json";
-import { getSystemGoodsData, getServerPriceData, getMyFollowList, setMyFollowList } from "@/service/price.js"; // 系统关注物品类型
-import { getItemPlanID } from "@/service/plan.js";
+import {
+    getSystemGoodsData,
+    getServerPriceData,
+    getMyFollowList,
+    setMyFollowList,
+    getMyGoodsDetail,
+} from "@/service/price.js"; // 系统关注物品类型
 import myGoodList from "../goods/myGoodList.vue";
 import myGoodsDialog from "../goods/myGoodsDialog.vue";
 import User from "@jx3box/jx3box-common/js/user";
@@ -74,12 +79,16 @@ export default {
                     flatList.push(item.item_id);
                 });
             });
-            const itemIds = flatList.join(",");
             getServerPriceData({
-                itemIds,
+                item_ids: flatList,
                 server: this.server,
+                aggregate_type: "hourly",
             }).then((res) => {
-                this.priceMap = Object.assign({}, this.priceMap, res.data.data);
+                const data = res.data;
+                this.priceMap = {};
+                data.forEach((item) => {
+                    this.priceMap[item.item_id] = item.price;
+                });
             });
         },
         getMyFollowList() {
@@ -95,14 +104,27 @@ export default {
                 }
                 const allPromises = [];
                 this.myFollowData.forEach((id) => {
-                    const p = getItemPlanID(id);
+                    const p = this.getPlan(id);
                     allPromises.push(p);
                 });
-                Promise.all(allPromises).then((res) => {
-                    this.myFollowPlan = res || [];
+                Promise.allSettled(allPromises).then((res) => {
+                    this.loading = false;
+                    this.myFollowPlan = (res || [])
+                        .filter((item) => item.status === "fulfilled")
+                        .map((item) => item.value);
                     this.getMyFollowGoodsPrice();
                 });
-                this.loading = false;
+            });
+        },
+        getPlan(id) {
+            return new Promise((resolve, reject) => {
+                getMyGoodsDetail(id)
+                    .then((res) => {
+                        resolve(res.data.data);
+                    })
+                    .catch((err) => {
+                        reject(err);
+                    });
             });
         },
         getMyFollowGoodsPrice() {
@@ -120,13 +142,6 @@ export default {
                         });
                     });
                 });
-            const itemIds = ids.join(",");
-            getServerPriceData({
-                itemIds,
-                server: this.server,
-            }).then((res) => {
-                this.priceMap = Object.assign({}, this.priceMap, res.data.data);
-            });
         },
         openAddDialog() {
             if (!this.isLogin) {

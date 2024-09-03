@@ -11,7 +11,7 @@
         </div>
         <div class="m-price-overview-body">
             <goldCharts :server="server" v-if="server" />
-            <goods ref="goods" :server="server" v-if="server" />
+            <goods ref="goods" :server="server" v-if="isZl && server" />
         </div>
     </div>
 </template>
@@ -35,6 +35,10 @@ export default {
         },
         serverList() {
             return this.client == "std" ? server_cn : server_origin;
+        },
+        // 总览界面
+        isZl() {
+            return !this.$route.query?.tab;
         },
     },
     methods: {

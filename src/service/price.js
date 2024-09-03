@@ -19,10 +19,14 @@ function getSystemGoodsData(params) {
 }
 
 // 获取服务器物价
-function getServerPriceData(params) {
-    return $next().get("api/item-price/list", {
-        params,
-    });
+// function getServerPriceData(params) {
+//     return $next().get("api/item-price/list", {
+//         params,
+//     });
+// }
+// post 此处url最后要加/，不然会报错 301 Moved Permanently
+function getServerPriceData(data) {
+    return $next().post("api/auction/", data);
 }
 
 // 获取用户信息

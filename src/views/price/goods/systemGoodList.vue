@@ -15,7 +15,7 @@
                     <div class="m-systemgoods-list-item-info">
                         <div class="m-systemgoods-list-item-label">{{ item.label || "" }}</div>
                         <div class="m-systemgoods-list-item-money">
-                            <GamePrice v-if="priceMap[item.item_id]" :price="priceMap[item.item_id].AvgPrice" />
+                            <GamePrice v-if="priceMap[item.item_id]" :price="priceMap[item.item_id]" />
                             <div v-else class="is-null">暂无价目</div>
                         </div>
                     </div>
