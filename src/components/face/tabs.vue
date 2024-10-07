@@ -31,7 +31,7 @@
                             </el-radio-group>
                         </p>
                         <el-radio-group v-model="code_mode">
-                            <el-radio-button class="u-filter" :label="0">全部</el-radio-button>
+                            <el-radio-button class="u-filter" label="">全部</el-radio-button>
                             <el-radio-button class="u-filter" :label="1">捏脸码</el-radio-button>
                         </el-radio-group>
                     </div>
@@ -85,7 +85,7 @@ export default {
             price_type: false,
             filter_empty_images: 0,
             is_new_face: -1,
-            code_mode: 0,
+            code_mode: "",
             title: "",
             filterOpen: false,
             screenWidth: window.innerWidth,
@@ -101,7 +101,9 @@ export default {
             if (this.filter_empty_images) _params.filter_empty_images = true;
             _params.is_new_face = this.is_new_face;
             _params.body_type = this.active;
-            _params.code_mode = this.code_mode;
+            if (this.code_mode === 0 || this.code_mode === 1) {
+                _params.code_mode = this.code_mode;
+            }
             return _params;
         },
         client() {
