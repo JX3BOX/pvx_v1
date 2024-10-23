@@ -216,7 +216,7 @@
             :client="post.client"
         />
         <!-- 评论 -->
-        <div class="m-single-content-box">
+        <div class="m-comments m-single-content-box">
             <el-divider content-position="left">讨论</el-divider>
             <Comment :id="id" category="face" />
         </div>
