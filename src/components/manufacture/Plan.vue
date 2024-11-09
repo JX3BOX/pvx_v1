@@ -23,7 +23,7 @@
                                 :to="{ name: 'view', params: { item_id: el.id } }"
                             >
                                 <span class="u-img">
-                                    <itemIcon :item="el" />
+                                    <itemIcon :item="el" :item_id="el.id" />
                                     <span class="u-count">{{ el.count }}</span>
                                 </span>
                                 <span class="u-name" :class="`quality-${el.Quality}`"> {{ el.Name }}</span>
@@ -46,6 +46,7 @@
                                     :key="i"
                                     :has_title="true"
                                     :item="eq"
+                                    :item_id="item.id"
                                 />
                             </div>
                             <div v-else class="u-equip-null">- 暂无物品 -</div>

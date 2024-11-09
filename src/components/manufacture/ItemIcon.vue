@@ -95,8 +95,8 @@ export default {
         },
         item_id: {
             immediate: true,
-            handler() {
-                this.get_data(this.item_id);
+            handler(item_id) {
+                this.get_data(item_id);
             },
         },
     },

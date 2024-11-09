@@ -4,7 +4,7 @@
             <div class="m-mygoods-plan-label">
                 {{ plan.title }}
             </div>
-            <div class="m-mygoods-list">
+            <div class="m-mygoods-list" v-if="mergeData(plan.relation)?.length">
                 <div
                     class="m-mygoods-list-item"
                     v-for="item in mergeData(plan.relation)"
@@ -37,7 +37,7 @@ export default {
     methods: {
         iconLink,
         // 去重item
-        filterSameItem(list) { 
+        filterSameItem(list) {
             let arr = [];
             let obj = {};
             list.forEach((item) => {
