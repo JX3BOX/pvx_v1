@@ -75,11 +75,11 @@ export default {
         },
     },
     watch: {
-        server: {
-            handler(val) {
-                val && this.loadMeirentu();
-            },
-        },
+        // server: {
+        //     handler(val) {
+        //         val && this.loadMeirentu();
+        //     },
+        // },
     },
     methods: {
         // // 获取美人图

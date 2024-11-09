@@ -15,8 +15,15 @@
             </div>
             <div class="m-daily-item">
                 <div class="u-title">
-                    <div>{{ !currentCelebrity ? "楚天社" : "云从社" }}</div>
-                    <span @click="switchCelebrity">切换</span>
+                    <div>{{ celebrityMap[currentCelebrity] }}</div>
+                    <el-dropdown>
+                        <span class="el-dropdown-link"> 切换<i class="el-icon-arrow-down el-icon--right"></i> </span>
+                        <el-dropdown-menu slot="dropdown">
+                            <el-dropdown-item @click.native="changeCelebrity(2)">披风会</el-dropdown-item>
+                            <el-dropdown-item @click.native="changeCelebrity(1)">云从社</el-dropdown-item>
+                            <el-dropdown-item @click.native="changeCelebrity(0)">楚天社</el-dropdown-item>
+                        </el-dropdown-menu>
+                    </el-dropdown>
                 </div>
                 <SimpleCelebrity :type="currentCelebrity" class="m-daily-content"></SimpleCelebrity>
             </div>
@@ -63,7 +70,12 @@ export default {
     },
     data() {
         return {
-            currentCelebrity: 1, // 楚天社0 云从社1
+            currentCelebrity: 2, // 楚天社0 云从社1 披风会 2
+            celebrityMap: {
+                0: "楚天社",
+                1: "云从社",
+                2: "披风会",
+            },
             currentFurniture: {},
             nextFurniture: {},
             activities: [], // 日常配置列表
@@ -98,8 +110,8 @@ export default {
         },
     },
     methods: {
-        switchCelebrity() {
-            this.currentCelebrity = ~~!this.currentCelebrity;
+        changeCelebrity(i) {
+            this.currentCelebrity = i;
         },
         loadDailyNew() {
             const params = {
