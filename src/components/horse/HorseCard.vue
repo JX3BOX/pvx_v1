@@ -27,6 +27,7 @@
 <script>
 import { isPhone } from "@/utils/index";
 import ItemIcon from "../common/item_icon.vue";
+import { __cdn } from "@jx3box/jx3box-common/data/jx3box.json";
 export default {
     props: {
         item: {
@@ -80,7 +81,7 @@ export default {
                 if (img?.[1] == "default") return this.__imgRoot + `homeland/${client}` + "/default/default.png";
                 return this.__imgRoot + `homeland/${client}` + name + ".png";
             } else {
-                return this.__imgRoot2 + `${client}/` + item.ID + ".png";
+                return `${__cdn}/design/horse/${client}/${item.ID}.png`
             }
         },
         getType(item) {

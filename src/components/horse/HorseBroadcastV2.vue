@@ -8,6 +8,7 @@
         </div>
         <div class="m-horse-broadcast__list" v-if="listData.length && listData[active].map_id">
             <jx3box-map
+                v-if="listData[active].map_id"
                 class="u-horse-map"
                 :mapId="Number(listData[active].map_id)"
                 :key="listData[active].map_id"
@@ -44,8 +45,29 @@
                             </div>
                         </div>
                     </div>
-                    <span v-else class="m-horse no-horse">本周赤兔尚未刷新</span>
                 </div>
+                <div v-if="diluHasExist" class="m-horse is-dilu">
+                    <div class="u-col u-times">
+                        <div>本周的卢已刷新</div>
+                        <div>{{ diluExistData.time }}</div>
+                    </div>
+                    <span class="u-col u-name">{{ diluExistData.map_name }}</span>
+                    <div class="u-col u-horse">
+                        <el-image :src="getImgSrc('的卢')" class="item"></el-image>
+                    </div>
+                </div>
+                <span v-else class="m-horse no-horse">本周的卢尚未刷新</span>
+                <div v-if="hasExist" class="m-horse is-chitu">
+                    <div class="u-col u-times">
+                        <div>本CD赤兔已刷新</div>
+                        <div>{{ existData.time }}</div>
+                    </div>
+                    <span class="u-col u-name">{{ existData.map_name }}</span>
+                    <div class="u-col u-horse">
+                        <el-image :src="getImgSrc('赤兔')" class="item"></el-image>
+                    </div>
+                </div>
+                <span v-else class="m-horse no-horse">本CD赤兔尚未刷新</span>
             </div>
         </div>
 
@@ -60,7 +82,7 @@ import servers_std from "@jx3box/jx3box-data/data/server/server_std.json";
 import servers_origin from "@jx3box/jx3box-data/data/server/server_origin.json";
 import horseSites from "@/assets/data/horse_sites.json";
 import horseBroadcast from "@/assets/data/horse_broadcast.json";
-import { getGameReporter, getUserInfo, getChituHorse } from "@/service/horse";
+import { getGameReporter, getUserInfo, getHorseReporter } from "@/service/horse";
 import dayjs from "@/plugins/day";
 export default {
     name: "HorseBroadcast",
@@ -87,6 +109,9 @@ export default {
             `,
             chituLoading: false,
             active: 0,
+
+            diluHasExist: false,
+            diluExistData: {},
         };
     },
     computed: {
@@ -115,12 +140,17 @@ export default {
             let column = Math.floor((document.body.clientWidth - 460) / 350);
             column = column > 2 ? 2 : column;
             let list = this.list || [];
-            const arr = this.isPhone ? [] : new Array(column * 4 - 1 - list.length).fill({});
+            const arr = this.isPhone ? [] : new Array(column * 4 - 2 - list.length).fill({});
             list = list.sort((a, b) => this.convertTime(a.fromTime) - this.convertTime(b.fromTime));
-            return list.concat(this.existData, arr) || [];
+            return list.concat(arr) || [];
         },
         isPhone() {
             return document.documentElement.clientWidth <= 820;
+        },
+        isAsia() {
+            // 是否是东八区
+            const _timezone = this.$store.state.timezone;
+            return _timezone === "Asia/Shanghai";
         },
     },
     watch: {
@@ -129,14 +159,63 @@ export default {
             this.existData = {};
             this.getGameReporter();
             this.loadChituData();
+            this.loadDiluData();
         },
     },
     methods: {
+        loadDiluData() {
+            // 每周一、三、五、六、日 10：00-24：00期间随机开启
+            // 开启前60分钟及开启时均有系统公告提醒
+            // 同服务器每周只开启一次
+            // 【的卢】随机刷新于某一野外场景
+            const server = this.server;
+            const type = "dilu-horse";
+            this.chituLoading = true;
+            getHorseReporter(type, server)
+                .then((res) => {
+                    const list = res.data?.data?.list || [];
+                    if (!list.length) {
+                        return;
+                    }
+                    // 最近刷新时间 返回的时间已经是东八区时间，其余对比时间同样需要换算到东八区时间
+                    let created_at = dayjs(list?.[0].created_at || dayjs.tz());
+                    if (!this.isAsia) {
+                        created_at = dayjs.tz(list?.[0].created_at || dayjs.tz());
+                    }
+                    const now = dayjs.tz();
+                    const now_day = now.day();
+                    let cd_from_time = now.day(1).hour(10).minute(0).second(0).millisecond(0);
+                    let cd_to_time = cd_from_time.add(1, "week").add(-10, "hour").add(-1, "millisecond");
+                    if (now_day < 1) {
+                        // 周日为0 / 为上一个CD
+                        cd_from_time = dayjs.tz(cd_from_time).add(-1, "week");
+                        cd_to_time = dayjs.tz(cd_to_time).add(-1, "week");
+                    }
+                    // 最近刷新时间是否在当前CD中
+                    const isBetween = created_at.isBetween(cd_from_time, cd_to_time);
+                    this.diluHasExist = isBetween;
+                    if (isBetween) {
+                        const content = list?.[0]?.content || "";
+                        const mapName = content.match(/的卢已经出现在(\S*)中/)
+                            ? content.match(/的卢已经出现在(\S*)中/)[1]
+                            : "";
+                        this.diluExistData = {
+                            map_name: mapName,
+                            time: created_at.format("YYYY-MM-DD HH:mm:ss"),
+                            is_dilu: true,
+                        };
+                    }
+                })
+                .finally(() => {
+                    this.chituLoading = false;
+                });
+        },
         loadChituData() {
             const server = this.server;
+            const type = "chitu-horse";
             // 周二7点到下周一7点为一个CD， 7天内随机刷一只，地图为黑戈壁、阴山大草原、鲲鹏岛
             this.chituLoading = true;
-            getChituHorse(server)
+            getHorseReporter(type, server)
                 .then((res) => {
                     const list = res.data?.data?.list || [];
                     const content = list?.[0]?.content || "";
@@ -155,8 +234,11 @@ export default {
                             ...coor,
                         },
                     ];
-                    // 最近刷新时间
-                    const created_at = dayjs.tz(list?.[0].created_at || dayjs.tz());
+                    // 最近刷新时间 返回的时间已经是东八区时间，其余对比时间同样需要换算到东八区时间
+                    let created_at = dayjs(list?.[0].created_at || dayjs.tz());
+                    if (!this.isAsia) {
+                        created_at = dayjs.tz(list?.[0].created_at || dayjs.tz());
+                    }
                     const now = dayjs.tz();
                     const now_day = now.day();
                     const now_hour = now.hour();
@@ -168,7 +250,7 @@ export default {
                         cd_to_time = dayjs.tz(cd_to_time).add(-1, "week");
                     }
                     // 最近刷新时间是否在当前CD中
-                    const isBetween = dayjs.tz(created_at).isBetween(cd_from_time, cd_to_time);
+                    const isBetween = created_at.isBetween(cd_from_time, cd_to_time);
                     this.hasExist = isBetween;
                     const data = {
                         horses: horses,
@@ -179,7 +261,7 @@ export default {
                         time: "",
                     };
                     if (isBetween) {
-                        data.time = dayjs.tz(created_at).format("YYYY-MM-DD HH:mm:ss");
+                        data.time = created_at.format("YYYY-MM-DD HH:mm:ss");
                     }
                     this.existData = data;
                 })
@@ -208,31 +290,55 @@ export default {
             let coordinates = [];
             let result = {};
             let horses = [];
-            if (item.subtype === "npc_chat") {
-                // 预测
-                mapId = item.map_id;
-                mapName = item.map_name;
-                coordinates = horseSites[mapId].coordinates;
-                horses = horseSites[mapId].horses[item.horseIndex];
-            } else {
-                // 播报
-                mapName = item.content.match(/在(\S*)出没/) ? item.content.match(/在(\S*)出没/)[1] : "";
-                for (let key in horseSites) {
-                    if (horseSites[key].mapName === mapName) {
-                        mapId = key;
-                        coordinates = horseSites[key].coordinates;
-                        horses = horseSites[mapId].horses.flat();
+            if (item.type === "horse") {
+                if (item.subtype === "npc_chat") {
+                    // 预测
+                    mapId = item.map_id;
+                    mapName = item.map_name;
+                    coordinates = horseSites[mapId].coordinates;
+                    horses = horseSites[mapId].horses[item.horseIndex];
+                } else {
+                    // 播报
+                    mapName = item.content.match(/在(\S*)出没/) ? item.content.match(/在(\S*)出没/)[1] : "";
+                    for (let key in horseSites) {
+                        if (horseSites[key].mapName === mapName) {
+                            mapId = key;
+                            coordinates = horseSites[key].coordinates;
+                            horses = horseSites[mapId].horses.flat();
+                        }
                     }
                 }
-            }
-            const coor = coordinates[0];
-            result[mapId] = [
-                {
-                    content: `${horses.join()}
+                const coor = coordinates[0];
+                result[mapId] = [
+                    {
+                        content: `${horses.join()}
                     <br />坐标：(${coor.x},${coor.y},${coor.z})`,
-                    ...coor,
-                },
-            ];
+                        ...coor,
+                    },
+                ];
+            } else {
+                // 特殊马
+                const { type, content } = item;
+                if (type === "chitu-horse") {
+                    horses = ["赤兔·飞虹"];
+                    const npc = /\]\[(.*)\]大声喊/.exec(content)[1].trim();
+                    mapName = this.chituMap[npc] || "";
+                    mapId = this.chituMap?.[npc] || defaultMapId;
+                    const mapInfo = horseSites[mapId];
+                    const coor = mapInfo.coordinates[0];
+                    const horses = ["赤兔·飞虹"];
+                    result[mapId] = [
+                        {
+                            content: `${horses.join()}
+                    <br />坐标：(${coor.x},${coor.y},${coor.z})`,
+                            ...coor,
+                        },
+                    ];
+                } else {
+                    horses = ["的卢"];
+                    mapName = content.match(/的卢已经出现在(\S*)中/) ? content.match(/的卢已经出现在(\S*)中/)[1] : "";
+                }
+            }
             const obj = {
                 mapDatas: result,
                 map_id: mapId,
@@ -256,6 +362,25 @@ export default {
                     (item) =>
                         !item.map_id && (new Date().valueOf() - new Date(item.created_at).valueOf()) / 1000 / 60 <= 15
                 );
+
+                // 赤兔 的卢 播报 只取一条
+                const chitulList = list
+                    .filter((item) => {
+                        return (
+                            item.type === "chitu-horse" &&
+                            (new Date().valueOf() - new Date(item.created_at).valueOf()) / 1000 / 60 <= 15
+                        );
+                    })
+                    .slice(0, 1);
+                const diluList = list
+                    .filter((item) => {
+                        return (
+                            item.type === "dilu-horse" &&
+                            (new Date().valueOf() - new Date(item.created_at).valueOf()) / 1000 / 60 <= 15
+                        );
+                    })
+                    .slice(0, 1);
+
                 const newThreeList = [];
                 threeList.forEach((item) => {
                     // 三大马场拆分成四条
@@ -280,20 +405,34 @@ export default {
                         }
                     });
                 });
-                const newList = newThreeList.concat(bList);
+                const newList = newThreeList.concat(chitulList, diluList, bList);
                 this.list = newList.map((item) => {
                     let fromTime = "";
                     let toTime = "";
                     if (!!("minute" in item)) {
-                        fromTime = dayjs
-                            .tz(new Date(item.created_at).valueOf() + (item.minute + 5) * 60 * 1000)
-                            .format("HH:mm");
-                        toTime = dayjs
-                            .tz(new Date(item.created_at).valueOf() + (item.minute + 10) * 60 * 1000)
-                            .format("HH:mm");
+                        if (!this.isAsia) {
+                            fromTime = dayjs
+                                .tz(new Date(item.created_at).valueOf() + (item.minute + 5) * 60 * 1000)
+                                .format("HH:mm");
+                            toTime = dayjs
+                                .tz(new Date(item.created_at).valueOf() + (item.minute + 10) * 60 * 1000)
+                                .format("HH:mm");
+                        } else {
+                            fromTime = dayjs(
+                                new Date(item.created_at).valueOf() + (item.minute + 5) * 60 * 1000
+                            ).format("HH:mm");
+                            toTime = dayjs(new Date(item.created_at).valueOf() + (item.minute + 10) * 60 * 1000).format(
+                                "HH:mm"
+                            );
+                        }
                     } else {
-                        fromTime = dayjs.tz(new Date(item.created_at).valueOf() + 5 * 60 * 1000).format("HH:mm");
-                        toTime = dayjs.tz(new Date(item.created_at).valueOf() + 10 * 60 * 1000).format("HH:mm");
+                        if (!this.isAsia) {
+                            fromTime = dayjs.tz(new Date(item.created_at).valueOf() + 5 * 60 * 1000).format("HH:mm");
+                            toTime = dayjs.tz(new Date(item.created_at).valueOf() + 10 * 60 * 1000).format("HH:mm");
+                        } else {
+                            fromTime = dayjs(new Date(item.created_at).valueOf() + 5 * 60 * 1000).format("HH:mm");
+                            toTime = dayjs(new Date(item.created_at).valueOf() + 10 * 60 * 1000).format("HH:mm");
+                        }
                     }
                     return {
                         ...item,

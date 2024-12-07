@@ -23,7 +23,7 @@
                                 :to="{ name: 'view', params: { item_id: el.id } }"
                             >
                                 <span class="u-img">
-                                    <itemIcon :item="el" />
+                                    <itemIcon :item="el" :item_id="el.id" />
                                     <span class="u-count">{{ el.count }}</span>
                                 </span>
                                 <span class="u-name" :class="`quality-${el.Quality}`"> {{ el.Name }}</span>
@@ -46,6 +46,7 @@
                                     :key="i"
                                     :has_title="true"
                                     :item="eq"
+                                    :item_id="item.id"
                                 />
                             </div>
                             <div v-else class="u-equip-null">- 暂无物品 -</div>
@@ -144,7 +145,7 @@ export default {
                         _arr.push(el.id);
                     });
                 });
-                searchItemsID({ ids: _arr, limit: _arr.length }).then((res) => {
+                searchItemsID({ ids: _arr }).then((res) => {
                     let items = res.data;
 
                     data.relation = data.relation.map((item) => {
@@ -165,7 +166,7 @@ export default {
                 for (const key in data.relation) {
                     _arr.push(...data.relation[key]);
                 }
-                searchItemsID({ ids: _arr, limit: _arr.length }).then((res) => {
+                searchItemsID({ ids: _arr }).then((res) => {
                     let items = res.data;
                     for (const key in data.relation) {
                         data.relation[key] = data.relation[key].map((el) => {

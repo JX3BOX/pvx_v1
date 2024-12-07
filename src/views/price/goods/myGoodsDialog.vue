@@ -63,7 +63,8 @@ export default {
             }
         },
         setMyFollowList() {
-            const val = this.followIdList.join(",");
+            const myPlanIds = this.myPlanList.map((item) => item.id);
+            const val = this.followIdList.filter((id) => myPlanIds.includes(id)).join(",");
             this.$emit("setMyFollowList", val);
         },
         goItem() {

@@ -1,5 +1,5 @@
 <template>
-    <div class="p-price-goods">
+    <div class="p-price-goods" v-loading="loading">
         <div class="m-price-goods-header">
             <div class="u-title">物价总览</div>
             <div class="u-servers">
@@ -32,8 +32,8 @@ import {
     getUserInfo,
     getMyFollowList,
     setMyFollowList,
+    getMyGoodsDetail,
 } from "@/service/price.js"; // 系统关注物品类型
-import { getItemPlanID } from "@/service/plan.js";
 import systemGoodList from "./systemGoodList.vue";
 import myGoodsDialog from "./myGoodsDialog.vue";
 import User from "@jx3box/jx3box-common/js/user";
@@ -107,32 +107,57 @@ export default {
                     flatList.push(item.item_id);
                 });
             });
-            const itemIds = flatList.join(",");
+            this.loading = true;
             getServerPriceData({
-                itemIds,
+                item_ids: flatList,
                 server: this.server,
-            }).then((res) => {
-                this.priceMap = Object.assign({}, this.priceMap, res.data.data);
-            });
+                aggregate_type: "hourly",
+            })
+                .then((res) => {
+                    const data = res.data;
+                    this.priceMap = {};
+                    data.forEach((item) => {
+                        this.priceMap[item.item_id] = item.price;
+                    });
+                })
+                .finally(() => {
+                    this.loading = false;
+                });
         },
         getMyFollowList() {
             this.loading = true;
             getMyFollowList().then((res) => {
                 if (res.data.data) {
-                    this.myFollowData = res.data.data.split(",").map((item) => +item);
+                    this.myFollowData = res.data.data
+                        .split(",")
+                        .map((item) => +item)
+                        .filter((item) => !!item);
                 } else {
                     this.myFollowData = [];
                 }
                 const allPromises = [];
                 this.myFollowData.forEach((id) => {
-                    const p = getItemPlanID(id);
+                    const p = this.getPlan(id);
                     allPromises.push(p);
                 });
-                Promise.all(allPromises).then((res) => {
-                    this.myFollowPlan = res || [];
+                Promise.allSettled(allPromises).then((res) => {
+                    this.loading = false;
+                    this.myFollowPlan = (res || [])
+                        .filter((item) => item.status === "fulfilled")
+                        .map((item) => item.value);
                     this.getMyFollowGoodsPrice();
                 });
-                this.loading = false;
+            });
+        },
+        getPlan(id) {
+            return new Promise((resolve, reject) => {
+                getMyGoodsDetail(id)
+                    .then((res) => {
+                        resolve(res.data.data);
+                    })
+                    .catch((err) => {
+                        reject(err);
+                    });
             });
         },
         getMyFollowGoodsPrice() {
@@ -149,18 +174,12 @@ export default {
                     });
                 });
             });
-            const itemIds = ids.join(",");
-            getServerPriceData({
-                itemIds,
-                server: this.server,
-            }).then((res) => {
-                this.priceMap = Object.assign({}, this.priceMap, res.data.data);
-            });
         },
         openAddDialog() {
             this.showMyGoods = true;
         },
         setMyFollowList(val) {
+            // 此处接口不支持不传，传空后前端过滤id为0的数据
             setMyFollowList({ val }).then((res) => {
                 this.showMyGoods = false;
                 this.$message.success("设置成功");
@@ -168,12 +187,11 @@ export default {
             });
         },
         updatePrice() {
-            this.priceMap = {};
             this.getServerPriceData();
             this.getMyFollowGoodsPrice();
         },
     },
-    mounted () {
+    mounted() {
         if (User.isLogin() && this.client === "std") {
             getUserInfo().then((res) => {
                 this.server = res.data?.data?.jx3_server || "梦江南";
@@ -187,7 +205,7 @@ export default {
                 this.getMyFollowList();
             }
         }
-    }
+    },
 };
 </script>
 <style lang="less">

@@ -31,7 +31,7 @@
 
 <script>
 import Item from "@jx3box/jx3box-editor/src/Item";
-// import { get_item } from "../service/item.js";
+import { get_item } from "@/service/item.js";
 import { __imgPath } from "@jx3box/jx3box-common/data/jx3box.json";
 import { iconLink } from "@jx3box/jx3box-common/js/utils";
 
@@ -95,8 +95,8 @@ export default {
         },
         item_id: {
             immediate: true,
-            handler() {
-                this.get_data(this.item_id);
+            handler(item_id) {
+                this.get_data(item_id);
             },
         },
     },

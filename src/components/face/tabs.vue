@@ -24,14 +24,14 @@
                             <el-checkbox-button v-model="price_type" class="u-filter">免费</el-checkbox-button>
                             <el-checkbox-button v-model="is_unlimited" class="u-filter">可新建</el-checkbox-button>
                         </p>
-                        <p style="margin-top: 0;">
+                        <p style="margin-top: 0">
                             <el-radio-group v-model="filter_empty_images">
                                 <el-radio-button class="u-filter" :label="0">全部</el-radio-button>
                                 <el-radio-button class="u-filter" :label="1">有图</el-radio-button>
                             </el-radio-group>
                         </p>
                         <el-radio-group v-model="code_mode">
-                            <el-radio-button class="u-filter" :label="0">全部</el-radio-button>
+                            <el-radio-button class="u-filter" label="">全部</el-radio-button>
                             <el-radio-button class="u-filter" :label="1">捏脸码</el-radio-button>
                         </el-radio-group>
                     </div>
@@ -83,9 +83,9 @@ export default {
             star: false,
             is_unlimited: false,
             price_type: false,
-            filter_empty_images: -1,
+            filter_empty_images: 0,
             is_new_face: -1,
-            code_mode: -1,
+            code_mode: "",
             title: "",
             filterOpen: false,
             screenWidth: window.innerWidth,
@@ -101,7 +101,9 @@ export default {
             if (this.filter_empty_images) _params.filter_empty_images = true;
             _params.is_new_face = this.is_new_face;
             _params.body_type = this.active;
-            _params.code_mode = this.code_mode;
+            if (this.code_mode === 0 || this.code_mode === 1) {
+                _params.code_mode = this.code_mode;
+            }
             return _params;
         },
         client() {
@@ -138,6 +140,13 @@ export default {
         },
     },
     mounted() {
+        if (this.$route.query) {
+            Object.keys(this.$route.query).forEach((key) => {
+                if (this.hasOwnProperty(key)) {
+                    this[key] = this.$route.query[key];
+                }
+            });
+        }
         window.addEventListener("resize", this.handleResize);
     },
     destroyed() {
