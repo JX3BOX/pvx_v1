@@ -15,6 +15,8 @@ const perfectAchievement = {
     106: { hasClass: "qqj", zIndex: 13 },
     90: { hasClass: "lnrh", zIndex: 8 },
     66: { hasClass: "jcs", zIndex: 15 },
+    136: { hasClass: "kwyh", zIndex: 15 },
+    135: { hasClass: "fgzm", zIndex: 13 },
 };
 
 let formatDateTime = (dateTimeString) => {
