@@ -1,13 +1,13 @@
 <template>
     <el-dialog title="美人图查询" :visible.sync="show" width="90%" custom-class="m-mrt-dialog" @close="close">
         <div class="m-toolbar">
-            <el-select v-model="server" filterable clearable>
+            <el-select v-model="server" filterable>
                 <template #prefix>
                     <div class="u-select-label">区服</div>
                 </template>
                 <el-option v-for="(item, i) in servers" :key="i" :label="item" :value="item"></el-option>
             </el-select>
-            <el-select v-model="school_id" filterable clearable>
+            <el-select v-model="school_id" filterable>
                 <template #prefix>
                     <div class="u-select-label">门派</div>
                 </template>
@@ -18,7 +18,7 @@
                     :value="item.value"
                 ></el-option>
             </el-select>
-            <el-select v-model="body_id" filterable clearable>
+            <el-select v-model="body_id" filterable>
                 <template #prefix>
                     <div class="u-select-label">体型</div>
                 </template>
@@ -51,7 +51,7 @@ import servers_origin from "@jx3box/jx3box-data/data/server/server_origin.json";
 import dayjs from "@/plugins/day";
 export default {
     name: "MrtDialog",
-    props: ["visible"],
+    props: ["visible", "currentServer"],
     components: {},
     data: function () {
         return {
@@ -105,7 +105,17 @@ export default {
             }
         },
     },
-    watch: {},
+    watch: {
+        visible: {
+            immediate: true,
+            handler() {
+                console.log(this.visible);
+                if (this.visible && !this.server) {
+                    this.server = this.currentServer;
+                }
+            },
+        },
+    },
     methods: {
         close() {
             this.$emit("close");
@@ -117,7 +127,7 @@ export default {
         },
         onSearch() {
             if (!this.server || !this.school_id || !this.body_id) {
-                return this.$message.error("请输入查询条件");
+                return this.$message.error("请选择查询条件");
             }
             const params = {
                 client: this.client,

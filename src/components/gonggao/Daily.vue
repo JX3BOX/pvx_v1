@@ -43,7 +43,7 @@
             <div class="m-daily-item">
                 <div class="u-title">
                     <div class="u-mrt-title">
-                        美人图 · 
+                        美人图 ·
                         <el-select class="u-select" placeholder="区服" v-model="currentServer" size="small">
                             <el-option v-for="(item, i) in servers" :key="i" :label="item" :value="item"></el-option>
                         </el-select>
@@ -53,7 +53,7 @@
                 <SimpleMrt class="m-daily-content" :server="currentServer"></SimpleMrt>
             </div>
         </template>
-        <MrtDialog :visible="visible" @close="visible = false"></MrtDialog>
+        <MrtDialog :visible="visible" :currentServer="currentServer" @close="visible = false"></MrtDialog>
     </div>
 </template>
 
