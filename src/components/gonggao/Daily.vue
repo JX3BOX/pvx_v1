@@ -40,7 +40,20 @@
                 <div class="u-title">抓马播报</div>
                 <SimpleHorse class="m-daily-content"></SimpleHorse>
             </div>
+            <div class="m-daily-item">
+                <div class="u-title">
+                    <div class="u-mrt-title">
+                        美人图 · 
+                        <el-select class="u-select" placeholder="区服" v-model="currentServer" size="small">
+                            <el-option v-for="(item, i) in servers" :key="i" :label="item" :value="item"></el-option>
+                        </el-select>
+                    </div>
+                    <el-button class="u-btn" type="text" @click="visible = true">查询</el-button>
+                </div>
+                <SimpleMrt class="m-daily-content" :server="currentServer"></SimpleMrt>
+            </div>
         </template>
+        <MrtDialog :visible="visible" @close="visible = false"></MrtDialog>
     </div>
 </template>
 
@@ -55,7 +68,13 @@ import SimpleCelebrity from "./daily/SimpleCelebrity.vue";
 // import SimpleReputation from "./daily/SimpleReputation.vue";
 // import SimpleFurniture from "./daily/SimpleFurniture.vue";
 import SimpleHorse from "./daily/SimpleHorse.vue";
+import SimpleMrt from "./daily/SimpleMrt.vue";
+import MrtDialog from "./daily/MrtDialog.vue";
+
 import dailyKeys from "@/assets/data/daily_keys.json";
+import servers_std from "@jx3box/jx3box-data/data/server/server_std.json";
+import servers_origin from "@jx3box/jx3box-data/data/server/server_origin.json";
+
 export default {
     name: "Daily",
     components: {
@@ -67,6 +86,8 @@ export default {
         // SimpleWeek,
         // SimpleFurniture,
         SimpleHorse,
+        SimpleMrt,
+        MrtDialog,
     },
     data() {
         return {
@@ -79,14 +100,23 @@ export default {
             currentFurniture: {},
             nextFurniture: {},
             activities: [], // 日常配置列表
+            visible: false,
+            currentServer: "",
         };
     },
     computed: {
         client() {
-            return this.$store.state.client;
+            return this.$store.state.client || "std";
         },
         server() {
-            return this.$store.state.server;
+            return this.$store.state.server || "梦江南";
+        },
+        servers: function () {
+            if (this.client == "std") {
+                return servers_std;
+            } else {
+                return servers_origin;
+            }
         },
         isOrigin() {
             return location.href.includes("origin");
@@ -107,6 +137,16 @@ export default {
             let week = dayjs.tz(this.date).isoWeek();
             let currentWeek = dayjs.tz().isoWeek();
             return week === currentWeek;
+        },
+    },
+    watch: {
+        server: {
+            immediate: true,
+            handler(server) {
+                if (server) {
+                    this.currentServer = server;
+                }
+            },
         },
     },
     methods: {

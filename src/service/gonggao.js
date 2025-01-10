@@ -1,7 +1,6 @@
 import { $node, $next, $cms } from "@jx3box/jx3box-common/js/https";
 import axios from "axios";
 import { __spider2, __dataPath } from "@jx3box/jx3box-common/data/jx3box.json";
-
 const $spider = axios.create({
     baseURL: __spider2,
 });
@@ -27,6 +26,19 @@ function getMeirentu(server = "蝶恋花") {
         params: {
             server: server,
         },
+    });
+}
+
+// 新美人图
+function getMeirentuNew(params) {
+    return $cms().get(`/api/cms/pvx/beauty-paint`, {
+        params,
+    });
+}
+// 查询美人图下一次出现的日期
+function getMeirentuPredict(params) {
+    return $cms().get(`/api/cms/pvx/beauty-paint/predict`, {
+        params,
     });
 }
 
@@ -127,4 +139,6 @@ export {
     getPosts,
     getChangelog,
     getDailyFromOs,
+    getMeirentuNew,
+    getMeirentuPredict,
 };
