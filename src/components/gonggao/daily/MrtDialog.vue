@@ -166,6 +166,12 @@ export default {
     .u-input {
         width: 228px;
     }
+    @media screen and (max-width: @phone) {
+        .el-select,
+        .el-button {
+            width: 100%;
+        }
+    }
     .m-content {
         padding: 60px 40px 40px;
         .flex;
