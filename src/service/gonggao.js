@@ -100,12 +100,13 @@ function getChituHorse(server) {
 
 // 游戏公告
 function getGameNews(client) {
-    return $spider.get("/api/spider/jx3news", {
+    return $cms().get("/api/cms/game/news", {
         params: {
             client: client,
         },
     });
 }
+
 function getPosts(client = "std", type, per = 7, subtype) {
     let params = {
         client: client,

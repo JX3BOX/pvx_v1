@@ -24,6 +24,7 @@ import { getGameNews, getPosts, getChangelog } from "@/service/gonggao";
 import dateFormat from "@/utils/dateFormat.js";
 import { getLink } from "@jx3box/jx3box-common/js/utils";
 import { all_map } from "@jx3box/jx3box-common/data/jx3_zlp.json";
+import dayjs from "dayjs";
 export default {
     name: "SimpleNotice",
     components: {},
@@ -101,16 +102,12 @@ export default {
         },
         loadGameData: function () {
             getGameNews(this.client).then((res) => {
-                // const data = this.client == "std" ? res?.data : res?.data?.reverse();
-                this.game_data = res?.data
+                this.game_data = res?.data.data.list
                     .map((item) => {
-                        item.url = this.linkFormat(item.url);
-                        // 如果当前为1月，且新闻时间为12月，则年份-1
-                        item.time =
-                            !new Date().getMonth() && item.item?.split("/")[0] == 12
-                                ? (item.time = new Date(new Date().getFullYear() - 1 + "/" + item.time))
-                                : new Date(new Date().getFullYear() + "/" + item.time);
+                        item.time = dayjs(item.post_date).toDate();
                         item.type = "game";
+                        item.title = item.post_title;
+                        item.url = item.post_url;
                         return item;
                     })
                     .slice(0, 7);
