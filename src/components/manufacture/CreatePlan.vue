@@ -75,7 +75,7 @@ export default {
             let data = {
                 title: title || `技艺助手成本计算 ${date}`,
                 type: 1,
-                public: publics,
+                public: Number(publics),
                 description: description || "",
                 relation: [
                     { title: "生产配方", data: recipe },
