@@ -91,11 +91,7 @@
                                                 :src="require(`../../assets/img/treasure/pt/${item.dwID}_er.png`)"
                                             />
                                         </template>
-                                        <img
-                                            v-else
-                                            class="u-qy__img"
-                                            :src="require(`../../assets/img/treasure/pt/${item.dwID}.png`)"
-                                        />
+                                        <img v-else class="u-qy__img" :src="item.imgUrl" />
                                         <div class="m-qy__text">
                                             <img class="u-qy__bg" src="../../assets/img/treasure/pt/text_bg.png" />
                                             <span class="u-qy__text">{{ item.szName }}</span>
@@ -376,6 +372,15 @@ export default {
             return chunks;
         },
         showSchoolIcon,
+        getImageUrl(id) {
+            try {
+                // 尝试加载图片
+                return require(`../../assets/img/treasure/pt/${id}.png`);
+            } catch (error) {
+                // 如果图片不存在，返回默认图片路径
+                return require("../../assets/img/treasure/pt/default.png");
+            }
+        },
     },
 };
 </script>

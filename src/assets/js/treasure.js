@@ -70,7 +70,6 @@ let getData = (userJx3Id) => {
                     res?.data?.list?.forEach((item) => {
                         if (type == "perfect") {
                             try {
-                                let imagePath = require(`../img/treasure/world/${item.dwID}.png`);
                                 item.isAct = false;
                                 if (list.includes(item.dwID)) {
                                     item.isAct = true;
@@ -84,6 +83,13 @@ let getData = (userJx3Id) => {
                                 unNum++;
                             }
                         } else {
+                            if (type == "normal") {
+                                try {
+                                    item.imgUrl = require(`../img/treasure/pt/${item.dwID}.png`);
+                                } catch {
+                                    item.imgUrl = require("../img/treasure/pt/default.png");
+                                }
+                            }
                             if (list.includes(item.dwID)) {
                                 achievementsList.push(item);
                                 actNum++;
