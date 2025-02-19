@@ -260,6 +260,11 @@ export default {
         },
     },
     mounted() {
+        const isPhone = window.innerWidth < 768;
+        if (isPhone) {
+            this.$router.push({name: "portrait"});
+            return
+        }
         getUserRoles().then((res) => {
             if (res.data.data.list.length) {
                 this.noRole = false;
